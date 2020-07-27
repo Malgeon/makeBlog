@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "해시충돌문제 : 호텔 방 배정"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 category: 2019 카카오 개발자 겨울 인턴십

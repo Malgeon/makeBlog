@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "순열과 조합"
 description: "순열과 조합에 대해서"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 # 순열과 조합

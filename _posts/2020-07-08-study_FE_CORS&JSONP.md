@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "CORS와 JSONP"
 description: "도메인간 Ajax 통신을 위한 방법"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # JSON

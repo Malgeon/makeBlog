@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "MySql"
 description: "MySql 관련 Command"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # MySQL

@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "Fade Out"
 description: "CSS에서 사라지는 효과 구현"
-categories: [ Project ]
-tags: [Web]
+categories: [ project ]
+tags: [ web ]
 ---
 
 # 사라지기

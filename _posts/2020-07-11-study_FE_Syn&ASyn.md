@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "웹 : 동기 그리고 비동기"
 description: "동기와 비동기에 대한 생각"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # 싱글 스레드

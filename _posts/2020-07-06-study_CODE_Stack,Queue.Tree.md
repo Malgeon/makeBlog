@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "Graph [BFS, DFS]"
 description: "그래프 구현하기"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

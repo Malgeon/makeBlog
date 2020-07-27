@@ -1,9 +1,9 @@
 ---
 layout: main
-title: Project
+title: project
 project: true
 pagination:
   enabled: true
-  category: tutorial
+  category: project
 ---
 

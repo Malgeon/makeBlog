@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "이분탐색 : 가사 검색"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 category: 2020 KAKAO BLIND RECRUITMENT

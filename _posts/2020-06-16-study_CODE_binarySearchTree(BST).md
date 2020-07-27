@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "자바스크립트 : 이진탐색트리(BST)"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

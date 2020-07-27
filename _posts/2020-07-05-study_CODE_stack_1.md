@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "스택 : 크레인 인형뽑기 게임"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 category: 2019 카카오 개발자 겨울 인턴십

@@ -50,7 +50,7 @@
                     </span>
                     <span class="author-meta">
                         <span class="post-name"><a target="_blank"
-                                href="{{ author.web }}">{{ post.categories[0] }}</a></span><br />
+                                href="{{ author.web }}">{{ post.categories[0] | capitalize }}</a></span><br />
                         {% endif %}
                         <span class="post-date">{{ post.date | date_to_string }}</span>
 

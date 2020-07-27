@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "멱집합"
 description: "멱집합 구하기"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

@@ -1,10 +1,10 @@
 ---
 layout: tags
 title: tags
-parent: Study
+parent: study
 name: programming
-thisUrl: Study/programming
-permalink: /Study/programming
+thisUrl: study/programming
+permalink: /study/programming
 pagination:
   enabled: true
   tag: programming

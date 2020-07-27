@@ -1,6 +1,6 @@
 ---
 layout: main
-title: Study
+title: study
 study: true
 pagination:
   enabled: true

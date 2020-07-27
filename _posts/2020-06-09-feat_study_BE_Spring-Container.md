@@ -3,8 +3,8 @@ layout: post
 author: project
 title:  "Spring : Container"
 description: "Spring의 동작원리를 이해해보자"
-categories: [ Project ]
-tags: [ Web ]
+categories: [ project ]
+tags: [ web ]
 image: assets/images/project/java_spring.jpg
 featured: true
 hidden: true

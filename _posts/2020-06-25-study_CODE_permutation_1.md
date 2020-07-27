@@ -3,7 +3,7 @@ layout: post
 author: study
 title: "순열 : 외벽 점검"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 category: 2020 KAKAO BLIND RECRUITMENT

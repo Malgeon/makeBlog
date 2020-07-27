@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "Spring : Filter"
 description: "Spring에 한글 지원이 가능하도록 해보자"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # Filter

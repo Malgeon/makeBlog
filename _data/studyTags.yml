@@ -1,11 +1,8 @@
-- name : C
-  url : Study/c
+- name : java
+  url : study/java
 
-- name : Java
-  url : Study/java
+- name : javascript
+  url : study/javascript
 
-- name : Javascript
-  url : Study/javascript
-
-- name : Programming
-  url : Study/programming
+- name : programming
+  url : study/programming

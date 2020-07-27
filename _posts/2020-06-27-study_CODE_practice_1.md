@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "연습문제 : 소수찾기"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 category: 

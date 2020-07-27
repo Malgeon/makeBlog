@@ -3,7 +3,7 @@ layout: post
 author: study
 title: "BFS : 블록 이동하기"
 description: "2020 KAKAO BLIND RECRUITMENT"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

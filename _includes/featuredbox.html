@@ -39,7 +39,7 @@
                 {% endif %}
                 </span>
                 <span class="author-meta">
-                <span class="post-name"><a href="{{ post.categories[0] }}">{{ post.categories[0] }}</a></span><br/>
+                <span class="post-name"><a href="{{ post.categories[0] }}">{{ post.categories[0] | capitalize }}</a></span><br/>
                 {% endif %}
                 <span class="post-date">{{ post.date | date_to_string }}</span>
                 

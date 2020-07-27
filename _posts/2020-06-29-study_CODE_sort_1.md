@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "정렬 : 가장 큰 수"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

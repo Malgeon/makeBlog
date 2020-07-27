@@ -1,6 +1,6 @@
 ---
 layout: main
-title: Main
+title: main
 pagination:
   enabled: true
 ---

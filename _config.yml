@@ -1,6 +1,6 @@
 # Site
-name: "Malg-eon"
-title: "Malg-eon"
+name: "Malg:eon"
+title: "Malg:eon"
 description: "공간"
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
@@ -83,4 +83,4 @@ lsi: False
 
 username: Malgeon
 repo: makeBlog
-branch: master
+branch: master,

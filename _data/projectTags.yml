@@ -1,8 +1,8 @@
 - name : web
-  url : Project/web
+  url : project/web
 
 - name : android
-  url : Project/android
+  url : project/android
 
 - name : ios
-  url : Project/ios
+  url : project/ios

@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "그래프 : 가장 먼 노드"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 ---
 

@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "슬라이드 효과"
 description: "CSS에서 슬라이드 효과 구현"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # 이미지 슬라이드

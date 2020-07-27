@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "코드 컨벤션"
 description: 코딩 스타일 규약
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 image: assets/images/study/main_study.jpg
 ---
 

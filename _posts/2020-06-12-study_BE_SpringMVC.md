@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "SPRING : Mvc"
 description: "Mvc 동작 이해"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # Spring MVC

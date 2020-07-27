@@ -1,12 +1,12 @@
 ---
 layout: tags
 title: tags
-parent: Study
+parent: study
 name: java
-categories: [Study]
-tags: [Java]
-thisUrl: Study/java
-permalink: /Study/java
+categories: [study]
+tags: [java]
+thisUrl: study/java
+permalink: /study/java
 pagination:
   enabled: true
   tag: java

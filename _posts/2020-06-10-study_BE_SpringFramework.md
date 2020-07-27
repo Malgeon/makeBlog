@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "SPRING : Framework"
 description: "Spring을 시작하면서 "
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # Spring

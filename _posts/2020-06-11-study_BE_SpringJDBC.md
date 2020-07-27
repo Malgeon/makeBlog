@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "Spring : JDBC"
 description: "JDBC에 대하여"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # Spring JDBC

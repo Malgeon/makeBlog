@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "MySQL Query"
 description: "Database Query문에 대해서 알아보자."
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # MySQL

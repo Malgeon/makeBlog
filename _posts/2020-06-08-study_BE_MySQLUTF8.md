@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "MySqlUTF8"
 description: "MySql 한글 입력 방법"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # MySQL

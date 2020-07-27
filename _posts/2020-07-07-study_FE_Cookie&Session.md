@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "쿠키와 세션"
 description: "쿠키와 세션에 대하여"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # 쿠키와 세션

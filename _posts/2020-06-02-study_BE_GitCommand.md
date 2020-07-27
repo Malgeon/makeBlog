@@ -3,8 +3,8 @@ layout: post
 author: study
 title:  "Git"
 description: "그동안 공부하며 알아온 Git Command"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ study ]
+tags: [c, java]
 ---
 
 # Linux Command

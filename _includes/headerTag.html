@@ -2,7 +2,7 @@
     <div class="u-borderBox u-maxWidth1072 u-paddingLeft31 u-paddingRight20 u-marginAuto">
         <nav class="collectionHeader-nav u-clearfix js-collectionHeaderNav u-lineHeight40 u-overflowHiddenY">
             <div class="buttonSet u-middle u-noWrap u-overflowX u-paddingBottom100">
-                {% if page.title == "Study" or page.categories[0] == "Study" or page.parent == "Study" %}
+                {% if page.title == "study" or page.categories[0] == "study" or page.parent == "study" %}
                     {% for study in site.data.studyTags %}     
                         <li class="collectionHeader-navItem js-collectionNavItem u-inlineBlock u-fontSize13 u-textUppercase u-letterSpacing1px u-textColorNormal u-xs-paddingRight12 u-xs-marginRight0">
                         {% for tag in page.tags %} 
@@ -20,7 +20,7 @@
                         {% assign flag = "off" %}
                     {% endfor %}
 
-                {% elsif page.title == "Project" or page.categories[0] == "Project" or page.parent == "Project" %}
+                {% elsif page.title == "project" or page.categories[0] == "project" or page.parent == "project" %}
                     {% for project in site.data.projectTags %}
                         <li class="collectionHeader-navItem js-collectionNavItem u-inlineBlock u-fontSize13 u-textUppercase u-letterSpacing1px u-textColorNormal u-xs-paddingRight12 u-xs-marginRight0">
                         {% for tag in page.tags %} 

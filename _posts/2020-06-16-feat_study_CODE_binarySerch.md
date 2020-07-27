@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "이진탐색 : Upper Bound, Lower Bound"
 description: "연습 문제"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 image: assets/images/study/algorithm.jpg
 featured: true

@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "자바스크립트"
 description: "자바 스크립트 공부 기록"
-categories: [ Study ]
+categories: [ study ]
 tags: [programming, javascript]
 
 
