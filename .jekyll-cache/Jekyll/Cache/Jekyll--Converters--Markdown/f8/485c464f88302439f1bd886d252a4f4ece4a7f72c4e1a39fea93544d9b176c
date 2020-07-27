@@ -1,0 +1,201 @@
+I"W<<p>category: 2020 KAKAO BLIND RECRUITMENT</p>
+
+<h1 id="문제-설명">문제 설명</h1>
+
+<p>레스토랑을 운영하고 있는 스카피는 레스토랑 내부가 너무 낡아 친구들과 함께 직접 리모델링 하기로 했습니다. 레스토랑이 있는 곳은 스노우타운으로 매우 추운 지역이어서 내부 공사를 하는 도중에 주기적으로 외벽의 상태를 점검해야 할 필요가 있습니다.</p>
+
+<p>레스토랑의 구조는 완전히 동그란 모양이고 외벽의 총 둘레는 n미터이며, 외벽의 몇몇 지점은 추위가 심할 경우 손상될 수도 있는 취약한 지점들이 있습니다. 따라서 내부 공사 도중에도 외벽의 취약 지점들이 손상되지 않았는 지, 주기적으로 친구들을 보내서 점검을 하기로 했습니다. 다만, 빠른 공사 진행을 위해 점검 시간을 1시간으로 제한했습니다. 친구들이 1시간 동안 이동할 수 있는 거리는 제각각이기 때문에, 최소한의 친구들을 투입해 취약 지점을 점검하고 나머지 친구들은 내부 공사를 돕도록 하려고 합니다. 편의 상 레스토랑의 정북 방향 지점을 0으로 나타내며, 취약 지점의 위치는 정북 방향 지점으로부터 시계 방향으로 떨어진 거리로 나타냅니다. 또, 친구들은 출발 지점부터 시계, 혹은 반시계 방향으로 외벽을 따라서만 이동합니다.</p>
+
+<p>외벽의 길이 n, 취약 지점의 위치가 담긴 배열 weak, 각 친구가 1시간 동안 이동할 수 있는 거리가 담긴 배열 dist가 매개변수로 주어질 때, 취약 지점을 점검하기 위해 보내야 하는 친구 수의 최소값을 return 하도록 solution 함수를 완성해주세요.</p>
+
+<ul>
+  <li>제한사항</li>
+  <li>n은 1 이상 200 이하인 자연수입니다.</li>
+  <li>weak의 길이는 1 이상 15 이하입니다.</li>
+  <li>서로 다른 두 취약점의 위치가 같은 경우는 주어지지 않습니다.</li>
+  <li>취약 지점의 위치는 오름차순으로 정렬되어 주어집니다.</li>
+  <li>weak의 원소는 0 이상 n - 1 이하인 정수입니다.</li>
+  <li>dist의 길이는 1 이상 8 이하입니다.</li>
+  <li>dist의 원소는 1 이상 100 이하인 자연수입니다.</li>
+  <li>
+    <p>친구들을 모두 투입해도 취약 지점을 전부 점검할 수 없는 경우에는 -1을 return 해주세요.</p>
+  </li>
+  <li>입출력 예
+ | n | weak | dist | result |
+ | 12 | [1, 5, 6, 10] | [1, 2, 3, 4] | 2 |
+ | 12 | [1, 3, 4, 9, 10] | [3, 5, 7] | 1 |</li>
+</ul>
+
+<h1 id="문제풀이">문제풀이</h1>
+
+<p>문제의 해결 방안을 전혀 생각하지 못하였다. 
+  dist가 큰 값부터 하는 방법으로 생각을 해봤지만, 도저히 방도가 생각이 안났다.
+  이런 경우는 대부분 완전탐색이라는 것을 기억하자.</p>
+
+<p>우선 dist가 오는 순서를 정할수 있으며, 해당 순서에 맞게 weak값을 지정하는 방법으로 문제를 풀어 나갈 수 있다.</p>
+
+<p>dist의 순서는 dist 전체 값으로 하는 순열으로 만들수 있다.</p>
+
+<p>그러면 해결 가능하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">weak</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span> <span class="c1">//[1, 3, 4, 9, 10]</span>
+<span class="kd">var</span> <span class="nx">dist</span> <span class="o">=</span> 	<span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">];</span> <span class="c1">//[3, 5, 7]</span>
+
+<span class="kd">var</span> <span class="nx">test</span> <span class="o">=</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">weak</span><span class="p">,</span> <span class="nx">dist</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">weak</span><span class="p">,</span> <span class="nx">dist</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">distLen</span> <span class="o">=</span> <span class="nx">dist</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">distSet</span> <span class="o">=</span> <span class="nx">permutator</span><span class="p">(</span><span class="nx">dist</span><span class="p">,</span> <span class="nx">distLen</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">testWeak</span> <span class="o">=</span> <span class="nx">weak</span><span class="p">.</span><span class="nx">slice</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">weakLen</span> <span class="o">=</span> <span class="nx">weak</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  
+  <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">weakLen</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">distSet</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="nx">item</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">check</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">testWeak</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">count</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">count</span> <span class="o">=</span> <span class="nx">result</span>
+        <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">count</span> <span class="o">=</span> <span class="nx">result</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="kd">let</span> <span class="nx">change</span> <span class="o">=</span> <span class="nx">testWeak</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">testWeak</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">weakLen</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">change</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="nx">n</span><span class="p">);</span>
+  <span class="p">}</span>
+  
+  <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">check</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">weak</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">weakIdx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">weakLen</span> <span class="o">=</span> <span class="nx">weak</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">item</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">canRepair</span> <span class="o">=</span> <span class="nx">item</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">weak</span><span class="p">[</span><span class="nx">weakIdx</span><span class="p">];</span>
+    <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">weakIdx</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="nx">weakIdx</span><span class="o">&lt;</span><span class="nx">weakLen</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">canRepair</span> <span class="o">&gt;=</span> <span class="nx">weak</span><span class="p">[</span><span class="nx">weakIdx</span><span class="p">])</span> <span class="p">{</span>
+        <span class="nx">weakIdx</span><span class="o">++</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">weakIdx</span> <span class="o">===</span> <span class="nx">weakLen</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span> 
+  <span class="k">if</span><span class="p">(</span><span class="nx">weakIdx</span> <span class="o">===</span> <span class="nx">weakLen</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">permutator</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">inputArr</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="nx">rValue</span><span class="p">;</span> <span class="c1">// 정확히는 arr의 length가 남는 개수에 따라 result값에 push를 한다. 즉 1개를 썼으면 3개가 남았으니까 1개 result.</span>
+  
+  <span class="kd">function</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">pick</span><span class="p">)</span> <span class="p">{</span>
+  
+    <span class="kd">var</span> <span class="nx">cur</span><span class="p">,</span> <span class="nx">pick</span> <span class="o">=</span> <span class="nx">pick</span> <span class="o">||</span> <span class="p">[];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cur</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="p">}</span>
+      <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(),</span> <span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">cur</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

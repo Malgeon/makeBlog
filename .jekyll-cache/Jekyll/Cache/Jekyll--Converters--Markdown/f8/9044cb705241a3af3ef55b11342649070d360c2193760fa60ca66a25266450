@@ -1,0 +1,78 @@
+I"m<h1 id="mysql">MySQL</h1>
+
+<h2 id="개요">개요</h2>
+<p>MySQL 윈도우작업시 한글 입력하지 못하는 현상을 혹시 몰라 작성해둔다.</p>
+
+<h2 id="utf-8-적용여부-확인">UTF-8 적용여부 확인</h2>
+<p>show variables like ‘c%’;
+  stauts;</p>
+
+<p>사실 하나씩 테이블 alter로 변경하는 방법이 있으나, 매우 귀찮기 때문에 새로 my.ini를 만들어 변경하는 방법을 사용한다.</p>
+
+<h2 id="basedir-경로">basedir 경로</h2>
+<p>show variables where variable_name like ‘%dir’;</p>
+
+<p>해당 경로에 my.ini파일을 집어 넣어야 한다.</p>
+
+<h2 id="myini">my.ini</h2>
+<p>메모장을 열어 my.ini파일을 만들어 보자.</p>
+
+<h2 id="mysql-utf-8-적용하기">MySQL utf-8 적용하기</h2>
+
+<p>MySQL이 설치된 폴도에 가면 my-default.ini 파일을 복사하여 my.ini 파일을 만든다.
+ 들어갈 내용은 show variables where variable_name like ‘%dir’;에서
+  basedir
+  datadir</p>
+
+<p>그리고 port</p>
+
+<p>port 번호는 status 또는 show global variables like ‘port’;로 확인 가능하다.
+  이때 인코딩을 ANSI로 저장하자.
+  저장한 my.ini는 basedir에 저장하자.</p>
+
+<p>mysql 서비스 종료 후 재시작.</p>
+
+<p>다시 show variables where variable_name like ‘%dir’; 를 통해
+  basedir
+  datadir
+  port
+  값이 이상이 없을 경우</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre>  [client]
+  default-character-set = utf8
+  
+  [mysqld]
+  character-set-client-handshake=FALSE
+  init_connect=&amp;quot;SET collation_connection = utf8_general_ci&amp;quot;
+  init_connect=&amp;quot;SET NAMES utf8&amp;quot;
+  character-set-server = utf8
+  collation-server = utf8_general_ci
+ 
+  [mysqldump]
+  default-character-set = utf8
+ 
+  [mysql]
+  default-character-set = utf8
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>추가 후 저장
+  mysql 서비스 종료 후 재시작.</p>
+
+<p>해결.</p>
+
+:ET

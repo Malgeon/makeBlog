@@ -1,0 +1,401 @@
+I"�<h1 id="숫자---문자">숫자 -&gt; 문자</h1>
+<ol>
+  <li>값을 String으로 변환.</li>
+</ol>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>  <span class="kd">var</span> <span class="nx">numValue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="nb">String</span><span class="p">(</span><span class="nx">numValue</span><span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ol>
+  <li>값에 ‘‘를 추가
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>  <span class="kd">var</span> <span class="nx">numValue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="nx">numValue</span> <span class="o">=</span> <span class="nx">numValue</span> <span class="o">+</span> <span class="dl">''</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="배열에-객체-넣기">배열에 객체 넣기</h1>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">key</span><span class="dl">"</span> <span class="c1">//이때 key값의 숫자로 구성되어 있을경우 data는 숫자로 판단한다.</span>
+  <span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">anyValue</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="prototypesort">prototype.sort();</h1>
+<p>매개변수가 없으면 문자열로 정렬.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>  <span class="nx">prototype</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="o">-</span><span class="nx">b</span> <span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>객체를 이용할 경우</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>  <span class="kd">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Edward</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="mi">21</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Sharpe</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="mi">37</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">And</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="mi">45</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">The</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="o">-</span><span class="mi">12</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Magnetic</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="mi">13</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Zeros</span><span class="dl">'</span><span class="p">,</span> <span class="na">value</span><span class="p">:</span> <span class="mi">37</span> <span class="p">}</span>
+ <span class="p">];</span>
+
+<span class="c1">// value 기준으로 정렬</span>
+<span class="nx">items</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">value</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// a must be equal to b</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>sort의 return 값이 1이면 바꿈, -1이면 바꾸지 않는다.</p>
+
+<p># sort()
+  sort를 그냥 두면 문자열 정렬이다 (10 &lt; 2)
+   따라서 숫자 정렬시 무조건 sort((a,b) =&gt; a-b); 꼭 쓰자</p>
+
+<p># forEach, reduce, filter, map
+   forEach =&gt; return x
+   reduce =&gt; return o (한줄시 생략)
+   map =&gt; return o (한줄시 생략)</p>
+
+<p>filter =&gt; return true 이면 가지고 옴.</p>
+
+<p># … 문법
+   배열 할당</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="p">[</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="p">...</span><span class="nx">rest_a</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a1</span><span class="p">);</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a2</span><span class="p">);</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">rest_a</span><span class="p">);</span> <span class="c1">// [3, 4, 5, 6, 7, 8, 9]</span>
+
+
+<span class="kd">var</span> <span class="p">{</span> <span class="nx">a1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="p">...</span><span class="nx">rest_a</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a1</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">a2</span> <span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="na">a3</span> <span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="na">a4</span> <span class="p">:</span> <span class="mi">40</span> <span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a1</span><span class="p">);</span> <span class="c1">// 10</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a2</span><span class="p">);</span> <span class="c1">// 20</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">rest_a</span><span class="p">);</span> <span class="c1">// { a3: 30, a4: 40 }</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="number">Number()</h1>
+<p>문자열을 숫자로 -&gt; 바꿀수 없을경우 NaN</p>
+
+<h1 id="set">Set()</h1>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>  <span class="kd">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">();</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">add</span><span class="p">({});</span> <span class="c1">// 빈 객체 추가</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">add</span><span class="p">({});</span> <span class="c1">// 또 다른 빈 객체 추가</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span> <span class="c1">// 2</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="c1">// Set { {}, {} }</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// 숫자 10 추가</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">10</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// 문자열 "10" 추가</span>
+  <span class="nx">foo</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// 이미 10이 있기때문에 무시됩니다</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">size</span><span class="p">);</span> <span class="c1">// 4</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kd">set</span><span class="p">);</span> <span class="c1">// Set { {}, {}, 10, '10' }</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>prototype.has(값) — set에 값 존재 확인. true 또는 false를 반환.
+  prototype.delete(값) — set에서 값을 제거.
+  prototype.clear() — set에서 모든 값을 제거.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>  <span class="kd">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">([</span> <span class="dl">'</span><span class="s1">아이폰XR</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">갤노트9</span><span class="dl">'</span> <span class="p">]);</span>
+  <span class="kd">const</span> <span class="nx">fooInArray</span> <span class="o">=</span> <span class="p">[</span> <span class="p">...</span><span class="nx">foo</span> <span class="p">];</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fooInArray</span><span class="p">)</span> <span class="c1">// [ '아이폰XR', '갤노트9' ];</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="arraysplice">Array.splice();</h1>
+<p>배열의 기존 요소를 삭제 또는 교체</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">months</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Jan</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">March</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">April</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">June</span><span class="dl">'</span><span class="p">];</span>
+<span class="nx">months</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Feb</span><span class="dl">'</span><span class="p">);</span> <span class="c1">//1번 index에 삭제 없이 값 추가</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">months</span><span class="p">);</span> 
+<span class="c1">// expected output: Array ["Jan", "Feb", "March", "April", "June"]</span>
+
+<span class="nx">months</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">May</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// 4번 index에 1개 삭제 후 값 추가</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">months</span><span class="p">);</span>
+<span class="c1">// expected output: Array ["Jan", "Feb", "March", "April", "May"]</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="or-연산자">or 연산자</h1>
+
+<p>값이 들어오지 않을 경우 초기값을 설정하고자 할때 다음과 같이 해보자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">initValue</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">theTitle</span> <span class="o">||</span> <span class="dl">"</span><span class="s2">initial Vlaue</span><span class="dl">"</span><span class="p">;</span> 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="문자열-합치기">문자열 합치기</h1>
+
+<p>단순히 더해주면 합쳐진다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="dl">"</span><span class="s2">1</span><span class="dl">"</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">2</span><span class="dl">"</span> <span class="c1">// "12"</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="배열-합치기">배열 합치기</h1>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">];</span>
+
+<span class="nx">alpha</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="c1">// 결과: ['a', 'b', 'c', 1, 2, 3]</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="중복-값-제거하기">중복 값 제거하기</h1>
+<ol>
+  <li>Set() 이용
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">();</span>
+<span class="nx">prototype</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="nx">key</span> <span class="p">);</span>
+<span class="p">[...</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">keys</span><span class="p">()];</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>객체 이용
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nx">prototype</span><span class="p">[</span> <span class="nx">key</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span> <span class="nx">prototype</span> <span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<p># JSON.parse(text[, reviver])</p>
+
+<p>배열 및 객체문법에 속한 Text문을 배열 및 객체로 변환해준다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">json1</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">{"result":true, "count":42}</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">json2</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">[[1,2,3],[2,1],[1,2,4,3],[2]]</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json1</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json2</span><span class="p">);</span> 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># String.prototype.replace()
+   String 안에 있는 값을 찾아 원하는 값으로 바꿔준다.
+   문자열 리턴!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>g : 발생할 모든 pattern에 대한 전역 검색
+i : 대/소문자 구분 안함
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">The quick brown fox jumps over the lazy dog. If the dog reacted, was it really lazy?</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/dog/gi</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ferret</span><span class="dl">'</span><span class="p">));</span>
+<span class="c1">// expected output: "The quick brown fox jumps over the lazy ferret. If the ferret reacted, was it really lazy?"</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="dl">'</span><span class="s1">dog</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">monkey</span><span class="dl">'</span><span class="p">));</span>
+<span class="c1">// expected output: "The quick brown fox jumps over the lazy monkey. If the dog reacted, was it really lazy?"</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># 배열 n개로 나누기</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">division</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">cnt</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">len</span> <span class="o">/</span> <span class="nx">n</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">cnt</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">tmp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">n</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">division</span> <span class="o">=</span> <span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">cnt</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">len</span> <span class="o">/</span> <span class="nx">n</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">cnt</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">tmp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">n</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="matrix-row---column-전환">matrix row -&gt; column 전환</h1>
+<ul>
+  <li>한줄 전환
+```javascript
+var row = [0, 0, 0, 4, 3];
+var result = [];
+result = row.map( (_, i) =&gt; […(result[i] || []), row[i]]);
+/*
+row -&gt; column  [0, 
+             0, 
+             0, 
+             4, 
+             3]
+*/</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>
+ - 전체 시계반대방향 전환
+```javascript
+const transpose = (matrix) =&gt;
+  matrix.reduce(
+  (result, row) =&gt; row.map((_, i) =&gt; [...(result[i] || []), row[i]]),
+  []
+);
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>전체 시계방향 전환
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">rotation</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+ <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+ <span class="k">debugger</span><span class="p">;</span>
+ <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="nx">key</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nx">result</span> <span class="o">=</span> <span class="nx">key</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[...(</span><span class="nx">result</span><span class="p">[</span><span class="nx">$</span><span class="p">]</span> <span class="o">||</span> <span class="p">[]),</span> <span class="nx">key</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">$</span><span class="p">]]);</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="nx">result</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="디폴트-매개변수">디폴트 매개변수</h1>
+<p>디폴트 매개변수를 설정함으로써 함수 밖에서 일부로 설정을 안해줘도 되게 한다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span><span class="o">*</span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">multiply</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// 5</span>
+<span class="nx">multiply</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// 10</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># nXn matrix 생성</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="문자열-빼기">문자열 빼기</h1>
+<p>str은 변경되지 않는다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre> <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">abcd</span><span class="dl">"</span><span class="p">;</span>
+ <span class="kd">var</span> <span class="nx">removeFirst</span> <span class="o">=</span> <span class="nx">str</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

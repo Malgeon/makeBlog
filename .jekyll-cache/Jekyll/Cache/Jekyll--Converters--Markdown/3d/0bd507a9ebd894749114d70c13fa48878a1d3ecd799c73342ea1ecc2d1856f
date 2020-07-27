@@ -1,0 +1,60 @@
+I"�<p>category:</p>
+
+<p>url: https://programmers.co.kr/learn/courses/30/lessons/12899</p>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>규칙성을 찾고, 해당 규칙을 구현할 수 있는지 알아보는 문제.
+  규칙을 구현하기에 걸림이 되었던 부분은 0이 존재하지 않으며, 3진수이지만 자릿수가 올라 갈 경우 올라가지 않고 4가 붙는다는 사실이다.</p>
+
+<p>해당 경우에 대한 대처를 해 놓은다면 문제 풀기는 수월했다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre>   <span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="dl">''</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">n</span><span class="p">;</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="nx">value</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">value</span><span class="o">/</span><span class="mi">3</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">rest</span> <span class="o">=</span> <span class="nx">value</span><span class="o">%</span><span class="mi">3</span><span class="p">;</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nx">rest</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">div</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="nx">answer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span> <span class="c1">//먼저 오게 함으로써 자릿수 보정</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">div</span><span class="p">;</span>
+            <span class="nx">answer</span> <span class="o">=</span> <span class="nx">rest</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">answer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">answer</span> <span class="o">=</span> <span class="nx">value</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

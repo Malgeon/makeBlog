@@ -1,0 +1,375 @@
+I"%�<h1 id="문제-설명">문제 설명</h1>
+<p>로봇개발자 무지는 한 달 앞으로 다가온 카카오배 로봇경진대회에 출품할 로봇을 준비하고 있습니다. 준비 중인 로봇은 2 x 1 크기의 로봇으로 무지는 0과 1로 이루어진 N x N 크기의 지도에서 2 x 1 크기인 로봇을 움직여 (N, N) 위치까지 이동 할 수 있도록 프로그래밍을 하려고 합니다. 로봇이 이동하는 지도는 가장 왼쪽, 상단의 좌표를 (1, 1)로 하며 지도 내에 표시된 숫자 0은 빈칸을 1은 벽을 나타냅니다. 로봇은 벽이 있는 칸 또는 지도 밖으로는 이동할 수 없습니다. 로봇은 처음에 아래 그림과 같이 좌표 (1, 1) 위치에서 가로방향으로 놓여있는 상태로 시작하며, 앞뒤 구분없이 움직일 수 있습니다.</p>
+
+<p>로봇이 움직일 때는 현재 놓여있는 상태를 유지하면서 이동합니다. 예를 들어, 오른쪽으로 한 칸 이동한다면 (1, 2), (1, 3) 두 칸을 차지하게 되며, 아래로 이동한다면 (2, 1), (2, 2) 두 칸을 차지하게 됩니다. 로봇이 차지하는 두 칸 중 어느 한 칸이라도 (N, N) 위치에 도착하면 됩니다.</p>
+
+<p>로봇은 다음과 같이 조건에 따라 회전이 가능합니다.</p>
+
+<p>로봇은 90도씩 회전할 수 있습니다. 단, 로봇이 차지하는 두 칸 중, 어느 칸이든 축이 될 수 있지만, 회전하는 방향(축이 되는 칸으로부터 대각선 방향에 있는 칸)에는 벽이 없어야 합니다. 로봇이 한 칸 이동하거나 90도 회전하는 데는 걸리는 시간은 정확히 1초 입니다.</p>
+
+<p>0과 1로 이루어진 지도인 board가 주어질 때, 로봇이 (N, N) 위치까지 이동하는데 필요한 최소 시간을 return 하도록 solution 함수를 완성해주세요.</p>
+
+<ul>
+  <li>제한사항
+    <ul>
+      <li>board의 한 변의 길이는 5 이상 100 이하입니다.</li>
+      <li>board의 원소는 0 또는 1입니다.</li>
+      <li>로봇이 처음에 놓여 있는 칸 (1, 1), (1, 2)는 항상 0으로 주어집니다.</li>
+      <li>로봇이 항상 목적지에 도착할 수 있는 경우만 입력으로 주어집니다.</li>
+    </ul>
+  </li>
+  <li>입출력 예</li>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <td>board</td>
+      <td>result</td>
+    </tr>
+    <tr>
+      <td>[[0, 0, 0, 1, 1],[0, 0, 0, 1, 0],[0, 1, 0, 1, 1],[1, 1, 0, 0, 1],[0, 0, 0, 0, 0]]</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>어떤방식으로 설계를 해야할지 부터가 고민이었다.
+  상하 좌우 이동은 단순히 해당 point로부터 각각 옮기면 되었지만, 2개의 축을 두고 회전하는 것을 표현하는 방법을 설계하기가 어려웠다.</p>
+
+<p>해결책은 생각보다 간단한데, 그냥 기준점을 하나의 point로 가지고 진행을 하면 된다.
+  가로상태일때 기준점은 좌측, 세로일때 기준점을 위측 으로 잡는다.
+  그렇게 되면 상하좌우는 단순히 기준점만 옮기면 되며, 2개의 축을 가지고 회전하는 경우 각각의 상태를 그냥 표현해 주면 된다.
+  좌측기준 위로 옮기기 =&gt; 기준점을 상향, 우측 기준 위로 옮기기 =&gt; 기준점을 우측 이동 후 상향
+  또한 rotate 조건은 기준점을 상하좌우로 옮기는 조건과 동일하다.</p>
+
+<p>이 기준을 가지고 해결해 주면 된다.</p>
+
+<p>위와 같이 기준점이 바뀌는 복잡한 경우 그냥 하나의 기준점을 잡아주고 그 기준을 바탕으로 조건을 설정해주면 해결할 수 있다.</p>
+
+<p>또한 가장 빠른 시간(가장 낮은 걸음수)에 도착하는 문제 같은 경우 해당 point에 시간(걸음수)를 간직한채 방문을 해주면, 해당 값을 update하면서 풀어 주면 된다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+</pre></td><td class="rouge-code"><pre>
+<span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">map</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+    <span class="nx">dx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="c1">//direction x, y 상 하 좌 우 를 나타낸다.</span>
+    <span class="nx">dy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="nx">rowToColDx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1">//가로에서 세로로 변경할 좌표. 좌측 up, 우측 up, 좌측 down, 우측 down.</span>
+    <span class="nx">rowToColDy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="nx">colToRowDx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1">// 세로에서 가로로 변경할 좌표. 위와 동일.</span>
+    <span class="nx">colToRowDy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="nx">q</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1">//starting point, BFS의 Queue를 받는다. //이렇게 BFS를 사용할 수 있다.</span>
+    <span class="p">],</span>
+
+    <span class="nx">visited</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 방문할때마다, 방문자의 시간을 보고 가장 낮은 값을 간직.</span>
+
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">visited</span><span class="p">.</span><span class="nx">push</span><span class="p">([]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">visited</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">push</span><span class="p">([</span><span class="kc">Infinity</span><span class="p">,</span> <span class="kc">Infinity</span><span class="p">]);</span> <span class="c1">//가장 낮은값을 간직하기 위해 Infinity 설정</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//처음은 0초</span>
+
+  <span class="kd">let</span> <span class="nx">min</span> <span class="o">=</span> <span class="kc">Infinity</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">canGoRight</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="c1">//x,y는 좌표 p는 상태 (가로 상태, 세로 상태)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">canGoLeft</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">canGoDown</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">canGoUp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">canRotateUp</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="o">!</span><span class="p">(</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">canRotateDown</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="o">!</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">canRotateRight</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="o">!</span><span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">canRotateLeft</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="o">!</span><span class="p">(</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nx">n</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">map</span><span class="p">[</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">canGoMap</span> <span class="o">=</span> <span class="p">[</span> <span class="c1">//한번에 이동 및 rotate를 해주기 위한 작업. canGoMap[0] =&gt; canGoRight</span>
+    <span class="nx">canGoRight</span><span class="p">,</span>
+    <span class="nx">canGoLeft</span><span class="p">,</span>
+    <span class="nx">canGoDown</span><span class="p">,</span>
+    <span class="nx">canGoUp</span>
+  <span class="p">],</span>
+    <span class="nx">canRotateMap</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span>
+        <span class="nx">canRotateUp</span><span class="p">,</span>
+        <span class="nx">canRotateUp</span><span class="p">,</span>
+        <span class="nx">canRotateDown</span><span class="p">,</span>
+        <span class="nx">canRotateDown</span>
+      <span class="p">],</span> <span class="p">[</span>
+        <span class="nx">canRotateRight</span><span class="p">,</span>
+        <span class="nx">canRotateRight</span><span class="p">,</span>
+        <span class="nx">canRotateLeft</span><span class="p">,</span>
+        <span class="nx">canRotateLeft</span>
+      <span class="p">],</span>
+    <span class="p">],</span>
+
+    <span class="nx">deltaMap</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span><span class="nx">rowToColDx</span><span class="p">,</span> <span class="nx">rowToColDy</span><span class="p">],</span>
+      <span class="p">[</span><span class="nx">colToRowDx</span><span class="p">,</span> <span class="nx">colToRowDy</span><span class="p">]</span>
+    <span class="p">];</span>
+
+
+
+  <span class="k">while</span> <span class="p">(</span><span class="nx">q</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">debugger</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+
+    <span class="c1">// 만일 (n,n)에 도착했다면 최소시간을 갱신합니다</span>
+    <span class="k">if</span> <span class="p">(</span>
+      <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">p</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="o">||</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">===</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">p</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span> <span class="p">{</span>
+      <span class="k">debugger</span><span class="p">;</span>
+      <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">t</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 회전 없이 우좌하상으로 움직일때</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">canGoMap</span><span class="p">[</span><span class="nx">k</span><span class="p">](</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">p</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">[</span><span class="nx">k</span><span class="p">],</span>
+        <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">visited</span><span class="p">[</span><span class="nx">nx</span><span class="p">][</span><span class="nx">ny</span><span class="p">][</span><span class="nx">p</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">visited</span><span class="p">[</span><span class="nx">nx</span><span class="p">][</span><span class="nx">ny</span><span class="p">][</span><span class="nx">p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="nx">q</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">,</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">p</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// 가로로 놓인 상황인 경우 세로로 돌려보자</span>
+      <span class="c1">// 세로로 놓인 상황인 경우 가로로 돌려보자</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">canRotateMap</span><span class="p">[</span><span class="nx">p</span><span class="p">][</span><span class="nx">k</span><span class="p">](</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">))</span> <span class="k">continue</span><span class="p">;</span>
+
+      <span class="kd">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">deltaMap</span><span class="p">[</span><span class="nx">p</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="nx">k</span><span class="p">],</span>
+        <span class="nx">ny</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">deltaMap</span><span class="p">[</span><span class="nx">p</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="nx">k</span><span class="p">],</span>
+        <span class="nx">_p</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">visited</span><span class="p">[</span><span class="nx">nx</span><span class="p">][</span><span class="nx">ny</span><span class="p">][</span><span class="nx">_p</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">visited</span><span class="p">[</span><span class="nx">nx</span><span class="p">][</span><span class="nx">ny</span><span class="p">][</span><span class="nx">_p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="nx">q</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">nx</span><span class="p">,</span> <span class="nx">ny</span><span class="p">,</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">_p</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">min</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

@@ -1,0 +1,524 @@
+I"�<h1 id="순열과-조합">순열과 조합</h1>
+<p>순열과 조합은 여러 군데에서 쓰인다. 
+  쓰이는 방식도 다양한데,</p>
+<ul>
+  <li>각각의 배열의 값으로써</li>
+  <li>조합된 숫자로써</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>하지만 설계하는게 쉬운일이 아니기 때문에, 배열로 사용할수 있는 그리고 조합된 숫자를 사용하도록 String으로 사용하는 각각의 함수를 만들어 놓고자 한다.
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="npr-ncr-값">nPr, nCr 값</h1>
+
+<p>수학이다.
+  nPr =&gt; n개의 경우를 r번 사용할경우.
+  nCr =&gt; nPr에서 중복 제외</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">combination</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">top</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">bottom</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">r</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">top</span> <span class="o">*=</span> <span class="nx">n</span><span class="o">-</span><span class="nx">i</span><span class="p">;</span>
+    <span class="nx">bottom</span> <span class="o">*=</span> <span class="nx">r</span><span class="o">-</span><span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">top</span><span class="o">/</span><span class="nx">bottom</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">permutation</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">r</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">value</span> <span class="o">*=</span> <span class="nx">n</span><span class="o">-</span><span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="배열의-원소로-만들수-있는-가능한-모든-조합">배열의 원소로 만들수 있는 가능한 모든 조합</h1>
+
+<p>자주 나오는 문제이다. 기능을 추가해서 해결해야할 문제들이니 잘 알아두자.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="c1">//list 값은 문자열!</span>
+<span class="cm">/**
+* input은 배열, output은 배열의 순열조합으로 이루어진 String
+*/</span>
+<span class="kd">var</span> <span class="nx">myList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">test</span> <span class="o">=</span> <span class="nx">findAllPermutation</span><span class="p">(</span><span class="nx">myList</span><span class="p">);</span>
+<span class="kd">function</span> <span class="nx">findAllPermutation</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">prevValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">frontPaddingValue</span> <span class="o">=</span> <span class="nx">prevValue</span> <span class="o">||</span> <span class="dl">''</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">list</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">listNumbers</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">listNumbers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">frontPaddingValue</span><span class="o">+</span><span class="nx">value</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">nextNumberList</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">list</span><span class="p">];</span>
+    <span class="nx">nextNumberList</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">findAllPermutation</span><span class="p">(</span> 
+    <span class="nx">nextNumberList</span><span class="p">,</span> <span class="nx">frontPaddingValue</span> <span class="o">+</span> <span class="nx">value</span>
+    <span class="p">);</span>
+    <span class="nx">listNumbers</span><span class="p">.</span><span class="nx">push</span><span class="p">(...</span><span class="nx">result</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">listNumbers</span><span class="p">;</span>
+  <span class="p">},</span> <span class="p">[]);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>잘 생각해 보자. 배열 내 각각의 요소를 저장한 그 전값과 합쳐주면 된다. 단 각각의 요소를 연산할 때 동일한 조건을 가지도록 해야 한다. (reduce의 강점.)
+  ex [1, 2, 3]
+   1을 가지고 들어가서 [2, 3]의 요소와 합쳐준다. 그런 행위를 할때마다 push</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="cm">/**
+ *  output : 배열
+ * @param {*} inputArr : Input 배열이다. 
+ * 전반적인 매커니즘은 pick에서 하나씩 가지고 재귀함수로 들어간다.
+ */</span>
+
+<span class="kd">function</span> <span class="nx">permutator</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">inputArr</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="nx">rValue</span><span class="p">;</span>
+  
+  <span class="kd">function</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">pick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">cur</span><span class="p">,</span> <span class="nx">pick</span> <span class="o">=</span> <span class="nx">pick</span> <span class="o">||</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cur</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(),</span> <span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">cur</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">);</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="permutation">Permutation</h1>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="cm">/**
+* 만일 해당 조합을 숫자로 사용할 경우에 쓰도록 output이 String값.
+*/</span>
+<span class="kd">var</span> <span class="nx">myList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">test</span> <span class="o">=</span> <span class="nx">findAllPermutation</span><span class="p">(</span><span class="nx">myList</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span> <span class="c1">//4개 조합 ex 1234</span>
+<span class="kd">function</span> <span class="nx">findPermutation</span><span class="p">(</span><span class="nx">stringList</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="kd">const</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">stringList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">startCount</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//현재 조합을 뽑은 숫자. 재귀로 하나씩 뽑아갈때마다. count가 증가.</span>
+
+    <span class="kd">function</span> <span class="nx">makePermutation</span><span class="p">(</span><span class="nx">stringList</span><span class="p">,</span> <span class="nx">count</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">,</span> <span class="nx">prevValue</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">frontPaddingValue</span> <span class="o">=</span> <span class="nx">prevValue</span> <span class="o">||</span> <span class="dl">''</span><span class="p">;</span> <span class="c1">//값이 없을 경우 빈 문자로 초기화</span>
+        <span class="kd">let</span> <span class="nx">pivotCount</span> <span class="o">=</span> <span class="nx">count</span><span class="p">;</span> <span class="c1">//재귀로 들어올때마다 기준 Count를 정함.</span>
+        <span class="c1">//reduce 과정에서 count값이 변경되므로 list의 요소가 끝날때 마다 다시 기준 Count를 잡아줌.</span>
+        <span class="k">return</span> <span class="nx">stringList</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span> <span class="p">(</span><span class="nx">listNumbers</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">count</span> <span class="o">=</span> <span class="nx">pivotCount</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">count</span> <span class="o">===</span> <span class="nx">rValue</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">listNumbers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">frontPaddingValue</span><span class="o">+</span><span class="nx">value</span><span class="p">);</span>
+                <span class="k">return</span> <span class="nx">listNumbers</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">const</span> <span class="nx">nextNumberList</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">stringList</span><span class="p">];</span>
+            <span class="nx">nextNumberList</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="nx">count</span><span class="o">++</span><span class="p">;</span> <span class="c1">//아래와 동일</span>
+            <span class="c1">//count = 1+len-nextNumberList.length; </span>
+            <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">makePermutation</span><span class="p">(</span><span class="nx">nextNumberList</span><span class="p">,</span> <span class="nx">count</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">,</span> <span class="nx">frontPaddingValue</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+            <span class="nx">listNumbers</span><span class="p">.</span><span class="nx">push</span><span class="p">(...</span><span class="nx">result</span><span class="p">);</span>
+
+            <span class="k">return</span> <span class="nx">listNumbers</span><span class="p">;</span>
+        <span class="p">},</span> <span class="p">[]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">makePermutation</span><span class="p">(</span><span class="nx">stringList</span><span class="p">,</span> <span class="nx">startCount</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>findAllPermutation에 pivotCount를 지정하여 해당 Count일때의 집합을 저장.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre><span class="cm">/**
+ * 
+ * @param {*} inputArr : Input 배열이다. 
+ * @param {*} rValue : nPr에서 r이며, 배열의 길이보다 적게 들어와야한다.
+ * 
+ * 전반적인 매커니즘은 pick에서 하나씩 가지고 재귀함수로 들어간다.
+ */</span>
+
+<span class="kd">function</span> <span class="nx">permutator</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">,</span> <span class="nx">rValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">inputArr</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="nx">rValue</span><span class="p">;</span> <span class="c1">// 정확히는 arr의 length가 남는 개수에 따라 result값에 push를 한다. 즉 1개를 썼으면 3개가 남았으니까 1개 result.</span>
+  
+  <span class="kd">function</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">pick</span><span class="p">)</span> <span class="p">{</span>
+  
+    <span class="kd">var</span> <span class="nx">cur</span><span class="p">,</span> <span class="nx">pick</span> <span class="o">=</span> <span class="nx">pick</span> <span class="o">||</span> <span class="p">[];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cur</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="p">}</span>
+      <span class="nx">permute</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(),</span> <span class="nx">pick</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">cur</span><span class="p">));</span>
+      <span class="nx">arr</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">cur</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">permute</span><span class="p">(</span><span class="nx">inputArr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="combination">Combination</h1>
+
+<p>## 하나의 집합 내에서 조합</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">getCombinations</span> <span class="o">=</span> <span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">combinations</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">picked</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="kd">function</span> <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">picked</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">rst</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="k">of</span> <span class="nx">picked</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">rst</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+            <span class="p">}</span>
+            <span class="nx">combinations</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">rst</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">picked</span><span class="p">.</span><span class="nx">length</span> <span class="p">?</span> <span class="nx">picked</span><span class="p">[</span><span class="nx">picked</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">picked</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+                <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">);</span>
+                <span class="nx">picked</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">combinations</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>하나의 집합 중 같은 값이 있을 경우
+  ([1, 2, 2, 3] 과 같은 숫자에서 combination을 뽑고자 할떄)</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">getCombinations</span> <span class="o">=</span> <span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">arr</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">//같은 값이 연속으로 들어오도록 강제</span>
+  <span class="kd">const</span> <span class="nx">combinations</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">const</span> <span class="nx">picked</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">const</span> <span class="nx">used</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+  
+  <span class="kd">function</span> <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">picked</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">rst</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="k">of</span> <span class="nx">picked</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">rst</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+      <span class="nx">combinations</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">rst</span><span class="p">);</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">picked</span><span class="p">.</span><span class="nx">length</span> <span class="p">?</span> <span class="nx">picked</span><span class="p">[</span><span class="nx">picked</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="nx">used</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+          <span class="nx">picked</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+          <span class="nx">used</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">);</span>
+          <span class="nx">picked</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+          <span class="nx">used</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">find</span><span class="p">(</span><span class="nx">picked</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">combinations</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>## 두개의 집합간 조합
+  ### 독립된 두개의 집합</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>   <span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arr_a</span><span class="p">,</span> <span class="nx">arr_b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">combination</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="nx">arr_a</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="nx">a</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">arr_b</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="nx">b</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">combination</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">]);</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="nx">combination</span><span class="p">;</span>
+    <span class="p">}</span> 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>### 종속적인 두개의 집합
+   아래의 문제해결은 하나의 배열안에 2개배열을 넣을 경우에 해당하고, 
+   만일 특정 조건으로 2개 배열을 구성할수 있다면 기존 하나의 배열에서의 조합 문제 해결방식을 따른다.(조합문제_1 참고)</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>   <span class="c1">// parentSet = [0, 1, 2, 3, 4]</span>
+    <span class="kd">var</span> <span class="nx">arraySet</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]];</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre></td><td class="rouge-code"><pre>
+<span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arrays</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kd">function</span> <span class="nx">makeCombination</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">selected</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">arrays</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+            <span class="nx">selected</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">//당연히 조합이기 때문에 순서가 다른 같은 값은 중복처리해줘야 한다.</span>
+            <span class="nx">answer</span><span class="p">[</span><span class="nx">selected</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">''</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">arrays</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">filter</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">selected</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">e</span><span class="p">)).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">makeCombination</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">selected</span><span class="p">.</span><span class="nx">concat</span><span class="p">([</span><span class="nx">e</span><span class="p">]));</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    
+    <span class="nx">makeCombination</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/** 
+순서가 같은 다른 값 
+ ex) arraySet = [[0, 2], [1, 2], [3, 4], [3, 4]]; 일 경우
+      [0, 1, 4, 3] , [0, 1, 3, 4] 
+ 를 튜플로서 처리하자면 아래와 같다.
+*/</span>
+
+  <span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arrays</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">[];</span>
+    
+    <span class="kd">function</span> <span class="nx">makeCombination</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">selected</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">arrays</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+            <span class="nx">answer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">selected</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">arrays</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">filter</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">selected</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">e</span><span class="p">)).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">makeCombination</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">selected</span><span class="p">.</span><span class="nx">concat</span><span class="p">([</span><span class="nx">e</span><span class="p">]));</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    
+    <span class="nx">makeCombination</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

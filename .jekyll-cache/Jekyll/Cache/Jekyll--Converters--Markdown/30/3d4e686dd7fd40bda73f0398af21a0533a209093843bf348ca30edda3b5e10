@@ -1,0 +1,81 @@
+I"U<p>category:</p>
+
+<h1 id="문제-설명">문제 설명</h1>
+
+<p>1부터 입력받은 숫자 n 사이에 있는 소수의 개수를 반환하는 함수, solution을 만들어 보세요.</p>
+
+<p>소수는 1과 자기 자신으로만 나누어지는 수를 의미합니다.
+  (1은 소수가 아닙니다.)</p>
+
+<ul>
+  <li>제한사항</li>
+  <li>n은 2이상 1000000이하의 자연수입니다.</li>
+</ul>
+
+<p>입출력 예
+ | n | result |
+ | — | — |
+ | 10 | 4 |
+ | 5 | 3 |</p>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>단순 수학 문제이다.
+  수학시간에 배운 어떤 체… 를 이용하면 쉽게 해결할 수 있다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre>    <span class="kd">let</span> <span class="nx">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span> <span class="c1">// 순서를 맞추기 위함. 2번자리에 2가 들어가게끔 조정.</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> 
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">j</span> <span class="o">+=</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">arr</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>    
+    <span class="k">return</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=&gt;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">).</span><span class="nx">length</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h1 id="번외-소수판단">(번외) 소수판단</h1>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">isPrimeNumber</span><span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">notPrime</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">notPrime</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">number</span><span class="p">))</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">number</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+      <span class="c1">//number의 제곱근만 판단해도 소수판단 가능</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">number</span> <span class="o">%</span> <span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

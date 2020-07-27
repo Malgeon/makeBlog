@@ -1,0 +1,46 @@
+I"�<p>category:</p>
+
+<p>url: https://programmers.co.kr/learn/courses/30/lessons/42842?language=javascript</p>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>우선 yellow의 약수를 x, y라고 하자.
+  제한조건에서 brown이 정확하게 들어온다고 가정할 시, brwon은 2(x+y)+4가 될 것이다. 이때 주어진 brown과 값이 같다면 끝.</p>
+
+<p>테스트 케이스에 yellow가 1개인 경우가 있어서 다행히 yellow에 +1를 할 수 있었다. 없을 경우도 생각해서 제출할 때, 테스크 케이스를 확인하고 제출하자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">brown</span><span class="p">,</span> <span class="nx">yellow</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">yellow</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">yellow</span><span class="o">%</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">x</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span>
+            <span class="nx">y</span> <span class="o">=</span> <span class="nx">yellow</span><span class="o">/</span><span class="nx">i</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">brownNum</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="nx">y</span><span class="p">)</span><span class="o">+</span><span class="mi">4</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">brownNum</span> <span class="o">===</span> <span class="nx">brown</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">answer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">y</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+    <span class="nx">answer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">x</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

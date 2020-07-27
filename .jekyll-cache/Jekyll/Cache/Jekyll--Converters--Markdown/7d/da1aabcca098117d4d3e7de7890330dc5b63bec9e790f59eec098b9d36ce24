@@ -1,0 +1,37 @@
+I"<h1 id="mysql">MySQL</h1>
+
+<h2 id="개요">개요</h2>
+<p>Database Query문에 대해 알아보자.</p>
+
+<h2 id="table-join">Table Join</h2>
+<p>기본 명렁어는 ~ FROM 기준테이블 JOIN join할테이블 ON 조건</p>
+
+<h3 id="cross-join">Cross Join</h3>
+<p>Table A의 모든 레코드들에 대해 Table B가 모두 Mapping 되는 것.
+  Table A 레코드 10개 Table B 레코드 5개 = 10 X 5 = 50개 출력
+ 단순하 From절에 복수의 테이블 지정</p>
+
+<p>SELECT * FROM table_a, table_b</p>
+
+<h3 id="inner-join">Inner Join</h3>
+<p>Table A의 특정 컬럼값이 Table B의 지정 컬럼값과 일치하는 레코드만을 선별.</p>
+
+<p>~ FROM table_a INNER JOIN table_b ON table_a.Col = table_b.Col</p>
+
+<p>~ FROM table_a, table_b WHERE table_a.Col = table_b.Col</p>
+
+<p>SELECT table_a.ID, table_b.* FROM table_a INNER JOIN table_b ON table_a.ID = table_b.ID WHERE Table_a.Date &gt;= ‘1/1/2012’</p>
+
+<p>Alias를 사용하여 간략히
+  SELECT a.ID, b.* FROM table_a a INNER JOIN table_b b ON a.ID = b.ID WHERE a.Date &gt;= ‘1/1/2012’</p>
+
+<h3 id="outer-join">Outer Join</h3>
+<p>Inner Join + 매칭이 되지 않는 나머지 레코드 또한 출력(NULL) (원하는 레코드에 따라 left, right, full로 나뉜다.)</p>
+
+<p>SELECT a.Name, SUM(b.Total) ‘합계’ FROM table_a a LEFT OUTER JOIN table_b b ON a.Code = b.CityCode GROUP BY a.Name</p>
+
+<p>### Self Join
+ 자신을 Join함</p>
+
+<p>SELECT a.EmpID, a.Name, b.Name AS Boss FROM table_a a, table_b b  WHERE a.MgrId = b.EmpId AND b.Name = ‘Kim’</p>
+:ET

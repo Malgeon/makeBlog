@@ -1,0 +1,121 @@
+I"&<p>category:</p>
+
+<p>url: https://programmers.co.kr/learn/courses/30/lessons/62048</p>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>수학문제를 풀어야 한다. 대각선이 지나는 단위 정사각형.
+  물론 조금만 더 생각해 보면, 수학적 사고력으로 해결할 수 있는 문제이나, 제한시간이 주어지고 갑자기 수학적 사고를 하도록 한다면 문제를 해결할 수 있을지 부정적이다. 마지막으로 미뤄두고 풀어보도록 해야지.</p>
+
+<p>우선 서로소인 사각형의 대각선을 생각해 보자.
+  서로소인 관계를 설정하는 이유는, 그렇지 않을 때 대각선은 나뉘어지는 부분이 있기 때문.
+  예를들어 5X4인 사각형(서로소인 관계의 사각형)의 대각선이 칠해진 개수는</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre>□□□■■
+□□■■□
+□■■□□
+■■□□□
+
+□□□□■
+□□□■■
+□□■■□
+■■■□□ 
+
+□□□□■
+□□□□■
+□□□■■
+■■■■□
+
+□□□□■
+□□□□■
+□□□□■
+■■■■■
+
+5+4-1 = 8개
+
+가로 + 세로 -1 이 대각선에 의해 칠해진 개수가 된다.
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>m<em>n 사각형에서 m과 n의 최대공약수가 a라고 할 떄,
+  m = ab, n = ac 라고 할 수 있다.(b와 c는 서로소)
+  그렇게 되면 m</em>n의 사각형의 넓이는 a^2<em>bc이며 
+  이는 b</em>c의 사각형이 a^2개가 있다고 생각할 수 있다.</p>
+
+<p>이때 잘 생각해 보면 대각선이 지나가는 b<em>c의 사각형은 a개가 될수 있다.
+  따라서 b</em>c의 대각선에 의해 칠해진 사각형 개수는 b+c-1
+  m*n의 사각형의 경우 a(b+c-1) = ab+ac-a = 가로 + 세로 - 가로와 세로의 최대공약수</p>
+
+<p>이렇게 해결.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre>   <span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="dl">''</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">n</span><span class="p">;</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="nx">value</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">value</span><span class="o">/</span><span class="mi">3</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">rest</span> <span class="o">=</span> <span class="nx">value</span><span class="o">%</span><span class="mi">3</span><span class="p">;</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nx">rest</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">div</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="nx">answer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span> <span class="c1">//먼저 오게 함으로써 자릿수 보정</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">div</span><span class="p">;</span>
+            <span class="nx">answer</span> <span class="o">=</span> <span class="nx">rest</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">answer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">answer</span> <span class="o">=</span> <span class="nx">value</span> <span class="o">+</span> <span class="nx">answer</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

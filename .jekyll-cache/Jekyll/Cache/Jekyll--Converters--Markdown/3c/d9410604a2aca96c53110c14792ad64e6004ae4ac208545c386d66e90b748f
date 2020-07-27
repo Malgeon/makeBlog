@@ -1,0 +1,472 @@
+I"s�<p>category: 2020 KAKAO BLIND RECRUITMENT</p>
+
+<h1 id="문제-설명">문제 설명</h1>
+
+<p>친구들로부터 천재 프로그래머로 불리는 프로도는 음악을 하는 친구로부터 자신이 좋아하는 노래 가사에 사용된 단어들 중에 특정 키워드가 몇 개 포함되어 있는지 궁금하니 프로그램으로 개발해 달라는 제안을 받았습니다.
+ 그 제안 사항 중, 키워드는 와일드카드 문자중 하나인 ‘?’가 포함된 패턴 형태의 문자열을 뜻합니다. 와일드카드 문자인 ‘?’는 글자 하나를 의미하며, 어떤 문자에도 매치된다고 가정합니다. 예를 들어 “fro??”는 “frodo”, “front”, “frost” 등에 매치되지만 “frame”, “frozen”에는 매치되지 않습니다.</p>
+
+<p>가사에 사용된 모든 단어들이 담긴 배열 words와 찾고자 하는 키워드가 담긴 배열 queries가 주어질 때, 각 키워드 별로 매치된 단어가 몇 개인지 순서대로 배열에 담아 반환하도록 solution 함수를 완성해 주세요.</p>
+
+<ul>
+  <li>
+    <p>가사 단어 제한사항
+ words의 길이(가사 단어의 개수)는 2 이상 100,000 이하입니다.
+ 각 가사 단어의 길이는 1 이상 10,000 이하로 빈 문자열인 경우는 없습니다.
+ 전체 가사 단어 길이의 합은 2 이상 1,000,000 이하입니다.
+ 가사에 동일 단어가 여러 번 나올 경우 중복을 제거하고 words에는 하나로만 제공됩니다.
+ 각 가사 단어는 오직 알파벳 소문자로만 구성되어 있으며, 특수문자나 숫자는 포함하지 않는 것으로 가정합니다.</p>
+  </li>
+  <li>
+    <p>검색 키워드 제한사항
+ queries의 길이(검색 키워드 개수)는 2 이상 100,000 이하입니다.
+ 각 검색 키워드의 길이는 1 이상 10,000 이하로 빈 문자열인 경우는 없습니다.
+ 전체 검색 키워드 길이의 합은 2 이상 1,000,000 이하입니다.
+ 검색 키워드는 중복될 수도 있습니다.
+ 각 검색 키워드는 오직 알파벳 소문자와 와일드카드 문자인 ‘?’ 로만 구성되어 있으며, 특수문자나 숫자는 포함하지 않는 것으로 가정합니다.
+ 검색 키워드는 와일드카드 문자인 ‘?’가 하나 이상 포함돼 있으며, ‘?’는 각 검색 키워드의 접두사 아니면 접미사 중 하나로만 주어집니다.
+ 예를 들어 “??odo”, “fro??”, “?????”는 가능한 키워드입니다.
+ 반면에 “frodo”(‘?’가 없음), “fr?do”(‘?’가 중간에 있음), “?ro??”(‘?’가 양쪽에 있음)는 불가능한 키워드입니다.</p>
+  </li>
+  <li>
+    <p>입출력 예
+| words | queries | result |
+| [“frodo”, “front”, “frost”, “frozen”, “frame”, “kakao”] | [“fro??”, “????o”, “fr???”, “fro???”, “pro?”] | [3, 2, 4, 1, 0] |</p>
+  </li>
+</ul>
+
+<h1 id="문제풀이">문제풀이</h1>
+
+<p>정답률 0.8%에 빛나는 극악의 난이도 문제이다. 정확성 정답률은 34%이나 배점이 100점중 25점인게 함정.</p>
+
+<p>이진탐색을 타이틀로 걸었지만, 사실 이것보다 더 효율적으로 풀 수 있는 방법이 있다. 아래에서 설명하고겠다.
+  극악의 난이도를 자랑 하는 이유는 단순히 이진 탐색에서 답을 찾는 것아 아닌 upper_bound와 lower_bound를 찾아야 하는 것이었다.
+  그러나 그것 만으로 부족하다며 이진 탐색 compare 조건이 2중으로 만들어야 해결이 가능했다.</p>
+
+<p>(물론 해설에서는 앞서 언급한 이것보다 더 좋은 방법을 해설하였지만..)</p>
+
+<ul>
+  <li>첫 시도 단순 선형 풀이 정확도 100%, 속도 40%
+   일일히 찾는 방법. 아마도 대부분 이렇게 풀엇을 것으로 추측한다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="nx">queries</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">queries</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">querySet</span> <span class="o">=</span> <span class="nx">makeQuerySet</span><span class="p">(</span><span class="nx">queries</span><span class="p">);</span>
+
+    <span class="nx">querySet</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">i</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">words</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">j</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">compare</span><span class="p">(</span><span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">[</span><span class="nx">idx</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">makeQuerySet</span><span class="p">(</span><span class="nx">queries</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">querySet</span> <span class="o">=</span> <span class="p">[];</span>
+    
+    <span class="nx">queries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">queryInfo</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">i</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+        <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">len</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span><span class="p">){</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">frontFlag</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">markNum</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">mark</span> <span class="o">=</span> <span class="nx">num</span><span class="p">;</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">str</span> <span class="o">=</span> <span class="nx">i</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">frontFlag</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">markNum</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">mark</span> <span class="o">=</span> <span class="nx">num</span><span class="p">;</span>
+            <span class="nx">queryInfo</span><span class="p">.</span><span class="nx">str</span> <span class="o">=</span> <span class="nx">i</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nx">len</span><span class="o">-</span><span class="nx">num</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">querySet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">queryInfo</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="nx">querySet</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">markNum</span><span class="p">(</span><span class="nx">query</span><span class="p">,</span> <span class="nx">frontFlag</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">check</span> <span class="o">=</span> <span class="nx">query</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">frontFlag</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nx">len</span><span class="o">=</span><span class="nx">check</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">check</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">j</span><span class="o">=</span><span class="nx">check</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="nx">j</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">check</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">compare</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">,</span> <span class="nx">oneQuery</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="nx">oneQuery</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">oneQuery</span><span class="p">.</span><span class="nx">frontFlag</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">frontCompare</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">,</span> <span class="nx">oneQuery</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">backCompare</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">,</span> <span class="nx">oneQuery</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">frontCompare</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">,</span> <span class="nx">oneQuery</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">oneQuery</span><span class="p">.</span><span class="nx">str</span> <span class="o">===</span> <span class="nx">oneWord</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">oneQuery</span><span class="p">.</span><span class="nx">mark</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">backCompare</span><span class="p">(</span><span class="nx">oneWord</span><span class="p">,</span> <span class="nx">oneQuery</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">oneQuery</span><span class="p">.</span><span class="nx">str</span> <span class="o">===</span> <span class="nx">oneWord</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nx">oneWord</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="nx">oneQuery</span><span class="p">.</span><span class="nx">mark</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>다음 여럿 시도 : querySet을 개수별로 다시 묶은 다음, 해당 범위 내에서 다시 찾기. 이진탐색으로 특정 값을 찾은 뒤 양옆으로 앞글자가 바뀔때까지 탐색 재개.</p>
+  </li>
+  <li>
+    <p>문자열을 우선 길이 순으로 정렬한 뒤, 길이가 같다면 문자순으로 정렬을 하고, 해당 기준을 바탕으로 upper_bound 와 lower_bound를 찾는다. (단순한 bound와 다르니 찾아보자.)</p>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="nx">queries</span><span class="p">)</span> <span class="p">{</span>
+  <span class="dl">'</span><span class="s1">use strict</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="kd">var</span> <span class="nx">reverseWords</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">let</span> <span class="nx">wordStart</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">wordEnd</span> <span class="o">=</span> <span class="nx">words</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="nx">words</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">i</span> <span class="o">=&gt;</span> <span class="nx">reverseWords</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">reverse</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="dl">""</span><span class="p">)));</span>
+
+  <span class="kd">let</span> <span class="nx">sortedWords</span> <span class="o">=</span> <span class="nx">words</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  
+
+  <span class="kd">let</span> <span class="nx">reverseSortedWords</span> <span class="o">=</span> <span class="nx">reverseWords</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  
+
+  <span class="kd">let</span> <span class="nx">len</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">left</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">right</span><span class="p">;</span>
+
+  <span class="nx">queries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">_</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="nx">len</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">pivot</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">reverse</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">leftPivot</span> <span class="o">=</span> <span class="nx">pivot</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">_</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">_</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+      <span class="nx">left</span> <span class="o">=</span> <span class="nx">lowerBound</span><span class="p">(</span><span class="nx">reverseSortedWords</span><span class="p">,</span> <span class="nx">wordStart</span><span class="p">,</span> <span class="nx">wordEnd</span><span class="p">,</span> <span class="nx">leftPivot</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">rightPivot</span> <span class="o">=</span> <span class="nx">pivot</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">_</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">z</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">_</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+      <span class="nx">right</span> <span class="o">=</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">reverseSortedWords</span><span class="p">,</span> <span class="nx">wordStart</span><span class="p">,</span> <span class="nx">wordEnd</span><span class="p">,</span> <span class="nx">rightPivot</span><span class="p">);</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+     <span class="c1">//debugger;</span>
+      <span class="kd">var</span> <span class="nx">leftPivot</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">_</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">_</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+      <span class="nx">left</span> <span class="o">=</span> <span class="nx">lowerBound</span><span class="p">(</span><span class="nx">sortedWords</span><span class="p">,</span> <span class="nx">wordStart</span><span class="p">,</span> <span class="nx">wordEnd</span><span class="p">,</span> <span class="nx">leftPivot</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">rightPivot</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">""</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">_</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">?</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">z</span><span class="dl">'</span> <span class="p">:</span> <span class="nx">_</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+      <span class="nx">right</span> <span class="o">=</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">sortedWords</span><span class="p">,</span> <span class="nx">wordStart</span><span class="p">,</span> <span class="nx">wordEnd</span><span class="p">,</span> <span class="nx">rightPivot</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">answer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">right</span> <span class="o">-</span> <span class="nx">left</span><span class="p">);</span>
+  <span class="p">})</span>
+
+  <span class="k">return</span> <span class="nx">answer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ["frame", "frodo", "front", "frost", "kakao", "frozen"] 에서 ["fro???"] 를 lower는 5를 upper는 6을 찾는게 핵심이다.</span>
+
+<span class="kd">function</span> <span class="nx">lowerBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">it</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">step</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">advance</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">end</span> <span class="o">-</span> <span class="nx">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="nx">step</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">count</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+    <span class="nx">advance</span> <span class="o">=</span> <span class="nx">first</span><span class="o">+</span><span class="nx">step</span><span class="p">;</span>
+    <span class="nx">it</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">advance</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">compare</span><span class="p">(</span><span class="nx">it</span><span class="p">,</span><span class="nx">key</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">it</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">first</span> <span class="o">=</span> <span class="o">++</span><span class="nx">advance</span><span class="p">;</span>
+      <span class="nx">count</span> <span class="o">-=</span> <span class="nx">step</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">count</span> <span class="o">=</span> <span class="nx">step</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">first</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">it</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">step</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">advance</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">end</span> <span class="o">-</span> <span class="nx">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="c1">//debugger;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="nx">step</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">count</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="nx">advance</span> <span class="o">=</span> <span class="nx">first</span><span class="o">+</span><span class="nx">step</span><span class="p">;</span>
+    <span class="nx">it</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">advance</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">compare</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">it</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">first</span> <span class="o">=</span> <span class="o">++</span><span class="nx">advance</span><span class="p">;</span>
+      <span class="nx">count</span> <span class="o">-=</span> <span class="nx">step</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">count</span> <span class="o">=</span> <span class="nx">step</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">first</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">compare</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="o">&lt;</span><span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">b</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># 트라이 구조</p>
+
+<p>트라이 구조는 다음에 공부하자!</p>
+:ET

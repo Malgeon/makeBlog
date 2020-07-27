@@ -1,0 +1,240 @@
+I"
+L<p>category: 2020 KAKAO BLIND RECRUITMENT</p>
+
+<h1 id="문제-설명">문제 설명</h1>
+<p>고고학자인 튜브는 고대 유적지에서 보물과 유적이 가득할 것으로 추정되는 비밀의 문을 발견하였습니다. 그런데 문을 열려고 살펴보니 특이한 형태의 자물쇠로 잠겨 있었고 문 앞에는 특이한 형태의 열쇠와 함께 자물쇠를 푸는 방법에 대해 다음과 같이 설명해 주는 종이가 발견되었습니다.</p>
+
+<p>잠겨있는 자물쇠는 격자 한 칸의 크기가 1 x 1인 N x N 크기의 정사각 격자 형태이고 특이한 모양의 열쇠는 M x M 크기인 정사각 격자 형태로 되어 있습니다.</p>
+
+<p>자물쇠에는 홈이 파여 있고 열쇠 또한 홈과 돌기 부분이 있습니다. 열쇠는 회전과 이동이 가능하며 열쇠의 돌기 부분을 자물쇠의 홈 부분에 딱 맞게 채우면 자물쇠가 열리게 되는 구조입니다. 자물쇠 영역을 벗어난 부분에 있는 열쇠의 홈과 돌기는 자물쇠를 여는 데 영향을 주지 않지만, 자물쇠 영역 내에서는 열쇠의 돌기 부분과 자물쇠의 홈 부분이 정확히 일치해야 하며 열쇠의 돌기와 자물쇠의 돌기가 만나서는 안됩니다. 또한 자물쇠의 모든 홈을 채워 비어있는 곳이 없어야 자물쇠를 열 수 있습니다.</p>
+
+<p>열쇠를 나타내는 2차원 배열 key와 자물쇠를 나타내는 2차원 배열 lock이 매개변수로 주어질 때, 열쇠로 자물쇠를 열수 있으면 true를, 열 수 없으면 false를 return 하도록 solution 함수를 완성해주세요.</p>
+
+<ul>
+  <li>제한사항
+    <ul>
+      <li>key는 M x M(3 ≤ M ≤ 20, M은 자연수)크기 2차원 배열입니다.</li>
+      <li>lock은 N x N(3 ≤ N ≤ 20, N은 자연수)크기 2차원 배열입니다.</li>
+      <li>M은 항상 N 이하입니다.</li>
+      <li>key와 lock의 원소는 0 또는 1로 이루어져 있습니다.</li>
+      <li>0은 홈 부분, 1은 돌기 부분을 나타냅니다.</li>
+    </ul>
+  </li>
+  <li>입출력 예
+ | key | lock | result |
+ | [[0, 0, 0], [1, 0, 0], [0, 1, 1]] | [[1, 1, 1], [1, 1, 0], [1, 0, 1]] | true |</li>
+</ul>
+
+<h1 id="문제풀이">문제풀이</h1>
+
+<p>문제는 배열을 이용한 작업을 할수 있느냐는 문제이다. 보통 이런 문제는 완전 탐색으로 자주 나오는 것 같다. 배열을 잘 사용할수 있는지 확인하는 차원에서 전체를 검색하도록 말이다.
+  고민하기 까지 상당한 시간이 걸렸는데, 자바스크립트는 각 값이 연결되어 있어서, 자바와는 다르게 독립적으로 값을 변경하면서 다룰수가 없었다. 그래서 객체를 이용했다.
+  key를 나타내는 객체와 lock에서 비어있는 곳을 나타내는 객체를 만든 뒤, key의 움직임에 따라 lock과 일치할 경우 해결되도록 구현하였다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">lock</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">keyLen</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">lockLen</span> <span class="o">=</span> <span class="nx">lock</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+    <span class="kd">let</span> <span class="nx">lockPosition</span> <span class="o">=</span> <span class="nx">makePosition</span><span class="p">(</span><span class="nx">lock</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">//처음엔 lock은 그냥 배열로 해결하려고 했는데, 배열 값을 따로 받아서 바꾸려니 값이 이어져서 바뀌어 버려서 그냥 이것 또한 객체로 만들었다.</span>
+    <span class="kd">let</span> <span class="nx">rotatedKey</span> <span class="o">=</span> <span class="nx">rotation</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">rotatedKeyPosition</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 마지막으로 헤멘 포인트, 한번 돌려주면 끝나는게 아니라 네번 모두 돌려줘야 한다. 생각해 보면 당연하다.</span>
+        <span class="nx">rotatedKey</span> <span class="o">=</span> <span class="nx">rotation</span><span class="p">(</span><span class="nx">rotatedKey</span><span class="p">);</span>
+        <span class="nx">rotatedKeyPosition</span> <span class="o">=</span> <span class="nx">makePosition</span><span class="p">(</span><span class="nx">rotatedKey</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="nx">moveMatchKey</span><span class="p">(</span><span class="nx">rotatedKeyPosition</span><span class="p">,</span> <span class="nx">lockPosition</span><span class="p">,</span> <span class="nx">keyLen</span><span class="p">,</span> <span class="nx">lockLen</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">moveMatchKey</span><span class="p">(</span><span class="nx">keyPosition</span><span class="p">,</span> <span class="nx">lockPosition</span><span class="p">,</span> <span class="nx">keyLen</span><span class="p">,</span> <span class="nx">lockLen</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//position으로 받아오니 key의 size와 lock의 size가 필요해졌다.</span>
+    <span class="kd">let</span> <span class="nx">checkCount</span> <span class="o">=</span> <span class="nx">lockPosition</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">count</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="o">-</span><span class="nx">keyLen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">lockLen</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//움직일수 있는 거리를 설정함. (key size)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="o">-</span><span class="nx">keyLen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">lockLen</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">caliPositionSet</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="nx">keyPosition</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">k</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="p">{};</span>
+                <span class="kd">var</span> <span class="nx">caliPositionX</span> <span class="o">=</span> <span class="nx">k</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">caliPositionY</span> <span class="o">=</span> <span class="nx">k</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">validation</span><span class="p">(</span><span class="nx">caliPositionX</span><span class="p">,</span> <span class="nx">lockLen</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">validation</span><span class="p">(</span><span class="nx">caliPositionY</span><span class="p">,</span> <span class="nx">lockLen</span><span class="p">))</span> <span class="p">{</span> <span class="c1">//lockSize 안에 들어와야 하므로 lockSize가 필요</span>
+                    <span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">caliPositionX</span><span class="p">;</span>
+                    <span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">caliPositionY</span><span class="p">;</span>
+                    <span class="nx">caliPositionSet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">position</span><span class="p">);</span>
+                    <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">})</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">checkCount</span> <span class="o">===</span> <span class="nx">count</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="nx">checkOkay</span><span class="p">(</span><span class="nx">caliPositionSet</span><span class="p">,</span> <span class="nx">lockPosition</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">validation</span><span class="p">(</span><span class="nx">point</span><span class="p">,</span> <span class="nx">pivotSize</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">point</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="nx">point</span><span class="o">&gt;=</span><span class="nx">pivotSize</span><span class="p">){</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">point</span><span class="o">&gt;=</span><span class="nx">pivotSize</span><span class="p">){</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span> 
+
+<span class="kd">function</span> <span class="nx">checkOkay</span><span class="p">(</span><span class="nx">moveKey</span><span class="p">,</span> <span class="nx">lock</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">lock</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">moveKey</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">x</span> <span class="o">!==</span> <span class="nx">lock</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">x</span> <span class="o">||</span> <span class="nx">moveKey</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">y</span> <span class="o">!==</span> <span class="nx">lock</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//완벽히 같아야 인정</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span> 
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">rotation</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">key</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">key</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="nx">key</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">result</span> <span class="o">=</span> <span class="nx">key</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[...(</span><span class="nx">result</span><span class="p">[</span><span class="nx">$</span><span class="p">]</span> <span class="o">||</span> <span class="p">[]),</span> <span class="nx">key</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">$</span><span class="p">]]);</span> <span class="c1">//잘쓰이는 rotation</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">makePosition</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">keyOrLock</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">positionSet</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="nx">positionSet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">position</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">positionSet</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">rowIdx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">i</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="p">(</span><span class="nx">j</span><span class="p">,</span> <span class="nx">colIdx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">j</span><span class="o">===</span><span class="nx">keyOrLock</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span><span class="nx">rowIdx</span><span class="p">;</span>
+                <span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span><span class="nx">colIdx</span><span class="p">;</span>
+                <span class="nx">positionSet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">position</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="nx">positionSet</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

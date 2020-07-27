@@ -1,0 +1,335 @@
+I"�\<h1 id="이진탐색">이진탐색</h1>
+<p>이진 탐색은 기본적으로 매우 중요한 개념이다. 
+  특히 수학적인 부분에서 미적분과 같은 계산하기 어려운 값을 근사치로 나타내고자 할때, 주로 쓰이는 방법 중 하나라는 점에서 말이다. (수치해석 과목에서 잘 찾아볼수 있다.)</p>
+
+<p>수학적인 부분에서 잘 쓰인다면 역시 프로그래밍에서도 잘 쓰일 수 있는데, 이유는 방대한 양의 데이터를 찾고, 저장하고, 이용하고자 할때 소요되는 시간 (Big-O)에서 큰 활약을 할수 있기 때문이다.</p>
+
+<p>그렇기 때문에 숙지하고 문제해결에 있어서 잘 사용하도록 하자.</p>
+
+<h1 id="기본-개념">기본 개념</h1>
+
+<p>정렬된 배열에서 처음값과 끝값을 잡은 다음 (보통 처음 : 0, 끝 : 배열의 끝)
+  중간값을 (처음값 + 끝값)/2 로 잡는다.</p>
+
+<p>중간값에 해당하는 값을 찾은 뒤 해당값이 찾고자 하는 값과 비교하여 크거나 작을때 처음값 또는 끝값을 중간값으로 조정하면서 다시 중간값을 잡는다.</p>
+
+<p>값을 찾거나 처음값이 끝값보다 커질때까지 반복</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">binarySeach</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">high</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">mid</span><span class="p">;</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="nx">low</span> <span class="o">&lt;=</span> <span class="nx">high</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">mid</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">low</span> <span class="o">+</span> <span class="nx">high</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">key</span><span class="o">&gt;</span><span class="nx">list</span><span class="p">[</span><span class="nx">mid</span><span class="p">])</span> <span class="p">{</span>
+      <span class="nx">low</span> <span class="o">=</span> <span class="nx">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">key</span><span class="o">&lt;</span><span class="nx">list</span><span class="p">[</span><span class="nx">mid</span><span class="p">])</span> <span class="p">{</span>
+      <span class="nx">high</span> <span class="o">=</span> <span class="nx">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">mid</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span> 
+  <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="nx">low</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># 찾고자 하는 값이 여러개일 경우</p>
+
+<p>이 문제를 해결하기위해 Upper_Bound와 Lower_Bound가 필요하다. 물론 기본 개념에서 약간 조정한 정도이나, 어쨌든 다르다.
+  C++같은 경우 stl에서 내장된 메소드로 지원을 해주지만 자바에서는 제공을 해주지 않기 때문에 여기서 구현해 놓고자 한다.</p>
+
+<p>Upper_Bound와 Lower_Bound를 구분짓는 장치는 key값과 찾고자 하는 값이 같을 경우 처리방법이다.
+  Upper 같은 경우 해당 값이 나오면 mid+1값으로 low값을 정하며
+  Lower 같은 경우 mid 값을 high값으로 정한다.</p>
+
+<p>잘 생각해 보면, 이 차이로 Upper는 key 값보다 큰 직후값을 Lower는 key값이 시작되는 값을 갖게된다.
+    (찾고하 하는 값의 index : Lower &lt;= index &lt; Upper)</p>
+
+<ul>
+  <li>Lower_Bound</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">lowerBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">high</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">mid</span><span class="p">;</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="nx">low</span> <span class="o">&lt;</span> <span class="nx">high</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">mid</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">low</span> <span class="o">+</span> <span class="nx">high</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">key</span> <span class="o">&lt;=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">mid</span><span class="p">])</span> <span class="p">{</span>
+      <span class="nx">high</span> <span class="o">=</span> <span class="nx">mid</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">low</span> <span class="o">=</span> <span class="nx">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span> 
+  <span class="k">return</span> <span class="nx">low</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>Upper_Bound</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">high</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">mid</span><span class="p">;</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="nx">low</span> <span class="o">&lt;</span> <span class="nx">high</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">mid</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">((</span><span class="nx">low</span> <span class="o">+</span> <span class="nx">high</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">key</span> <span class="o">&gt;=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">mid</span><span class="p">])</span> <span class="p">{</span>
+      <span class="nx">low</span> <span class="o">=</span> <span class="nx">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">high</span> <span class="o">=</span> <span class="nx">mid</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span> 
+  <span class="k">return</span> <span class="nx">low</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># 샘플</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td><td class="rouge-code"><pre> <span class="cm">/*
+ * Javascript version of C++ equal_range via lower_bound and upper_bound
+ *
+ * Input: The array A in ascending order and a target T
+ * Output: The tightly bound indices [i, j] where A[i] &lt;= T &lt; A[j] if T exists in A
+ * otherwise [-1, -1] is returned if T does not exist in A
+ */</span>
+
+<span class="kd">let</span> <span class="nx">lowerBound</span> <span class="o">=</span> <span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">T</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">N</span> <span class="o">=</span> <span class="nx">A</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+        <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">j</span> <span class="o">=</span> <span class="nx">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">i</span> <span class="o">+</span> <span class="nx">j</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">A</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">T</span><span class="p">)</span>
+            <span class="nx">i</span> <span class="o">=</span> <span class="nx">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="nx">j</span> <span class="o">=</span> <span class="nx">k</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">A</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">T</span> <span class="p">?</span> <span class="nx">i</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">upperBound</span> <span class="o">=</span> <span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">T</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">N</span> <span class="o">=</span> <span class="nx">A</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+        <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">j</span> <span class="o">=</span> <span class="nx">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">i</span> <span class="o">+</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">A</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nx">T</span><span class="p">)</span>
+            <span class="nx">i</span> <span class="o">=</span> <span class="nx">k</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="nx">j</span> <span class="o">=</span> <span class="nx">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">A</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="nx">T</span> <span class="p">?</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">equalRange</span> <span class="o">=</span> <span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">T</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nx">lowerBound</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">T</span><span class="p">),</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span> <span class="nx">T</span><span class="p">)];</span>
+<span class="p">};</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p># C++ Std: Upper_Bound 와 Lower_Bound를 구현해 보자</p>
+
+<p>숫자로만 된 배열 같은 경우 그냥 위에 있는것을 써도 되는데,
+ 예를 들어 length와 value를 함께 비교해야 하는 경우 위의 배열은 통하지가 않는다. (이진탐색문제 3 참조)
+ 그런데 C++ Std에서 제공하는 Upper_Bound와 Lower_Bound는 다중 제한 조건의 탐색이 가능한데, 
+ 자바에서는 제공하지 않는다. 따라서 구현해서 사용하자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">lo</span> <span class="o">=</span> <span class="nx">lower1Bound</span><span class="p">(</span><span class="nx">test</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">up</span> <span class="o">=</span> <span class="nx">upper1Bound</span><span class="p">(</span><span class="nx">test</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">lower: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">lo</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">,  upper: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">up</span><span class="p">);</span>
+
+
+<span class="kd">function</span> <span class="nx">lowerBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">it</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">step</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">advance</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">end</span> <span class="o">-</span> <span class="nx">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="c1">//debugger;</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="nx">step</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">count</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+    <span class="nx">advance</span> <span class="o">=</span> <span class="nx">first</span><span class="o">+</span><span class="nx">step</span><span class="p">;</span>
+    <span class="nx">it</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">advance</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">it</span> <span class="o">&lt;</span> <span class="nx">key</span> <span class="o">&amp;&amp;</span> <span class="nx">it</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//advance의 값이 0보다 작게 되면 false를 가리켜야 한다. </span>
+      <span class="nx">first</span> <span class="o">=</span> <span class="o">++</span><span class="nx">advance</span><span class="p">;</span>
+      <span class="nx">count</span> <span class="o">-=</span> <span class="nx">step</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">count</span> <span class="o">=</span> <span class="nx">step</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">first</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">upperBound</span><span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">it</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">step</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">advance</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">end</span> <span class="o">-</span> <span class="nx">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="c1">//debugger;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+    <span class="nx">step</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">count</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="nx">advance</span> <span class="o">=</span> <span class="nx">first</span><span class="o">+</span><span class="nx">step</span><span class="p">;</span>
+    <span class="nx">it</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">advance</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">key</span> <span class="o">&lt;</span> <span class="nx">it</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">it</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">first</span> <span class="o">=</span> <span class="o">++</span><span class="nx">advance</span><span class="p">;</span>
+      <span class="nx">count</span> <span class="o">-=</span> <span class="nx">step</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">count</span> <span class="o">=</span> <span class="nx">step</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">first</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

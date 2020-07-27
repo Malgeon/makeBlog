@@ -1,0 +1,65 @@
+I"t<h1 id="멱집합">멱집합</h1>
+<p>탐색 문제에서 멱집합을 이용해야 하는 경우가 종종 있다.</p>
+
+<p>이해하고 사용하자.</p>
+
+<p>## 부분집합
+  부분집합을 구성하는 방법은 원소를 사용여부(O/X)로 구분된다.</p>
+
+<p>이는 이진트리로 구현할수 있는데.
+  단계를 구성하고 각 이진트리에 들어갈때마다 flag에 O,X를 기록한다.
+  마지막 단계에 들어가게 되면 해당 flag를 바탕으로 해당하는 set을 Array에서 찾고 powerSet에 push한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">getPowerSet</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">flag</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">powerSet</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">makePowerSet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> 
+      <span class="k">if</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">===</span> <span class="nx">len</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="kd">const</span> <span class="nx">subSet</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">value</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">flag</span><span class="p">[</span><span class="nx">idx</span><span class="p">]);</span> 
+        <span class="nx">powerSet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">subSet</span><span class="p">);</span> 
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+  
+      <span class="nx">flag</span><span class="p">[</span><span class="nx">depth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> 
+      <span class="nx">makePowerSet</span><span class="p">(</span><span class="nx">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+  
+      <span class="nx">flag</span><span class="p">[</span><span class="nx">depth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="nx">makePowerSet</span><span class="p">(</span><span class="nx">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="nx">makePowerSet</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">powerSet</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="kd">const</span> <span class="nx">example</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getPowerSet</span><span class="p">(</span><span class="nx">example</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>잘 생각해야 하는건 어차피 각 단계별로 flag를 새로 기입해야 하므로, 함수에 flag를 매개로 넣어줄 필요가 없다.</p>
+:ET
