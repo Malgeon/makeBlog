@@ -1,0 +1,109 @@
+---
+layout: default
+title: Main
+---
+
+
+{% if page.url == "/index.html" or page.url == "/Study/index.html" or page.url == "/Project/index.html" %}
+    {% if page.title == "Main" %}
+<!-- Featured
+================================================== -->
+    <section class="featured-posts">
+        <div class="section-title">
+            <h2><span>Featured</span></h2>
+        </div>
+        <div class="row listrecent">
+
+        {% for post in site.posts %}
+            {% if post.featured == true %}
+                {% include featuredbox.html %}
+            {% endif %}
+        {% endfor %}
+
+        </div>
+    </section>
+    {% elsif page.title == "Study" %}
+<!-- CategoryFeatured
+================================================== -->
+    <section class="featured-posts u-marginBottom24">
+        <div class="section-title">
+            <h2><span></span></h2>
+        </div>
+        <div class="row listrecent">
+            
+        {% for post in site.posts %}
+            {% if post.featured == true and post.study%}
+                {% include categoryfeaturedbox.html %}
+            {% endif %}
+        {% endfor %}
+
+        </div>
+    </section>
+    {% else %}
+<!-- CategoryFeatured
+================================================== -->
+    <section class="featured-posts u-marginBottom24">
+        <div class="section-title">
+            <h2><span></span></h2>
+        </div>
+        <div class="row listrecent">
+        {% for post in site.posts %}
+            {% if post.featured == true and post.project %}
+                {% include categoryfeaturedbox.html %}
+            {% endif %}
+        {% endfor %}
+
+        </div>
+    </section>
+
+    {% endif %}
+    
+    {% else %}
+        {% if page.title == "Study" or page.title == "Project" %}
+        <section class="featured-posts u-marginBottom0">
+            <div class="section-title">
+                <h2><span></span></h2>
+            </div>
+            <div class="row listrecent">
+            </div>
+        </section>
+        {% endif %}
+
+    
+{% endif %}
+
+<!-- Posts Index
+================================================== -->
+<section class="recent-posts">
+    {% if page.study or page.project %}
+    {% else %}
+    <div class="section-title">
+        <h2><span>Posts</span></h2>
+    </div>
+    {% endif %}
+
+
+    <div class="row listrecent post-list">
+
+        {% for post in paginator.posts %}
+
+            {% include postbox.html %}
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% if page.title != "Main" %}
+<!-- Pagination
+================================================== -->
+<div class="bottompagination">
+    <div class="pointerup"><i class="fa fa-caret-up"></i></div>
+    <span class="navigation" role="navigation">
+        {% include pagination.html %}
+    </span>
+    </div>
+{% endif %}
+
+

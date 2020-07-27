@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+<!-- Post Share -->
+<div class="post-container post-md-container u-paddingTop30">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="my-col-md-4 pl-0 mpr">
+            {% include tagdescription.html %}
+        </div>
+
+        <!-- Post -->
+        <div class="my-col-md-8 flex-md-unordered">
+            <div class="taggedmargin taggedmdmargin">
+                <div class="u-sm-hide taggedheight"></div>
+            </div>
+            <div class="row listrecent post-list">
+
+                {% for post in paginator.posts %}
+        
+                    {% include taggedbox.html %}
+        
+                {% endfor %}
+        
+            </div>
+        </div>
+        <!-- End Post -->
+    </div>
+</div>
+

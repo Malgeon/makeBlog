@@ -1,0 +1,84 @@
+# Site
+name: "Malgeon"
+title: "Malgeon"
+description: "공간"
+logo: 'assets/images/logo.png'
+favicon: 'assets/images/logo.png'
+baseurl: /Malgeon
+google_analytics: 'UA-46278016-1'
+disqus: 'demowebsite'
+mailchimp-list: 'https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b'
+include: ["_pages"]
+permalink: /:title/
+
+# Authors
+authors:
+  study:
+    name: study
+  project:
+    name: project
+    
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+  - jekyll-paginate-v2
+    
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+    
+
+
+# Pagination 
+pagination:
+  enabled: true
+  per_page: 6
+  sort_reverse: true
+  title: ':title'
+  permalink: '/page:num/'
+  trail: 
+    before: 2
+    after: 2
+
+# Other
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Adsense (change to "enabled" to activate, also your client id and ad slot. Create a new ad unit from your Adsense account to get the slot.)
+adsense: "disabled"
+adsense-data-ad-client: "ca-pub-3412143450191416"
+adsense-data-ad-slot: "1363087678"
+
+# Lazy Images ("enabled" or "disabled")
+lazyimages: "disabled"
+
+exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
+
+
+# for Travis CI. 
+
+destination: ./makesite
+
+production_url: https://Malgeon.github.io/
+source_url: https://github.com/Malgeon/makeBlog
+
+safe: False
+lsi: False
+
+username: Malgeon
+repo: makeBlog
+branch: master

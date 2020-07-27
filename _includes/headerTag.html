@@ -1,0 +1,72 @@
+<div class="collectionHeader-blockNav mediumnavigation btmr">
+    <div class="u-borderBox u-maxWidth1072 u-paddingLeft31 u-paddingRight20 u-marginAuto">
+        <nav class="collectionHeader-nav u-clearfix js-collectionHeaderNav u-lineHeight40 u-overflowHiddenY">
+            <div class="buttonSet u-middle u-noWrap u-overflowX u-paddingBottom100">
+                {% if page.title == "Study" or page.categories[0] == "Study" or page.parent == "Study" %}
+                    {% for study in site.data.studyTags %}     
+                        <li class="collectionHeader-navItem js-collectionNavItem u-inlineBlock u-fontSize13 u-textUppercase u-letterSpacing1px u-textColorNormal u-xs-paddingRight12 u-xs-marginRight0">
+                        {% for tag in page.tags %} 
+                        {% if tag == study.name %}
+                            {% assign flag = "on" %}
+                            {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if flag == "on" %}
+                            <a class="link link--darker link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ study.url }}">{{ study.name }}</a>
+                        {% else %}
+                            <a class="link link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ study.url }}">{{ study.name }}</a>
+                        {% endif %}
+                        </li>
+                        {% assign flag = "off" %}
+                    {% endfor %}
+
+                {% elsif page.title == "Project" or page.categories[0] == "Project" or page.parent == "Project" %}
+                    {% for project in site.data.projectTags %}
+                        <li class="collectionHeader-navItem js-collectionNavItem u-inlineBlock u-fontSize13 u-textUppercase u-letterSpacing1px u-textColorNormal u-xs-paddingRight12 u-xs-marginRight0">
+                        {% for tag in page.tags %} 
+                        {% if tag == project.name %}
+                            {% assign flag = "on" %}
+                            {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if flag == "on" %}
+                            <a class="link link--darker link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ project.url }}">{{ project.name }}</a>
+                        {% else %}
+                            <a class="link link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ project.url }}">{{ project.name }}</a>
+                        {% endif %}
+                        </li>
+                        {% assign flag = "off" %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!--
+            <div class="buttonSet u-textAlignRight u-marginLeft18 u-flex0 u-noWrap">
+                <a class="button button--chromeless is-touchIconBlackPulse u-baseColor--buttonNormal button--withIcon button--withSvgIcon button--chromeless u-verticalAlignMiddle"   href="https://twitter.com/forgemag" title="Visit “Forge” on Twitter" aria-label="Visit “Forge” on Twitter" rel="me" target="_blank">
+                    <span class="button-defaultState">
+                        <span class="svgIcon svgIcon--twitterFilled svgIcon--25px">
+                            <svg class="svgIcon-use" width="25" height="25" >
+                                <path d="M22.31 4.305a8.48 8.48 0 01-2.684 1.073A4.245 4.245 0 0016.486 4a4.293 4.293 0 00-4.293 4.29c0 .34.037.669.077.997a12.199 12.199 0 01-8.814-4.521 4.805 4.805 0 00-.613 2.141c.033 1.514.79 2.83 1.916 3.594a4.13 4.13 0 01-1.913-.542.185.185 0 000 .074c-.005 2.055 1.476 3.79 3.446 4.21-.37.073-.746.122-1.15.147-.266-.025-.535-.05-.767-.074.517 1.686 2.101 2.917 3.988 2.99a9.028 9.028 0 01-5.366 1.834L2 19.08A12.258 12.258 0 008.59 21c7.886 0 12.203-6.547 12.185-12.184a4.103 4.103 0 000-.616 8.057 8.057 0 002.147-2.227 7.612 7.612 0 01-2.451.69 4.092 4.092 0 001.838-2.376"/>
+                            </svg>
+                        </span>
+                    </span>
+                </a>
+                
+                <a class="button button--chromeless is-touchIconBlackPulse u-baseColor--buttonNormal button--withIcon button--withSvgIcon button--chromeless u-verticalAlignMiddle"   href="https://instagram.com/forgemag" title="Visit “Forge” on Instagram" aria-label="Visit “Forge” on Instagram" rel="me" target="_blank">
+                    <span class="button-defaultState">
+                        <span class="svgIcon svgIcon--instagram svgIcon--25px">
+                            <svg class="svgIcon-use" width="25" height="25" >
+                                <path d="M12.497 5.531c2.27 0 2.536.01 3.433.05.83.038 1.279.176 1.579.294.398.156.681.338.978.635.297.296.482.58.634.978.115.3.257.749.294 1.578.04.897.05 1.164.05 3.434 0 2.27-.01 2.537-.05 3.434-.037.83-.176 1.278-.294 1.578a2.637 2.637 0 01-.634.979 2.61 2.61 0 01-.978.634c-.3.114-.749.256-1.579.293-.897.04-1.163.05-3.433.05-2.27 0-2.537-.01-3.434-.05-.83-.037-1.278-.175-1.579-.293a2.638 2.638 0 01-.978-.634 2.596 2.596 0 01-.634-.979c-.115-.3-.256-.748-.293-1.578-.04-.897-.051-1.164-.051-3.434 0-2.27.01-2.537.05-3.434.038-.83.176-1.278.294-1.578.155-.398.337-.682.634-.978a2.6 2.6 0 01.978-.635c.3-.114.75-.256 1.579-.293.897-.044 1.164-.05 3.434-.05zm0-1.531c-2.307 0-2.598.01-3.505.05-.904.041-1.521.186-2.06.395-.56.216-1.033.51-1.505.982a4.214 4.214 0 00-.982 1.504c-.209.54-.354 1.157-.394 2.064C4.01 9.9 4 10.19 4 12.497c0 2.307.01 2.597.05 3.504.041.904.186 1.521.395 2.064.216.56.51 1.033.982 1.505s.948.762 1.504.981c.54.21 1.157.355 2.064.395.908.04 1.195.05 3.505.05 2.31 0 2.597-.01 3.505-.05.904-.04 1.52-.186 2.064-.395a4.14 4.14 0 001.504-.981c.472-.472.762-.948.982-1.505.209-.54.354-1.157.394-2.064.04-.907.051-1.194.051-3.504s-.01-2.598-.05-3.505c-.041-.904-.186-1.521-.395-2.064a4.142 4.142 0 00-.982-1.505 4.215 4.215 0 00-1.504-.981c-.54-.21-1.157-.354-2.064-.395C15.094 4.01 14.804 4 12.497 4z"/>
+                                <path d="M12.496 8.132a4.365 4.365 0 000 8.73 4.367 4.367 0 004.365-4.365 4.367 4.367 0 00-4.365-4.365zm0 7.198a2.833 2.833 0 110-5.666 2.833 2.833 0 010 5.666z"/>
+                                <path d="M17.034 8.979a1.019 1.019 0 100-2.038 1.019 1.019 0 000 2.038z"/>
+                            </svg> 
+                        </span>
+                    </span>
+                </a>
+                <button class="button button--primary button--smallest u-noUserSelect button--withChrome u-accentColor--buttonNormal js-relationshipButton is-smallPill"  data-action="toggle-follow-collection" data-action-source="pub_header----3f6ecf56618----------------------follow_pub" data-collection-id="3f6ecf56618">
+                    <span class="button-label  js-buttonLabel">Follow</span>
+                </button>
+            </div>
+            -->
+        </nav>
+    </div>
+</div>

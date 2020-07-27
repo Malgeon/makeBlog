@@ -1,0 +1,107 @@
+I"B<h1 id="문제-설명">문제 설명</h1>
+
+<p>44한자리 숫자가 적힌 종이 조각이 흩어져있습니다. 흩어진 종이 조각을 붙여 소수를 몇 개 만들 수 있는지 알아내려 합니다.
+ 각 종이 조각에 적힌 숫자가 적힌 문자열 numbers가 주어졌을 때, 종이 조각으로 만들 수 있는 소수가 몇 개인지 return 하도록 solution 함수를 완성해주세요.</p>
+
+<p>입출력 예</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>n</th>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“17”</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>“011”</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="문제풀이">문제풀이</h1>
+<p>전체 순열 조합을 구하고, 그 중 primeNumber를 걸러낸다. 그 개수가 정답.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre></td><td class="rouge-code"><pre><span class="kd">function</span> <span class="nx">solution</span><span class="p">(</span><span class="nx">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">numberList</span> <span class="o">=</span> <span class="nx">numbers</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">findPrimeNumbers</span> <span class="o">=</span> <span class="p">(</span><span class="nx">stringList</span><span class="p">,</span> <span class="nx">prevNumber</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">caliPrevNumber</span> <span class="o">=</span> <span class="nx">prevNumber</span> <span class="o">||</span> <span class="dl">''</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="nx">stringList</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">list</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">isPrimeNumber</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">caliPrevNumber</span> <span class="o">+</span> <span class="nx">value</span><span class="p">)))</span> <span class="p">{</span>
+                <span class="nx">list</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">caliPrevNumber</span> <span class="o">+</span> <span class="nx">value</span><span class="p">));</span>
+            <span class="p">}</span>
+
+            <span class="kd">const</span> <span class="nx">nextList</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">stringList</span><span class="p">];</span>
+            <span class="nx">nextList</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+            <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">findPrimeNumbers</span><span class="p">(</span>
+            <span class="nx">nextList</span><span class="p">,</span>
+            <span class="nx">caliPrevNumber</span> <span class="o">+</span> <span class="nx">value</span><span class="p">,</span>
+            <span class="p">);</span>
+            <span class="nx">list</span><span class="p">.</span><span class="nx">push</span><span class="p">(...</span><span class="nx">result</span><span class="p">);</span>
+
+            <span class="k">return</span> <span class="nx">list</span><span class="p">;</span>
+        <span class="p">},</span> <span class="p">[]);</span>
+    <span class="p">}</span>
+    <span class="kd">const</span> <span class="nx">answers</span> <span class="o">=</span> <span class="nx">findPrimeNumbers</span><span class="p">(</span><span class="nx">numberList</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Set</span><span class="p">(</span><span class="nx">answers</span><span class="p">)].</span><span class="nx">length</span><span class="p">;</span> <span class="c1">//중복값 제거.</span>
+<span class="p">}</span>
+
+
+
+<span class="kd">function</span> <span class="nx">isPrimeNumber</span><span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">notPrime</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">notPrime</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">number</span><span class="p">))</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">number</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">number</span> <span class="o">%</span> <span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

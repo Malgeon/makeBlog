@@ -1,0 +1,61 @@
+{% assign title = page.title %}
+
+
+<nav aria-label="..." class="pg-center">
+      <ul class="pagination justify-content-center">
+
+{% if paginator.previous_page %}
+
+<li class="page-item prevafter pagination-flex">
+      <a class="page-link" href="{{site.baseurl}}/{{ paginator.previous_page_path }}">이전</a>
+</li>
+{% else %}
+<li class="page-item disabled prevafter pagination-flex">
+      <a class="page-link" href="#" tabindex="-1">이전</a>
+</li>
+{% endif %}
+
+
+{% for page in (1..paginator.total_pages) %}
+{% if page == paginator.page %}
+      {% if page == 1 %}
+      <li class="page-item">
+            <a class="page-link-number thispage" href="{{ site.baseurl }}/{{ title }}/">{{ page }}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+            <a class="page-link-number thispage" href="{{site.baseurl}}/{{ title }}/page{{ page }}">{{ page }}</a>
+      </li>
+      {% endif %}
+{% elsif page == 1 %}
+  <li class="page-item">
+      <a class="page-link-number" href="{{ site.baseurl }}/{{ title }}/">{{ page }}</a>
+  </li>
+{% else %}
+  <li class="page-item">
+      <a class="page-link-number" href="{{site.baseurl}}/{{ title }}/page{{ page }}">{{ page }}</a>
+  </li>
+{% endif %}
+{% endfor %}
+
+
+{% if paginator.next_page %}
+<li class="page-item nextbefore pagination-flex">
+      <a class="page-link" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">다음</a>
+</li>
+{% else %}
+<li class="page-item disabled nextbefore pagination-flex">
+      <a class="page-link" href="#" tabindex="-1">다음</a>
+</li>
+            {% endif %}	  
+      </ul>
+</nav>
+
+<style>
+.pg-center{
+background:#ffffff;
+padding-top:2rem;
+padding-bottom:2rem;
+margin-top:2rem;
+}
+</style>
