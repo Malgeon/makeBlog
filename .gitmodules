@@ -1,3 +1,6 @@
 [submodule "makesite"]
 	path = makesite
 	url = https://github.com/Malgeon/Malgeon.github.io
+[submodule "output"]
+	path = output
+	url = https://github.com/Malgeon/Malgeon.github.io
