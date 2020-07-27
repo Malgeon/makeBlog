@@ -264,9 +264,9 @@ const getCombinations = (arr, m) => {
    // parentSet = [0, 1, 2, 3, 4]
     var arraySet = [[0, 2], [1, 2], [3, 4]];
   ```
-  ```javascript
 
-function getCombination(arrays) {
+  ```javascript
+  function getCombination(arrays) {
     var answer = {};
     function makeCombination(i = 0, selected = []) {
         if (!arrays[i]) {
@@ -288,7 +288,6 @@ function getCombination(arrays) {
       [0, 1, 4, 3] , [0, 1, 3, 4] 
  를 튜플로서 처리하자면 아래와 같다.
 */
-
   function getCombination(arrays) {
     var answer = [];
     

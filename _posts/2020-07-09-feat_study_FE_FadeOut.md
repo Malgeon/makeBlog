@@ -5,9 +5,6 @@ title:  "Fade Out"
 description: "CSS에서 사라지는 효과 구현"
 categories: [ Project ]
 tags: [Web]
-featured: true
-hidden: true
-project: true 
 ---
 
 # 사라지기

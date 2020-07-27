@@ -1,10 +1,14 @@
 ---
 layout: post
-author: study
+author: project
 title:  "Spring : Container"
 description: "Spring의 동작원리를 이해해보자"
-categories: [ Study ]
-tags: [C, Java]
+categories: [ Project ]
+tags: [ Web ]
+image: assets/images/project/java_spring.jpg
+featured: true
+hidden: true
+project: true
 ---
 
 # Spring - Container

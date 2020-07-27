@@ -1,6 +1,6 @@
 # Site
-name: "Malgeon"
-title: "Malgeon"
+name: "Malg-eon"
+title: "Malg-eon"
 description: "공간"
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
@@ -15,8 +15,10 @@ permalink: /:title/
 authors:
   study:
     name: study
+    avatar: 'assets/images/main_picture/study.jpg'
   project:
     name: project
+    avatar: 'assets/images/main_picture/project.png'
     
 
 # Plugins

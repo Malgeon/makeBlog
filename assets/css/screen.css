@@ -362,7 +362,7 @@ span.post-read-more {
     align-items: center;
     display: inline-block;
     float: right;
-    margin-top: 8px;
+    margin-top: 14px;
     margin-left: 2px;
 }
 
@@ -371,7 +371,7 @@ span.post-main {
     align-items: center;
     display: inline-block;
     float: right;
-    margin-top: -1px;
+    margin-top: -4px;
     margin-left: 2.5px;
 }
 

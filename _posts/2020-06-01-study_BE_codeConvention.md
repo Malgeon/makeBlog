@@ -5,6 +5,7 @@ title:  "코드 컨벤션"
 description: 코딩 스타일 규약
 categories: [ Study ]
 tags: [C, Java]
+image: assets/images/study/main_study.jpg
 ---
 
 # 코드 컨벤션

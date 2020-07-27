@@ -5,6 +5,10 @@ title:  "이진탐색 : Upper Bound, Lower Bound"
 description: "연습 문제"
 categories: [ Study ]
 tags: [programming, javascript]
+image: assets/images/study/algorithm.jpg
+featured: true
+hidden: true
+study: true
 ---
 
 # 이진탐색

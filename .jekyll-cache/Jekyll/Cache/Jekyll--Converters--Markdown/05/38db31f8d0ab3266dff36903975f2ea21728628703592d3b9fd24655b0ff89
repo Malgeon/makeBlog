@@ -1,4 +1,4 @@
-I"�<h1 id="순열과-조합">순열과 조합</h1>
+I"�<h1 id="순열과-조합">순열과 조합</h1>
 <p>순열과 조합은 여러 군데에서 쓰인다. 
   쓰이는 방식도 다양한데,</p>
 <ul>
@@ -440,6 +440,7 @@
 </pre></td><td class="rouge-code"><pre>   <span class="c1">// parentSet = [0, 1, 2, 3, 4]</span>
     <span class="kd">var</span> <span class="nx">arraySet</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]];</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
+
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -478,10 +479,7 @@
 36
 37
 38
-39
-40
-</pre></td><td class="rouge-code"><pre>
-<span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arrays</span><span class="p">)</span> <span class="p">{</span>
+</pre></td><td class="rouge-code"><pre>  <span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arrays</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="kd">function</span> <span class="nx">makeCombination</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">selected</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">arrays</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
@@ -503,7 +501,6 @@
       [0, 1, 4, 3] , [0, 1, 3, 4] 
  를 튜플로서 처리하자면 아래와 같다.
 */</span>
-
   <span class="kd">function</span> <span class="nx">getCombination</span><span class="p">(</span><span class="nx">arrays</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">answer</span> <span class="o">=</span> <span class="p">[];</span>
     
