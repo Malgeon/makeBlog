@@ -69,6 +69,7 @@ lazyimages: "disabled"
 exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
 
 
+
 # for Travis CI. 
 
 destination: ../makesite
