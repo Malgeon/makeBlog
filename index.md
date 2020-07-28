@@ -1,6 +1,7 @@
 ---
 layout: main
-title: main
+title: Melg:eon
+menu: main
 pagination:
   enabled: true
 ---

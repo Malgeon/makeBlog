@@ -6,7 +6,7 @@
 
 <link rel="icon" href="{{ site.baseurl }}/assets/images/logo.jpg">
 
-<title>{{ page.title }} | {{site.name}}</title>
+<title>{{ page.title | capitalize }} | {{site.name}}</title>
 
 {% seo %}
 
@@ -69,7 +69,7 @@ ga('send', 'pageview');
             <!-- Begin Menu -->
 
                 <ul class="navbar-nav mr-auto">
-                    {% if page.title == "main" %}
+                    {% if page.menu == "main" %}
                     <li class="nav-item active">
                     {% else %}
                     <li class="nav-item">
@@ -77,7 +77,7 @@ ga('send', 'pageview');
                         <a class="nav-link" href="{{ site.baseurl }}/">Main</a>
                     </li>
                     
-                    {% if page.title == "study" or page.categories[0] == "study" %}
+                    {% if page.menu == "study" or page.categories[0] == "study" %}
                     <li class="nav-item active">
                     {% else %}
                     <li class="nav-item">
@@ -85,7 +85,7 @@ ga('send', 'pageview');
                         <a class="nav-link" href="{{ site.baseurl }}/study">Study</a>
                     </li>
 
-                    {% if page.title == "project" or page.categories[0] == "project" %}
+                    {% if page.menu == "project" or page.categories[0] == "project" %}
                     <li class="nav-item active">
                     {% else %}
                     <li class="nav-item">
@@ -93,7 +93,7 @@ ga('send', 'pageview');
                         <a class="nav-link" href="{{ site.baseurl }}/project">Project</a>
                     </li>
 
-                    {% if page.title == "about" %}
+                    {% if page.menu == "about" %}
                     <li class="nav-item active">
                     {% else %}
                     <li class="nav-item">
@@ -110,7 +110,7 @@ ga('send', 'pageview');
 <!-- End Navigation
 ================================================== -->
 
-{% if page.title == "study" or page.title == "project" or page.categories[0] == "study" or page.categories[0] == "project" or page.title == 'tags' %}
+{% if page.menu == "study" or page.menu == "project" or page.categories[0] == "study" or page.categories[0] == "project" or page.title == 'tags' %}
     {% if page.layout == "post" %}
     <div class="post-content">
     {% else %}
@@ -126,14 +126,14 @@ ga('send', 'pageview');
     
 <!-- Site Title
 ================================================== -->
-{% if page.title == "main" %}
+{% if page.menu == "main" %}
 <div class="mainheading">
     <h1 class="sitetitle">맑은</h1>
     <p class="lead">프로그래밍, 웹 그리고 앱</p>
 </div>
-{% elsif page.title == "study" or page.title == "project" %}
+{% elsif page.menu == "study" or page.menu == "project" %}
 <div class="mainheading">
-    <h1 class="sitetitle u-paddingTop15">{{ page.title }}</h1>
+    <h1 class="sitetitle u-paddingTop15">{{ page.menu }}</h1>
     <p class="lead u-marginBottom0">
         Waiting
     </p>

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: about
+menu: about
 permalink: /about
 comments: true
 ---

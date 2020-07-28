@@ -1,5 +1,6 @@
 ---
 layout: main
+menu: study
 title: study
 permalink: /study
 study: true

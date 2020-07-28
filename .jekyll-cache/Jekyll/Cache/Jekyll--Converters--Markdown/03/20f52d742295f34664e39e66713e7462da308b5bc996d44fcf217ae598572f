@@ -1,0 +1,26 @@
+I"Æ<div class="card h-100">
+<div class="featuremaxthumb">
+<a href=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></a>
+</div>
+<div class="card-body">
+<h2 class="card-title"><a class="text-dark" href=""></a></h2>
+<a href=""><h4 class="card-text"></h4></a>
+</div>
+<div class="card-footer bg-white">
+<div class="wrapfooter">
+
+<span class="post-date"></span>
+
+&lt;/span&gt;
+<span class="post-read-more u-textColorNormal"><a href="" title="Read Story"><svg class="svgIcon-use" width="15" height="15" viewbox="0 0 15 15"><path d="M7.438 2.324c.034-.099.09-.099.123 0l1.2 3.53a.29.29 0 0 0 .26.19h3.884c.11 0 .127.049.038.111L9.8 8.327a.271.271 0 0 0-.099.291l1.2 3.53c.034.1-.011.131-.098.069l-3.142-2.18a.303.303 0 0 0-.32 0l-3.145 2.182c-.087.06-.132.03-.099-.068l1.2-3.53a.271.271 0 0 0-.098-.292L2.056 6.146c-.087-.06-.071-.112.038-.112h3.884a.29.29 0 0 0 .26-.19l1.2-3.52z" fill-rule="evenodd"></path></svg></a></span>
+<div class="clearfix"></div>
+</div>
+</div>
+</div>
+<p>&lt;/div&gt;</p>
+
+<div class="row justify-content-between">
+<center><p><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></p></center>
+<h4>Documentation</h4>
+</div>
+:ET

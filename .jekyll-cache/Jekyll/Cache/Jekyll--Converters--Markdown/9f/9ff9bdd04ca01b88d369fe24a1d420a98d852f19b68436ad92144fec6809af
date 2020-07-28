@@ -1,0 +1,21 @@
+I"e<div class="card h-100">
+<div class="insertcover">
+<a class="text-dark" href="#">
+<div class="">
+<img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" />
+</div>
+<div class="insert-img-body">
+<h4 class="insert-img-title">스택 : 다리를 지나는 트럭</h4>
+<p class="insert-img-description">programmers.co.kr</p>
+</div>
+</a>
+</div>
+</div>
+
+<div class="row justify-content-between">
+<center><p><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></p></center>
+<h4>Documentation</h4>
+</div>
+
+<p>스택 : 다리를 지나는 트럭</p>
+:ET
