@@ -85,7 +85,7 @@ ga('send', 'pageview');
                         <a class="nav-link" href="{{ site.baseurl }}/study">Study</a>
                     </li>
 
-                    {% if page.title == "project" or page.categoires[0] == "project" %}
+                    {% if page.title == "project" or page.categories[0] == "project" %}
                     <li class="nav-item active">
                     {% else %}
                     <li class="nav-item">
@@ -129,11 +129,7 @@ ga('send', 'pageview');
 {% if page.title == "main" %}
 <div class="mainheading">
     <h1 class="sitetitle">맑은</h1>
-    <p class="lead">
-        &laquo;--------------------------------------------&raquo;<br>
-        이 구역은 공사중(간단한 소개 구역)<br>
-        &laquo;--------------------------------------------&raquo;
-    </p>
+    <p class="lead">프로그래밍, 웹 그리고 앱</p>
 </div>
 {% elsif page.title == "study" or page.title == "project" %}
 <div class="mainheading">
