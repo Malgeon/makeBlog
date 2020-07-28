@@ -1,6 +1,6 @@
 ---
 layout: post
-author: study
+author: project
 title:  "Fade Out"
 description: "CSS에서 사라지는 효과 구현"
 categories: [ project ]

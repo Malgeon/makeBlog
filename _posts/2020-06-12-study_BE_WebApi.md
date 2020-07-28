@@ -4,7 +4,7 @@ author: study
 title:  "Spring : Web-Api"
 description: "Web-Api 동작 이해"
 categories: [ study ]
-tags: [c, java]
+tags: [java]
 ---
 
 # Web-Api
