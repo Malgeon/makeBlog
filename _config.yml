@@ -83,4 +83,4 @@ lsi: False
 
 username: Malgeon
 repo: makeBlog
-branch: master,
+branch: master
