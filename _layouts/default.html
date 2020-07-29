@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <link rel="icon" href="{{ site.baseurl }}/assets/images/logo.jpg">
+
 {% if page.title == site.name %}
-<title>{{site.name}}</title>
+<title>{{page.title}}</title>
 {% else %}
 <title>{{ page.title | capitalize }} | {{site.name}}</title>
 {% endif %}
@@ -14,13 +15,9 @@
 {% seo %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
 <link href="{{ site.baseurl }}/assets/css/screen.css" rel="stylesheet">
-
 <link href="{{ site.baseurl }}/assets/css/main.css" rel="stylesheet">
-
 <script src="{{ site.baseurl }}/assets/js/jquery.min.js"></script>
-
 
 </head>
 
