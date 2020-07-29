@@ -93,6 +93,14 @@ ga('send', 'pageview');
                         <a class="nav-link" href="{{ site.baseurl }}/project">Project</a>
                     </li>
 
+                    {% if page.menu == "test" or page.categories[0] == "test" %}
+                    <li class="nav-item active">
+                    {% else %}
+                    <li class="nav-item">
+                    {% endif %}
+                        <a class="nav-link" href="{{ site.baseurl }}/test">Test</a>
+                    </li>
+
                     {% if page.menu == "about" %}
                     <li class="nav-item active">
                     {% else %}
@@ -110,15 +118,18 @@ ga('send', 'pageview');
 <!-- End Navigation
 ================================================== -->
 
-{% if page.menu == "study" or page.menu == "project" or page.categories[0] == "study" or page.categories[0] == "project" or page.title == 'tags' %}
+<!-- For Nav Z-index Height
+================================================== -->
+{% if page.menu == "main" or page.menu == "about" %}
+    <div class="site-content">
+{% else %}
     {% if page.layout == "post" %}
     <div class="post-content">
     {% else %}
     <div class="my-site-content">
     {% endif %}
     {% include headerTag.html %}
-{% else %}
-    <div class="site-content">
+    
 {% endif %}
 <div class="container md-paddingLeft20 md-paddingRight20">
 
@@ -128,14 +139,16 @@ ga('send', 'pageview');
 ================================================== -->
 {% if page.menu == "main" %}
 <div class="mainheading">
+    <br>
     <h1 class="sitetitle">맑은</h1>
     <p class="lead">프로그래밍, 웹 그리고 앱</p>
+    <br>
 </div>
-{% elsif page.menu == "study" or page.menu == "project" %}
+{% elsif page.menu == "study" or page.menu == "project" or page.menu == "test" %}
 <div class="mainheading">
     <h1 class="sitetitle u-paddingTop15">{{ page.menu }}</h1>
     <p class="lead u-marginBottom0">
-        Waiting
+        {{ page.subtitle }}
     </p>
 </div>
 {% elsif page.layout == 'tags' %} 

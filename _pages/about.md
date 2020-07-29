@@ -28,6 +28,6 @@ comments: true
 ### Goal 
 신입 개발자로 취직
 
-#### deails
+#### details
  - Malg:eon 블로그 제작.
  - 프로그래머스 스킬체크의 레벨 3 통과 (최근 레벨3 87.5점 기록 - 100점 통과)

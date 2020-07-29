@@ -1,0 +1,44 @@
+- name : standard
+  url : test/standard
+
+- name : stack
+  url : test/stack
+
+- name : queue
+  url : test/queue
+
+- name : heap
+  url : test/heap
+
+- name : sort
+  url : test/sort
+
+- name : bp
+  url : test/bp
+
+- name : greedy
+  url : test/greedy
+
+- name : dynamic
+  url : test/dynamic
+
+- name : dfs
+  url : test/dfs
+
+- name : bfs
+  url : test/bfs
+
+- name : binary
+  url : test/binary
+
+- name : graph
+  url : test/graph
+
+
+
+
+
+
+
+
+

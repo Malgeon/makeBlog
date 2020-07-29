@@ -37,6 +37,24 @@
                         </li>
                         {% assign flag = "off" %}
                     {% endfor %}
+
+                {% elsif page.title == "test" or page.categories[0] == "test" or page.parent == "test" %}
+                    {% for test in site.data.testTags %}
+                        <li class="collectionHeader-navItem js-collectionNavItem u-inlineBlock u-fontSize13 u-textUppercase u-letterSpacing1px u-textColorNormal u-xs-paddingRight12 u-xs-marginRight0">
+                        {% for tag in page.tags %} 
+                        {% if tag == test.name %}
+                            {% assign flag = "on" %}
+                            {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if flag == "on" %}
+                            <a class="link link--darker link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ test.url }}">{{ test.name }}</a>
+                        {% else %}
+                            <a class="link link--darken u-accentColor--textDarken link--noUnderline u-baseColor--link js-navItemLink"   href="{{ site.baseurl }}/{{ test.url }}">{{ test.name }}</a>
+                        {% endif %}
+                        </li>
+                        {% assign flag = "off" %}
+                    {% endfor %}
                 {% endif %}
             </div>
             <!--

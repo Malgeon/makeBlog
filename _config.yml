@@ -19,7 +19,9 @@ authors:
   project:
     name: project
     avatar: 'assets/images/main_picture/project.png'
-    
+  test:
+    name: test
+    avatar: 'assets/images/main_picture/test.jpg'
 
 # Plugins
 plugins:

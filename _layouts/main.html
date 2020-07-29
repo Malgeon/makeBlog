@@ -3,10 +3,10 @@ layout: default
 title: Main
 ---
 
+{% if page.url == "/index.html" or page.url == "/study/index.html" or page.url == "/project/index.html" or page.url == "/test/index.html" %}
 
-{% if page.url == "/index.html" or page.url == "/study/index.html" or page.url == "/project/index.html" %}
     {% if page.menu == "main" %}
-<!-- Featured
+<!--Main Featured
 ================================================== -->
     <section class="featured-posts">
         <div class="section-title">
@@ -32,14 +32,14 @@ title: Main
         <div class="row listrecent">
             
         {% for post in site.posts %}
-            {% if post.featured == true and post.study%}
+            {% if post.featured == true and post.study %}
                 {% include categoryfeaturedbox.html %}
             {% endif %}
         {% endfor %}
 
         </div>
     </section>
-    {% else %}
+    {% elsif page.menu == "project" %}
 <!-- CategoryFeatured
 ================================================== -->
     <section class="featured-posts u-marginBottom24">
@@ -56,10 +56,28 @@ title: Main
         </div>
     </section>
 
+    {% else %}
+
+<!--Test Featured
+================================================== -->
+<section class="featured-posts">
+    <div class="section-title">
+        <h2><span></span></h2>
+    </div>
+    <div class="row listrecent">
+    {% for post in site.posts %}
+        {% if post.testFeatured == true %}
+            {% include featuredbox.html %}
+        {% endif %}
+    {% endfor %}
+
+    </div>
+</section>
+
     {% endif %}
     
     {% else %}
-        {% if page.menu == "study" or page.menu == "project" %}
+        {% if page.menu == "study" or page.menu == "project" or page.menu == "test" %}
         <section class="featured-posts u-marginBottom0">
             <div class="section-title">
                 <h2><span></span></h2>
@@ -75,7 +93,7 @@ title: Main
 <!-- Posts Index
 ================================================== -->
 <section class="recent-posts">
-    {% if page.study or page.project %}
+    {% if page.study or page.project or page.test %}
     {% else %}
     <div class="section-title">
         <h2><span>Posts</span></h2>
@@ -94,6 +112,8 @@ title: Main
     </div>
 
 </section>
+
+
 
 {% if page.menu != "main" %}
 <!-- Pagination

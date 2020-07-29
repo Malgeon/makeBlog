@@ -4,5 +4,17 @@
 - name : javascript
   url : study/javascript
 
+- name : kotlin
+  url : study/kotlin
+
 - name : programming
   url : study/programming
+
+- name : web
+  url : study/web
+
+- name : android
+  url : study/android
+
+- name : db
+  url : study/db
