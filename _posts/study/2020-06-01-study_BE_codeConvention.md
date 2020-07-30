@@ -24,14 +24,22 @@ image: assets/images/study/main_study.jpg
 
 my + first + item
 
-## 파스칼 표기법
+## 파스칼 표기법 -> 클래스, 인터페이스 등
  MyFirstItem
 
-## 카멜 표기법
- myFirstItem
+## 카멜 표기법 -> 일반 변수, 함수명 등
+ myFirstItem 
 
 ## 언더스코어 표기법
  my_first_item
 
 ## 헝가리언 표기법
  설명을 가진 접두어 + MyFirstItem (동적 타입 언어에는 맞지가 않으므로 있다는 정도로 알아두자.)
+
+
+## 변수 선언
+ - 숫자로 시작하면 안된다.
+ - if와 같은 키워드 사용할 수 없다
+ - 보통 카멜표기법을 사용한다.(대소문자를 가리지 않는 환경 - MySQL 에서는 언더스코어 표기법을 사용한다.)
+
+ 

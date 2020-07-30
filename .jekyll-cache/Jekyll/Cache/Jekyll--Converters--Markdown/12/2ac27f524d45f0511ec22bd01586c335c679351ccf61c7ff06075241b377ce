@@ -1,0 +1,53 @@
+I"<h2 id="코틀린을-배워보자">코틀린을 배워보자.</h2>
+
+<p>코틀린이란 언어에 대해 알아보게 되어서야 현재 java의 status를 알수 있었다. 단순히 학업의 목적으로 java를 이해하고 있었을 적엔 jdk에 대하여 별다른 신경을 쓰지 않았으나, 공부를 좀 더 해가면서 jdk이는 더 이상 무료가 아니게 되었으며, 이에 대한 나비효과로 kotlin은 더욱 각광을 받고 있음을 알게 되었다.</p>
+
+<p>개인적으로 앱개발에 대해 호기심을 가지고 있었으며, 함수형 프로그래밍이 가능함과 동시에 레거시 java 프로그램들도 전체 커버가 가능하다는 장점이 현재 코틀린을 배우려는 생각을 갖게 하는데 결정적이었다.</p>
+
+<h2 id="부스트코스-코틀린-프로그래밍">부스트코스 코틀린 프로그래밍</h2>
+
+<p>이런 생각을 가질즈음 부스트 코스에서도 코틀린 프로그래밍 강의가 새로 열렸다. 단순히 언어를 배우는데 끝나는 것이 아닌 3단계로 나뉘어서 함수형 - 객체지향형 - 응용(앱 만들기) 강의가 진행하고 있다.</p>
+
+<p>해당 강의에서는 azul에서 제공하는 zulu builds of openJDK를 사용하고, 개발 환경으로는 Intellij를 사용한다. 모두 처음해보는 생소한 것이나, 이클립스와 비교를 해보는 등의 재미가 있을것으로 생각 되어 즐거운 마음으로 진행하고자 한다.</p>
+
+<p>이후 코틀린에 대해 공부하며, 기억해야 할 것들을 정리해서 포스팅 할 예정이다.</p>
+
+<p>모두 배우고 나면 코틀린으로 알고리즘 문제를 풀수 있기를 희망한다.</p>
+
+<p>## 변수
+  val(value) - 불변형 (immutable)
+  var(variable) - 가변형 (mutable)</p>
+
+<p>val username(: String - 컴파일에서 추론 가능할 경우 생략 가능) = “Eon”</p>
+
+<p>따라서 단순 선언 같은 경우 추론이 불가능하므로 생략 불가</p>
+
+<h2 id="자료형">자료형</h2>
+
+<p>### 기본형(primitive data type)
+    - 보통 코틀린에서는 사용하지 않으나 자바에서 사용하므로 알아두자
+    - int, long, float, double</p>
+
+<p>### 참조형(reference type)
+    - 동적 공간에 데이터를 둔 다음 이것을 참조하는 자료형
+    - Int, Long, Float, Double</p>
+
+<p>### 자료형 추론
+    123 =&gt; Int
+    123L =&gt; Long (접미사 L)
+    123F =&gt; Float (접미사 F)
+    0x0F =&gt; 16진수 Int (접두사 0x)
+    0b00001011 =&gt; 2진수 Int (접두사 0b)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>작은 값을 사용하고자 하면 자료형을 명시적으로 지정해주자.
+
+숫자 자료형을 경우 사이에 언더바는 아무런 영향을 주지 않는다. 그냥 자릿수 확인으로 사용 가능
+
+큰수일 경우 3.14E + 16 이런식으로 사용
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

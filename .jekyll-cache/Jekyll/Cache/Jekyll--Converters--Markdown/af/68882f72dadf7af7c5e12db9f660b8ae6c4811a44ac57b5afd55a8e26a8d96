@@ -1,0 +1,34 @@
+I"�<p>font : D2coding(네이버 제공)
+ctrl + Mouse : font 크기 조절 활성화</p>
+
+<h2 id="도구-창의-단축키--윈도우맥">도구 창의 단축키 : 윈도우(맥)</h2>
+<ul>
+  <li>Messages Alt + 0 (Cmd + 0)</li>
+  <li>Project  Alt + 1 (Cmd + 1)</li>
+  <li>Favorites    Alt + 2 (Cmd + 2)</li>
+  <li>Run  Alt + 4 (Cmd + 4)</li>
+  <li>Debug    Alt + 5 (Cmd + 5)</li>
+  <li>TODO Alt + 6 (Cmd + 6)</li>
+  <li>Structure    Alt + 7 (Cmd + 7)</li>
+  <li>
+    <p>Terminal Alt + F12 (Option + F12)</p>
+  </li>
+  <li>자동 줄 복사 Ctrl + D</li>
+  <li>실행 Ctrl + Shift + F10</li>
+  <li>새 파일 생성 Alt + Insert</li>
+  <li>추론 타입 확인 : Ctrl + Shift + P</li>
+</ul>
+
+<h2 id="함수의-console-library-확인">함수의 console Library 확인</h2>
+<p>함수위에서 Ctrl + B * 2 =&gt; 자바 Library</p>
+
+<h2 id="java로-변환">java로 변환</h2>
+<p>Tools -&gt; Kotlin -&gt; Show Kotlin Bytecode</p>
+
+<p>매뉴에서 Decomplie 클릭.</p>
+
+<h2 id="인자를-받는-main문에-인자-넣기">인자를 받는 main문에 인자 넣기</h2>
+
+<p>우측 상단에 Run 좌측 배너를 클릭하여 Edit Configuration 클릭
+ Program Argument가 넣을 인자.</p>
+:ET
