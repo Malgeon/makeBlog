@@ -1,0 +1,160 @@
+I";+<h2 id="자료형-변환">자료형 변환</h2>
+
+<ul>
+  <li>변환 메서드 사용
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="kd">var</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Double</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">toDouble</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>표현식에서 자동 변환
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="mi">1</span><span class="nx">L</span> <span class="o">+</span> <span class="mi">3</span><span class="c1">// Long + Int =&gt; result: Long</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="이중-등호와-삼중-등호">이중 등호와 삼중 등호</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="kd">var</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">==</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// true</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// false</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="kd">var</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">==</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// true</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// false</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="kd">var</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">==</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// true</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// false</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="kd">var</span> <span class="nx">c</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="nx">a</span>
+<span class="kd">var</span> <span class="nx">d</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="nx">a</span>
+<span class="kd">var</span> <span class="nx">e</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="nx">c</span>
+
+<span class="nx">println</span><span class="p">(</span><span class="nx">c</span> <span class="o">==</span> <span class="nx">d</span><span class="p">)</span> <span class="c1">// true</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">c</span> <span class="o">===</span> <span class="nx">d</span><span class="p">)</span> <span class="c1">// false</span>
+ 
+<span class="nx">println</span><span class="p">(</span><span class="nx">c</span> <span class="o">==</span> <span class="nx">e</span><span class="p">)</span> <span class="c1">// true</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">c</span> <span class="o">===</span> <span class="nx">e</span><span class="p">)</span> <span class="c1">// true</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="스마트-캐스드-number">스마트 캐스드 Number</h2>
+<p>Number로 선언함으로써 Int, Long, Float 등 숫자 자료형을 자동으로 변환해준다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="mf">12.2</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="mi">120</span><span class="nx">L</span>
+<span class="nx">a</span> <span class="o">+=</span> <span class="mf">12.0f</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="스마트-캐스트-any">스마트 캐스트 Any</h2>
+<p>자료형이 정해지지 않는 경우 사용. 언제든 필요한 자료형으로 자동 변환</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Any</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello</span><span class="dl">"</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="mi">120</span><span class="nx">L</span>
+<span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">a: $a type: ${a.javaClass}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// a: 120 type: long</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="is-키워드">is 키워드</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">num</span> <span class="nx">is</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">print</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> 
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">num</span> <span class="o">!</span><span class="nx">is</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// !(num is Int)와 동일</span>
+  <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">Not a Int</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="비트-연산을-위한-비트-매서드">비트 연산을 위한 비트 매서드</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">표현식</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">4.shl(bits)</td>
+      <td style="text-align: center">4를 표현하는 비트를 bits만큼 왼쪽으로 이동(부호 있음)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7.shr(bits)</td>
+      <td style="text-align: center">7를 표현하는 비트를 bits만큼 오른쪽으로 이동(부호 있음)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12.ushr(bits)</td>
+      <td style="text-align: center">12를 표현하는 비트를 bits만큼 오른쪽으로 이동(부호 없음)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9.and(bits)</td>
+      <td style="text-align: center">9를 표현하는 비트를 bits를 표현하는 비트로 논리곱 연산</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4.or(bits)</td>
+      <td style="text-align: center">4를 표현하는 비트를 bits를 표현하는 비트로 논리곱 연산</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">24.xor(bits)</td>
+      <td style="text-align: center">24를 표현하는 비트를 bits를 표현하는 비트로 배타적 연산</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">78.inv(bits)</td>
+      <td style="text-align: center">78를 표현하는 비트를 모두 뒤집음</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

@@ -42,4 +42,4 @@ tags: [c, java]
 
 ## MySQL utf-8 적용하기
 
- MySQL이 설치된 폴도에 가면 my-default.ini 파일을 복사하여 my.ini 파일을 만든다.
+ MySQL이 설치된 폴더에 가면 my-default.ini 파일을 복사하여 my.ini 파일을 만든다.
