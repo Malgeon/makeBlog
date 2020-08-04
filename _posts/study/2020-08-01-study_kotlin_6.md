@@ -1,7 +1,7 @@
 ---
 layout: post
 author: study
-title:  "Kotlin - [5]"
+title:  "Kotlin 함수편 - [6]"
 description: "Kotlin 조건문"
 categories: [ study ]
 postImgOn: true
@@ -61,7 +61,7 @@ when(x) {
     2 -> print("x == 2")
     3, 4 -> print("x == 3, 4") //일치되는 여러 조건 사용 가능
     parseInt(s) -> print("일치함!") // 함수의 반환값 사용 가능
-    in 10..20 -> print("x는 10이상 20이하입니다.")
+    in 10..20 -> print("x는 10이상 20이하입니다.") //범위 연산자 사용 가능
     !in 10..20 -> print("x는 10이상 20이하의 범위에 포함되지 않습니다.")
     else -> { // 블록 구문 사용 가능.
         print("else")

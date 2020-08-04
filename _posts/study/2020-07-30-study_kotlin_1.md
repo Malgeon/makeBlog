@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Kotlin - [1]"
-description: "Kotlin 기본"
+title:  "Kotlin 함수편 - [1]"
+description: "Kotlin 함수편 기본"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

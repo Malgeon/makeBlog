@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Kotlin - [4]"
-description: "Kotlin 함수형 프로그래밍"
+title:  "Kotlin 함수편 - [4]"
+description: "Kotlin 함수형 프로그래밍 - 1"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -138,8 +138,185 @@ fun main() {
 }
 ``` 
 
+람다식으로 변수 선언 또한 가능하다. 이때. 선언된 변수는 함수처럼 사용이 가능하다.
 
-### 인라인 함수
+```javascript
+val result: Int
+val multi = { a: Int, b: Int -> a * b}
+/** 아래는 모두 동일한 표현 방법이다.
+val multi: (Int, Int) -> Int = { a: Int, b: Int -> a * b}
+val multi = { a: Int, b: Int -> a * b}
+val multi: (Int, Int) -> Int = { a, b -> a * b} 
+물론 모두 생략하는 것은 추론이 가능하지 않아서 안된다. 
+*/
+result = multi(10, 20) //함수 처럼 사용이 가능하다.
 
-람다식을 이용하게 되면 런타임시 해당 람다식은 함수에 해당하는 객체로 변환되어 메모리 할당이 이루어 진다. 즉, 람다식이 많아지면 많아질수록 객체 변환이 많이 이루어 지게 되어 런타임 오버헤드를 유발한다. 이런 문제점을 해결하는 방법으로 람다식에 inline을 붙임으로써 함수 호출 방식이 아닌 코드 자체를 복사하여 붙여넣는 방식으로 컴파일이 된다. 
-그렇지만 함수를 만들다 보면 inline 방식을 이용하고 싶은 매개변수가 생길수도 있는데, 그럴 경우 해당 매개변수 앞에 noinline을 붙이면 inline이 아닌 방식으로 동작을 하게 된다.
+``` 
+
+표현식이 2줄 이상일 경우는 마지막 표현식이 반환된다.
+```javascript
+val result: Int
+val multi: (Int, Int) -> Int = { a, b -> 
+    println("a*b")
+    a * b // 만일 반환값이 Int로 설정 되어 있는데 a * b가 생략된다면 Error
+}
+result = multi(10, 20) //200
+``` 
+
+반환 자료형이 없거나 매개변수가 하나 있을 경우
+```javascript
+val greet: ()->Unit = { println("Hello World!") } // 추론이 가능하므로 자료형 생략
+val square: (Int)->Int = { x -> x * x } 
+// 선언부 생략하고 싶다면 x의 자료형 명시
+val square = { x: Int -> x * x } 
+``` 
+
+람다식 안에 람다식
+```javascript
+val nestedLambda: ()->()->Unit = { { println("nested") } }  // 추론 가능하므로 생략 가능하다.
+val nestedLambda = { { println("nested") } }
+``` 
+
+### 고차함수 이용
+다음과 같은 예시를 살펴보자.
+```javascript
+fun sum(a: Int, b: Int) = a + b
+
+fun mul(a: Int, b: Int): Int {
+    return a * b
+}
+
+fun funcFunc(a: Int, b: Int) = sum(a, b) // 함수를 return
+
+fun main() {
+    val result = sum(10, 10)
+    val result2 = mul( sum(10, 5), 10) // 매개변수에 함수 사용
+    val result3 = funcFunc(2,3)
+}
+``` 
+
+람다식을 이용
+
+### 함수 호출
+CallByValue
+```javascript
+fun main() {
+    val result = callByValue(lambda())
+    println(result)
+}
+
+fun callByValue(b: Bollean): Boolean {
+    println("callByValue function")
+    return b // b는 람다식함수의 결과값
+}
+
+val lambda: () -> Boolean = {
+    println("lambda function") 
+    true
+}
+```
+순서: lambda 바로 실행 결과 값 반환, 반환된 결과값을 callByValue 매개변수에 복사, return.
+
+CallByName
+```javascript
+fun main() {
+    val result = callByName(otherLambda)
+    println(result)
+}
+
+fun callByName(b: () -> Bollean): Boolean { //b는 람다식 함수
+    println("callByName function")
+    return b() // b는 람다식함수
+}
+
+val otherLambda: () -> Boolean = {
+    println("lambda function") 
+    true
+}
+```
+순서: otherLambda가 callByName 매개변수에 복사, return에서 b()로 람다식 함수가 호출. 람다식 true return, callByname return.
+
+callByReference
+```javascript
+fun sum(x: Int, y: Int) = x + y
+
+//funcParam(3, 2, sum) => error
+
+fun funcParam(a: Int, b: int, c: (Int, int) -> Int): Int {
+    return c(a, b)
+}
+funcParam(3, 2, ::sum) //일반함수의 내용물이 참조하고자 하는 람다식과 완전히 일치하는 경우 사용 가능.
+```
+### 매개변수 개수에 따라 람다식 구성 방법
+매개변수 없는 경우
+```javascript
+fun main() {
+    // 매개변수 없는 람다식 함수
+    noParam( { "Hello World!" } )
+    noParam { "Hello World!" } //위와 동일한 결과.
+}
+
+fun noParam( out: () -> String) = println(out())
+```
+
+매개변수 한 개
+```javascript
+fun main() {
+    oneParam( {  a ->  "Hello World! $a" } )
+    oneParam { a -> "Hello World! $a" } 
+    oneParam { "Hello World! $it" } // 매개변수가 하나 일 경우 $it을 사용함으로써 화살표 식을 줄일수 있다. 여러 개일 경우 사용 불가능
+    //전체 동일한 결과
+}
+
+fun oneParam( out: (String) -> String) = println(out("OneParam"))
+```
+
+매개변수 두 개 이상
+```javascript
+fun main() {
+    moreParam{ a, b ->  "Hello World! $a $b" }
+}
+
+fun moreParam( out: (String, String) -> String) = println(out("OneParam", "TwoParam"))
+```
+
+만일 앞선 매개변수를 사용하지 않을 예정이라 생략하고 싶다면, 언더바를 사용하면 된다.
+```javascript
+fun main() {
+    moreParam{ _, b ->  "Hello World! $b" }
+}
+```
+
+일반 매개변수와 람다식 매개변수를 같이 사용
+```javascript
+fun main() {
+    withArgs("Arg1", "Arg2", { a, b -> "Hello World! $a $b"} )
+    withArgs("Arg1", "Arg2") { a, b -> "Hello World! $a $b"} 
+    //동일한 표현, 인자와 람다식을 분리해서 보게 할 수 있다.
+}
+
+fun withArgs(a: String, b: String, out: (String, String) -> String) {
+    println(out(a, b))
+}
+/**람다식이 매개변수 중 앞에 위치할 경우 불가능.
+
+withArgs { a, b -> "Hello World! $a $b"} ("Arg1", "Arg2") 
+fun withArgs(out: (String, String) -> String, a: String, b: String) {
+    println(out(a, b))
+} 
+안됨!
+*/
+```
+
+두 개 이상의 람다식을 가질 때
+```javascript
+fun main() {
+    twoLambda({ a, b ->  "First $a $b" }, {"Second $it"})
+    twoLambda({ a, b ->  "First $a $b" }) {"Second $it"} // 두 개 이상일 경우 마지막 람다식에 한에서 중괄호로 빼낼수 있다.
+}
+
+fun twoLambda(first: (String, String) -> String, second: (String) -> String) {
+    println(first("OneParam", "TwoParam"))
+    println(second("OneParam"))
+}
+```

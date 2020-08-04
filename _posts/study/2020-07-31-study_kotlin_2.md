@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Kotlin - [2]"
-description: "Kotlin 기본-자료형과 스마트 캐스트"
+title:  "Kotlin 함수편 - [2]"
+description: "Kotlin 함수편 기본 - 자료형과 스마트 캐스트"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
