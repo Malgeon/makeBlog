@@ -132,3 +132,67 @@ fun main() {
     }
 }
 ```
+
+### takeIf() & takeUnless()
+- takeIf(): 람다식이 true이면 객체 T를 반환하고 그렇지 않으면 null 반환
+- take Unless(): 람다식이 false이면 객체 T를 반환하고 그렇지 않으면 null 반환
+
+`public inline fun <T> T.takeIf(predicate: (T) -> Boolean): T? = if (predicate(this)) this else null`
+
+```javascript
+// 기존 코드
+if (someObject != null && someObject.status) {
+    doThis()
+}
+// safe call 사용
+if (someObject?.status == true) {
+    doThis()
+}
+// takeIf 사용
+someObject?.takeIf { it.status }?.apply { doThis() }
+```
+
+elvis 연산자와 함께 사용 예제
+```javascript
+val input = "kotlin"
+val keyword = "in"
+
+// 입력 문자열에 키워드가 있으면 인덱스를 반환하는 함수를 takeIf를 사용하여 구현
+input.indexOf(keyword).takeIf { it >= 0 } ?: error("keyword not found")
+// takeUnless 사용
+input.indexOf(keyword).takeUnless { it < 0 } ?: error("keyword not found")
+```
+
+### 시간 측정 하기
+- measureTimeMillis() & measureNanoTime()
+
+```javascript
+public inline fun measureTimeMillis(block: () -> Unit): Long {
+    val start = System.currentTimeMillis()
+    block()
+    return System.currentTimeMillis() - start
+}
+
+public inline fun measureNanoTime(block: () -> Unit): Long {
+    val start = System.nanoTime()
+    block()
+    return System.nanoTime() - start
+}
+```
+사용 예
+
+```javascript
+val executionTime = measureTimeMillis {
+    // 측정할 작업 코드
+}
+printnl("Execution Time = $executionTime ms")
+```
+
+### 난수 생성
+자바의 java.util.Random을 이용할 수도 있지만, JVM에만 특화된 난수를 생성한다. 때문에 코틀린에서는 멀티플랫폼에서도 사용 가능한 kotlin.random.Random을 제공한다.
+```javascript
+import kotlin.random.Random
+...
+val number = Random.nextInt(21) // 숫자는 난수 발생 범위
+println(number)
+```

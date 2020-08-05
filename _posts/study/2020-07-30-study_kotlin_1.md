@@ -149,7 +149,8 @@ fun main() {
 }
 ```
 
-그런데 위 문장을 elvis 표현으로 바꿀수 있다.
+### ?: - elvis 연산자
+Null 값을 혀용하지 않는 변수에 Null 값이 들어올때, Null 값 대신 다른 값을 반환토록 해준다.
 
 ```javascript
 fun main() {
