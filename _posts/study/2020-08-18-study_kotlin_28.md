@@ -1,7 +1,7 @@
 ---
 layout: post
 author: study
-title:  "Kotlin 객체편 - [16]"
+title:  "Kotlin 객체편 - [18]"
 description: "Kotlin 문자열 다루기"
 categories: [ study ]
 postImgOn: true

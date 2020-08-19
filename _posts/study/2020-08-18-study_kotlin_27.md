@@ -1,7 +1,7 @@
 ---
 layout: post
 author: study
-title:  "Kotlin 객체편 - [16]"
+title:  "Kotlin 객체편 - [17]"
 description: "Kotlin 배열의 정렬"
 categories: [ study ]
 postImgOn: true
