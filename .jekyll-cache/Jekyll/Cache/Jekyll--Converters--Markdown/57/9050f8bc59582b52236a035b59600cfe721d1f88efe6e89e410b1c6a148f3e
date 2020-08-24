@@ -1,0 +1,115 @@
+I"+&<h3 id="ifelse-문의-간략화">if~else 문의 간략화</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">max</span><span class="p">:</span> <span class="nx">Int</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> 
+    <span class="nx">max</span> <span class="o">=</span> <span class="nx">a</span>
+<span class="k">else</span> 
+    <span class="nx">max</span> <span class="o">=</span> <span class="nx">b</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="nx">a</span> <span class="k">else</span> <span class="nx">b</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>블록과 함께 사용할 경우</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="nx">val</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="nx">val</span> <span class="nx">max</span> <span class="o">=</span> <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">a 선택</span><span class="dl">"</span><span class="p">)</span>
+        <span class="nx">a</span> <span class="c1">// 블럭의 마지막 식이 반환되어 max에 할당.</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">b 선택</span><span class="dl">"</span><span class="p">)</span>
+        <span class="nx">b</span> <span class="c1">// 블럭의 마지막 식이 반환되어 max에 할당.</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="readline콘솔로부터-입력-받는-함수">readLine()콘솔로부터 입력 받는 함수</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">score</span> <span class="o">=</span> <span class="nx">readLine</span><span class="p">()</span><span class="o">!!</span><span class="p">.</span><span class="nx">toDouble</span><span class="p">()</span> <span class="c1">// readLine은 Null이 될수도 있으므로 Null값 처리를 해줘야 한다. 여기선 잠깐 테스트를 위한 것이라 !!로 처리.</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="범위-연산자">범위 연산자</h2>
+<p>변수명 in 시작값..마지막값</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">if</span><span class="p">(</span><span class="nx">score</span> <span class="k">in</span> <span class="mi">80</span><span class="p">..</span><span class="mi">89</span><span class="p">)</span> <span class="c1">// score가 80~89 사이에 있는 값인지 확인(마지막 값은 포함!)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="when문switch--case과-비슷">when문(switch … case과 비슷)</h2>
+<p>범위 연산자, is 키워드 사용 가능.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="nx">when</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="mi">1</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">x == 1</span><span class="dl">"</span><span class="p">)</span> <span class="c1">//break 필요없이 빠져나온다.</span>
+    <span class="mi">2</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">x == 2</span><span class="dl">"</span><span class="p">)</span>
+    <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">x == 3, 4</span><span class="dl">"</span><span class="p">)</span> <span class="c1">//일치되는 여러 조건 사용 가능</span>
+    <span class="nb">parseInt</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">일치함!</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 함수의 반환값 사용 가능</span>
+    <span class="k">in</span> <span class="mi">10</span><span class="p">..</span><span class="mi">20</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">x는 10이상 20이하입니다.</span><span class="dl">"</span><span class="p">)</span> <span class="c1">//범위 연산자 사용 가능</span>
+    <span class="o">!</span><span class="k">in</span> <span class="mi">10</span><span class="p">..</span><span class="mi">20</span> <span class="o">-&gt;</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">x는 10이상 20이하의 범위에 포함되지 않습니다.</span><span class="dl">"</span><span class="p">)</span>
+    <span class="k">else</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="c1">// 블록 구문 사용 가능.</span>
+        <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">else</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">val</span> <span class="nx">str</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">안녕하세요.</span><span class="dl">"</span>
+<span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">when</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">is</span> <span class="nb">String</span> <span class="o">-&gt;</span> <span class="dl">"</span><span class="s2">문자열입니다.</span><span class="dl">"</span>
+    <span class="k">else</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>인자가 없는 when</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nx">when</span> <span class="p">{</span>
+    <span class="nx">score</span> <span class="o">&lt;=</span> <span class="mf">90.0</span> <span class="o">-&gt;</span> <span class="nx">grade</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">A</span><span class="dl">'</span>
+    <span class="nx">score</span> <span class="k">in</span> <span class="mf">80.0</span><span class="p">..</span><span class="mf">89.9</span> <span class="o">-&gt;</span> <span class="nx">grade</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">B</span><span class="dl">'</span>
+    <span class="nx">score</span> <span class="k">in</span> <span class="mf">70.0</span><span class="p">..</span><span class="mf">79.9</span> <span class="o">-&gt;</span> <span class="nx">grade</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">C</span><span class="dl">'</span>
+    <span class="nx">score</span> <span class="o">&lt;</span> <span class="mf">70.0</span> <span class="o">-&gt;</span> <span class="nx">grade</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">F</span><span class="dl">'</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

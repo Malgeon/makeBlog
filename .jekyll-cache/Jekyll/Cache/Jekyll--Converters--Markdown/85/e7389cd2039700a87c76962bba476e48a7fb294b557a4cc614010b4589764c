@@ -1,0 +1,478 @@
+I"<h2 id="코틀린은-다중-패러다임-언어">코틀린은 다중 패러다임 언어</h2>
+<ul>
+  <li>함수형 프로그래밍(FP: Functional Programming)</li>
+  <li>객체 지향 프로그래밍(OOP: Object-Oriented Programming)</li>
+</ul>
+
+<h2 id="함수형-프로그래밍">함수형 프로그래밍</h2>
+<ul>
+  <li>코드 간략, 테스트나 재사용성 증가</li>
+  <li>람다식, 고차 함수를 사용해 구성</li>
+  <li>순수 함수</li>
+</ul>
+
+<h2 id="순수-함수pure-function">순수 함수(pure function)</h2>
+
+<ul>
+  <li>부작용(side-effect)이 없는 함수
+    <ul>
+      <li>동일한 입력 인자에 대해서는 항상 같은 결과를 출력 혹은 반환 한다.</li>
+      <li>값이 예측 가능해 결정적(deterministic)이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre> <span class="nx">fun</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span> <span class="c1">//도일한 인자인 a, b를  입력 받아 항상 a + b를 출력(부작용이 없음)</span>
+ <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>순수함수의 조건
+    <ul>
+      <li>같은 인자에 대하여 항상 같은 값을 반환</li>
+      <li>함수 외부의 어떤 상태도 바꾸지 않는다.</li>
+    </ul>
+  </li>
+  <li>순수함수가 아닌 예
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre> <span class="nx">fun</span> <span class="nx">check</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">val</span> <span class="nx">test</span> <span class="o">=</span> <span class="nx">User</span><span class="p">.</span><span class="nx">grade</span><span class="p">()</span> <span class="c1">// check() 함수에 없는 외부의 User 객체를 사용</span>
+   <span class="k">if</span> <span class="p">(</span><span class="nx">test</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="nx">process</span><span class="p">(</span><span class="nx">test</span><span class="p">)</span> <span class="c1">// 변수 test는 User.grade()의 실행 결과에 따라 달라짐</span>
+ <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">val</span> <span class="nb">global</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">num1</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="nx">val</span> <span class="nx">num2</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">noPureFunction</span><span class="p">(</span><span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">noPureFunction</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span> <span class="o">+</span> <span class="nb">global</span> <span class="c1">// global 값이 바뀔 때 마다 return 값이 달라진다. no Pure</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>순수 함수가 필요한 이유
+    <ul>
+      <li>입력과 내용을 분리하고 모듈화 하므로 재사용성이 높아진다.
+        <ul>
+          <li>여러가지 함수들과 조합해도 부작용이 없다.</li>
+        </ul>
+      </li>
+      <li>특정 상태에 영향을 주지 않으므로 병행 작업 시 안전하다.</li>
+      <li>함수의 값을 추적하고 예측 할 수 있기 떄문에 테스트, 디버깅 등이 유리하다.</li>
+    </ul>
+  </li>
+  <li>함수형 프로그래밍에 적용
+    <ul>
+      <li>함수를 매개변수, 인자에 혹은 반환값에 적용(고차 함수)</li>
+      <li>함수를 변수나 데이터 구조에 저장</li>
+      <li>유연성 증가</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="람다식">람다식</h3>
+<h4 id="람다식lambda-expression이란">람다식(Lambda Expression)이란?</h4>
+<ul>
+  <li>익명 함수의 하나의 형태로 이름 없이 사용 및 실행이 가능</li>
+  <li>람다 대수(Lambda calculus)로 부터 유래</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">{ x, y -&gt; x + y } // 람다식의 예 (이름이 없는 함수 형태)</code></p>
+
+<h4 id="람다식의-이용">람다식의 이용</h4>
+<ul>
+  <li>람다식은 고차 함수에서 인자로 넘기거나 결과값으로 반환 등을 할 수 있다.</li>
+</ul>
+
+<h3 id="일급-객체">일급 객체</h3>
+<h4 id="일급-객체first-class-citizen란">일급 객체(First Class Citizen)란?</h4>
+<ul>
+  <li>일급 객체는 함수의 인자로 전단할 수 있다.</li>
+  <li>일급 객체는 함수의 반환값에 사용할 수 있다.</li>
+  <li>일급 객체는 변수에 담을 수 있다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">코틀린에서는 함수는 1급 객체로 다룬다.(1급 함수라고도 한다.)</code></p>
+
+<h3 id="고차-함수">고차 함수</h3>
+<h4 id="고차-함수high-order-function란">고차 함수(high-order function)란?</h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">highFunc</span><span class="p">({</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">},</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">highFunc</span><span class="p">(</span><span class="nx">sum</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span><span class="c1">// sum 매개변수는 함수</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>차례로
+higntFunc =&gt; 고차함수
+sum =&gt; 람다식 매개변수
+(Int, Int) -&gt; Int =&gt; 자료형이 람다식으로 선언 되어 { x, y -&gt; x + y } 형태로 인자를 받는 것이 가능
+a: Int, b: Int) : Int =&gt; 매개 변수와 반환 자료형
+sum(a, b) =&gt; return 값. 람다식 표현문에 따라 a + b</p>
+
+<p>아래와 같이 바꿀 수 있다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">highFunc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">highFunc</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">sum</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span><span class="c1">// sum 매개변수는 함수</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">highFunc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-&gt;</span> 
+        <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">highFunc</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">sum</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span><span class="c1">// sum 매개변수는 함수 자바스크립트 함수형!?</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>람다의 parameter가 하나인 경우 컴파일러가 추론이 가능하여 해당 값을 it으로 사용이 가능하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">more</span><span class="p">(</span><span class="nx">out</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Unit</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">out</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello</span><span class="dl">"</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">more</span><span class="p">{</span><span class="dl">"</span><span class="s2">$it Kotlin</span><span class="dl">"</span><span class="p">}</span> <span class="c1">//Hello Kotlin</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>람다식으로 변수 선언 또한 가능하다. 이때. 선언된 변수는 함수처럼 사용이 가능하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">result</span><span class="p">:</span> <span class="nx">Int</span>
+<span class="nx">val</span> <span class="nx">multi</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">-&gt;</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">b</span><span class="p">}</span>
+<span class="cm">/** 아래는 모두 동일한 표현 방법이다.
+val multi: (Int, Int) -&gt; Int = { a: Int, b: Int -&gt; a * b}
+val multi = { a: Int, b: Int -&gt; a * b}
+val multi: (Int, Int) -&gt; Int = { a, b -&gt; a * b} 
+물론 모두 생략하는 것은 추론이 가능하지 않아서 안된다. 
+*/</span>
+<span class="nx">result</span> <span class="o">=</span> <span class="nx">multi</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="c1">//함수 처럼 사용이 가능하다.</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>표현식이 2줄 이상일 경우는 마지막 표현식이 반환된다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">result</span><span class="p">:</span> <span class="nx">Int</span>
+<span class="nx">val</span> <span class="nx">multi</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Int</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span> 
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">a*b</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">a</span> <span class="o">*</span> <span class="nx">b</span> <span class="c1">// 만일 반환값이 Int로 설정 되어 있는데 a * b가 생략된다면 Error</span>
+<span class="p">}</span>
+<span class="nx">result</span> <span class="o">=</span> <span class="nx">multi</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="c1">//200</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>반환 자료형이 없거나 매개변수가 하나 있을 경우</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">greet</span><span class="p">:</span> <span class="p">()</span><span class="o">-&gt;</span><span class="nx">Unit</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span> <span class="c1">// 추론이 가능하므로 자료형 생략</span>
+<span class="nx">val</span> <span class="nx">square</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nx">Int</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span> <span class="o">-&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span> <span class="p">}</span> 
+<span class="c1">// 선언부 생략하고 싶다면 x의 자료형 명시</span>
+<span class="nx">val</span> <span class="nx">square</span> <span class="o">=</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="nx">Int</span> <span class="o">-&gt;</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span> <span class="p">}</span> 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>람다식 안에 람다식</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">nestedLambda</span><span class="p">:</span> <span class="p">()</span><span class="o">-&gt;</span><span class="p">()</span><span class="o">-&gt;</span><span class="nx">Unit</span> <span class="o">=</span> <span class="p">{</span> <span class="p">{</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">nested</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>  <span class="c1">// 추론 가능하므로 생략 가능하다.</span>
+<span class="nx">val</span> <span class="nx">nestedLambda</span> <span class="o">=</span> <span class="p">{</span> <span class="p">{</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">nested</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="고차함수-이용">고차함수 이용</h3>
+<p>다음과 같은 예시를 살펴보자.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">=</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
+
+<span class="nx">fun</span> <span class="nx">mul</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">funcFunc</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="c1">// 함수를 return</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="nx">val</span> <span class="nx">result2</span> <span class="o">=</span> <span class="nx">mul</span><span class="p">(</span> <span class="nx">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">// 매개변수에 함수 사용</span>
+    <span class="nx">val</span> <span class="nx">result3</span> <span class="o">=</span> <span class="nx">funcFunc</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>람다식을 이용</p>
+
+<h3 id="함수-호출">함수 호출</h3>
+<p>CallByValue</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">callByValue</span><span class="p">(</span><span class="nx">lambda</span><span class="p">())</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">callByValue</span><span class="p">(</span><span class="nx">b</span><span class="p">:</span> <span class="nx">Bollean</span><span class="p">):</span> <span class="nb">Boolean</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">callByValue function</span><span class="dl">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">b</span> <span class="c1">// b는 람다식함수의 결과값</span>
+<span class="p">}</span>
+
+<span class="nx">val</span> <span class="nx">lambda</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">Boolean</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">lambda function</span><span class="dl">"</span><span class="p">)</span> 
+    <span class="kc">true</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>순서: lambda 바로 실행 결과 값 반환, 반환된 결과값을 callByValue 매개변수에 복사, return.</p>
+
+<p>CallByName</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">callByName</span><span class="p">(</span><span class="nx">otherLambda</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">callByName</span><span class="p">(</span><span class="nx">b</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nx">Bollean</span><span class="p">):</span> <span class="nb">Boolean</span> <span class="p">{</span> <span class="c1">//b는 람다식 함수</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">callByName function</span><span class="dl">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">b</span><span class="p">()</span> <span class="c1">// b는 람다식함수</span>
+<span class="p">}</span>
+
+<span class="nx">val</span> <span class="nx">otherLambda</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">Boolean</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">lambda function</span><span class="dl">"</span><span class="p">)</span> 
+    <span class="kc">true</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>순서: otherLambda가 callByName 매개변수에 복사, return에서 b()로 람다식 함수가 호출. 람다식 true return, callByname return.</p>
+
+<p>callByReference</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">x</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">y</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span>
+
+<span class="c1">//funcParam(3, 2, sum) =&gt; error</span>
+
+<span class="nx">fun</span> <span class="nx">funcParam</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">int</span><span class="p">,</span> <span class="nx">c</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Int</span><span class="p">):</span> <span class="nx">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">c</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">funcParam</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="nx">sum</span><span class="p">)</span> <span class="c1">//일반함수의 내용물이 참조하고자 하는 람다식과 완전히 일치하는 경우 사용 가능.</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<h3 id="매개변수-개수에-따라-람다식-구성-방법">매개변수 개수에 따라 람다식 구성 방법</h3>
+<p>매개변수 없는 경우</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 매개변수 없는 람다식 함수</span>
+    <span class="nx">noParam</span><span class="p">(</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">noParam</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span> <span class="p">}</span> <span class="c1">//위와 동일한 결과.</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">noParam</span><span class="p">(</span> <span class="nx">out</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">)</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="nx">out</span><span class="p">())</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>매개변수 한 개</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">oneParam</span><span class="p">(</span> <span class="p">{</span>  <span class="nx">a</span> <span class="o">-&gt;</span>  <span class="dl">"</span><span class="s2">Hello World! $a</span><span class="dl">"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">oneParam</span> <span class="p">{</span> <span class="nx">a</span> <span class="o">-&gt;</span> <span class="dl">"</span><span class="s2">Hello World! $a</span><span class="dl">"</span> <span class="p">}</span> 
+    <span class="nx">oneParam</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">Hello World! $it</span><span class="dl">"</span> <span class="p">}</span> <span class="c1">// 매개변수가 하나 일 경우 $it을 사용함으로써 화살표 식을 줄일수 있다. 여러 개일 경우 사용 불가능</span>
+    <span class="c1">//전체 동일한 결과</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">oneParam</span><span class="p">(</span> <span class="nx">out</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">)</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="nx">out</span><span class="p">(</span><span class="dl">"</span><span class="s2">OneParam</span><span class="dl">"</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>매개변수 두 개 이상</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">moreParam</span><span class="p">{</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span>  <span class="dl">"</span><span class="s2">Hello World! $a $b</span><span class="dl">"</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">moreParam</span><span class="p">(</span> <span class="nx">out</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">)</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="nx">out</span><span class="p">(</span><span class="dl">"</span><span class="s2">OneParam</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">TwoParam</span><span class="dl">"</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>만일 앞선 매개변수를 사용하지 않을 예정이라 생략하고 싶다면, 언더바를 사용하면 된다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">moreParam</span><span class="p">{</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span>  <span class="dl">"</span><span class="s2">Hello World! $b</span><span class="dl">"</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>일반 매개변수와 람다식 매개변수를 같이 사용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">withArgs</span><span class="p">(</span><span class="dl">"</span><span class="s2">Arg1</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Arg2</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span> <span class="dl">"</span><span class="s2">Hello World! $a $b</span><span class="dl">"</span><span class="p">}</span> <span class="p">)</span>
+    <span class="nx">withArgs</span><span class="p">(</span><span class="dl">"</span><span class="s2">Arg1</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Arg2</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span> <span class="dl">"</span><span class="s2">Hello World! $a $b</span><span class="dl">"</span><span class="p">}</span> 
+    <span class="c1">//동일한 표현, 인자와 람다식을 분리해서 보게 할 수 있다.</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">withArgs</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="nx">out</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">out</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="cm">/**람다식이 매개변수 중 앞에 위치할 경우 불가능.
+
+withArgs { a, b -&gt; "Hello World! $a $b"} ("Arg1", "Arg2") 
+fun withArgs(out: (String, String) -&gt; String, a: String, b: String) {
+    println(out(a, b))
+} 
+안됨!
+*/</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>두 개 이상의 람다식을 가질 때</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">twoLambda</span><span class="p">({</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span>  <span class="dl">"</span><span class="s2">First $a $b</span><span class="dl">"</span> <span class="p">},</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Second $it</span><span class="dl">"</span><span class="p">})</span>
+    <span class="nx">twoLambda</span><span class="p">({</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">-&gt;</span>  <span class="dl">"</span><span class="s2">First $a $b</span><span class="dl">"</span> <span class="p">})</span> <span class="p">{</span><span class="dl">"</span><span class="s2">Second $it</span><span class="dl">"</span><span class="p">}</span> <span class="c1">// 두 개 이상일 경우 마지막 람다식에 한에서 중괄호로 빼낼수 있다.</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">twoLambda</span><span class="p">(</span><span class="nx">first</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">,</span> <span class="nx">second</span><span class="p">:</span> <span class="p">(</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">first</span><span class="p">(</span><span class="dl">"</span><span class="s2">OneParam</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">TwoParam</span><span class="dl">"</span><span class="p">))</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">second</span><span class="p">(</span><span class="dl">"</span><span class="s2">OneParam</span><span class="dl">"</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

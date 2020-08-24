@@ -1,0 +1,354 @@
+I"�B<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork1</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">1000</span> <span class="o">)</span>
+    <span class="k">return</span> <span class="s">"Work1"</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork2</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">3000</span> <span class="o">)</span>
+    <span class="k">return</span> <span class="s">"Work2"</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInSerial</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 순차적 실행</span>
+    <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="n">doWork1</span><span class="o">()</span>
+        <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="n">doWork2</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln One : $one"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln two : $two"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">worksInSerial</span><span class="o">()</span>
+    <span class="n">readLine</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>Kotlin One : Work1
+Kotlin Two : Work2
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork1</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">3000</span> <span class="o">)</span>
+    <span class="k">return</span> <span class="s">"Work1"</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork2</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">1000</span> <span class="o">)</span> <span class="c1">// 시간을 반대로 하더라도 같은 결과</span>
+    <span class="k">return</span> <span class="s">"Work2"</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInSerial</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 순차적 실행</span>
+    <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="n">doWork1</span><span class="o">()</span>
+        <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="n">doWork2</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln One : $one"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln two : $two"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">worksInSerial</span><span class="o">()</span>
+    <span class="n">readLine</span><span class="o">()</span> <span class="c1">// Enter를 눌러서 종료되게끔 하는 장치</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>Kotlin One : Work1
+Kotlin Two : Work2
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork1</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">3000</span> <span class="o">)</span>
+    <span class="k">return</span> <span class="s">"Work1"</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork2</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">1000</span> <span class="o">)</span> <span class="c1">// 시간을 반대로 하더라도 같은 결과</span>
+    <span class="k">return</span> <span class="s">"Work2"</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInSerial</span><span class="o">():</span> <span class="nc">Job</span> <span class="o">{</span>
+    <span class="c1">// 순차적 실행</span>
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="n">doWork1</span><span class="o">()</span>
+        <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="n">doWork2</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln One : $one"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln two : $two"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">job</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">time</span> <span class="o">=</span> <span class="n">measureTimeMillis</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="n">worksInSerial</span><span class="o">()</span>
+        <span class="n">job</span><span class="o">.</span><span class="na">join</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"time: $time"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>Kotlin One : Work1
+Kotlin Two : Work2
+time: 4026 // 병행적으로 실행되지 않고 순차적임을 알수 있다.
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="async-코루틴-빌더-생성">async 코루틴 빌더 생성</h3>
+
+<p>동시성 처리를 위한 async 코루틴</p>
+<ul>
+  <li>launch와 다른 점은 Deferred<T>를 통해 결과값을 반환</T></li>
+  <li>지연된 결과 값을 받기 위해 await()를 사용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="o">...</span>
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInParallel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// Deferred&lt;T&gt; 를 통해 결과값을 반환</span>
+    <span class="c1">// 새로운 코루틴 빌더 (병행 처리!)</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+    <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">async</span> <span class="o">{</span>
+        <span class="n">doWork1</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+    <span class="c1">// 새로운 코루틴 빌더 (병행 처리!)</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+    <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">async</span> <span class="o">{</span>
+        <span class="n">doWork2</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+    <span class="c1">// await에서 대기!</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+    <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">combined</span> <span class="o">=</span> <span class="n">one</span><span class="o">.</span><span class="na">await</span><span class="o">()</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="n">two</span><span class="o">.</span><span class="na">await</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotlin Combined : $combined"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="cm">/*------------------------------------------------*/</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork1</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">3000</span> <span class="o">)</span>
+    <span class="k">return</span> <span class="s">"Work1"</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doWork2</span><span class="o">():</span> <span class="nc">String</span> <span class="o">{</span>
+    <span class="n">delay</span><span class="o">(</span> <span class="mi">1000</span> <span class="o">)</span> <span class="c1">// 시간을 반대로 하더라도 같은 결과</span>
+    <span class="k">return</span> <span class="s">"Work2"</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInSerial</span><span class="o">():</span> <span class="nc">Job</span> <span class="o">{</span>
+    <span class="c1">// 순차적 실행</span>
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="n">doWork1</span><span class="o">()</span>
+        <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="n">doWork2</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln One : $one"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotiln two : $two"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">job</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="n">fun</span> <span class="nf">worksInParallel</span><span class="o">():</span> <span class="nc">Job</span> <span class="o">{</span>
+    <span class="c1">// 순차적 실행</span>
+    <span class="n">val</span> <span class="n">one</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">async</span> <span class="o">{</span>
+        <span class="n">doWork1</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">val</span> <span class="n">two</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">async</span> <span class="o">{</span>
+        <span class="n">doWork2</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">combined</span> <span class="o">=</span> <span class="n">one</span><span class="o">.</span><span class="na">await</span><span class="o">()</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="n">two</span><span class="o">.</span><span class="na">await</span><span class="o">()</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Kotlin Combined: $combined"</span><span class="o">)</span>
+
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">job</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">time</span> <span class="o">=</span> <span class="n">measureTimeMillis</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="n">worksInParallel</span><span class="o">()</span>
+        <span class="n">job</span><span class="o">.</span><span class="na">join</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"time: $time"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>Kotlin One : Work1
+Kotlin Two : Work2
+time: 3026 // 병행적으로 실행 하고 있음을 할 수 있다.
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

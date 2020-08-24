@@ -108,8 +108,6 @@ section.recent-posts {
     margin-bottom: 3rem;
     box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
-
-    max-width: 630px;
 }
 
 .article-post table tbody tr {
@@ -152,11 +150,9 @@ pre code table tbody tr {
 pre code table tbody tr td{
     display: table-cell;
     vertical-align: inherit;
-    padding: 0 0.5px 0 0!important;
-    
+    padding: 0!important;
+    border-left: 0.1rem solid whitesmoke;
 }
-
-
 
 .article-post ol,
 .article-post ul {

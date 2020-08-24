@@ -1,0 +1,436 @@
+I"�q<h3 id="지연-초기화">지연 초기화</h3>
+<p>변수나 객체의 값은 생성시 초기화가 필요하다. 생성 할때 초기화를 진행하기 보다 해당 정보가 나중에 정해지는 경우가 있으므로 프로그램의 성능측면에서 나중에 초기화를 진행하게 되는데 이때 해당 변수나 객체의 값은 null을 가리키게 된다. 그러나 코틀린에서는 이러한 null 값을 용납하지 못한다. 그래서 lateinit과 lazy를 이용하여 null 값을 가지지 않도록 객체의 정보가 나중에 나타나는 때에 초기화 할수 있도록 도와준다.</p>
+
+<h3 id="lateinit">lateinit</h3>
+<p>의존성이 있는 초기화나 unit 테스트를 위한 코드를 작성시</p>
+<ul>
+  <li>Car 클래스의 초기화 부분에 Engine 클래스와 의존성을 가지는 경우, 다시말해 Engine 객체가 생성되지 않으면 완전하게 초기화 할 수 없는경우</li>
+  <li>단위(Unit) 테스트를 위해 임시적으로 객체를 생성 시켜야 하는 경우</li>
+</ul>
+
+<p>프로퍼티 지연 초기화</p>
+<ul>
+  <li>클래스를 선언할 때 프로퍼티 선언은 null을 허용하지 않는다.</li>
+  <li>하지만, 지연 초기화를 위한 lateinit 키워드를 사용하면 프로퍼티에 값이 바로 할당되지 않아도 된다.</li>
+</ul>
+
+<p>lateinit의 제한</p>
+<ul>
+  <li>var로 선언된 프로퍼티만 가능하다.</li>
+  <li>프로퍼티에 대한 게터와 세터를 사용할 수 없다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Person</span> <span class="p">{</span>
+    <span class="nx">lateinit</span> <span class="kd">var</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span> <span class="c1">// 늦은 초기화를 위한 선언</span>
+
+    <span class="nx">fun</span> <span class="nx">test</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">::</span><span class="nx">name</span><span class="p">.</span><span class="nx">isInitialized</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 프로퍼티의 초기화 여부 판단 (:: -&gt; 참조방식으로 값을 호출)</span>
+            <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">not initialized</span><span class="dl">"</span><span class="p">)</span> 
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">initialized</span><span class="dl">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">kildong</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">()</span>
+    <span class="c1">// println("name = ${kildong.name}") // UninitailizedPropertyAccessException</span>
+    <span class="nx">kildong</span><span class="p">.</span><span class="nx">test</span><span class="p">()</span>
+    <span class="nx">kildong</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">kildong</span><span class="dl">"</span> <span class="c1">// 이시점에서 초기화 됨(지연 초기화)</span>
+    <span class="nx">kildong</span><span class="p">.</span><span class="nx">test</span><span class="p">()</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">name = ${kildong.name}</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>객체 지연 초기화</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="nx">data</span> <span class="kd">class</span> <span class="nx">Person</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span><span class="p">:</span><span class="nb">String</span><span class="p">,</span> <span class="kd">var</span> <span class="nx">age</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> 
+
+<span class="nx">lateinit</span> <span class="kd">var</span> <span class="nx">person1</span><span class="p">:</span> <span class="nx">Person</span> <span class="c1">// 객체의 지연 초기화</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">person1</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">(</span><span class="dl">"</span><span class="s2">Kildong</span><span class="dl">"</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="c1">// 생성자 호출 시점에서 초기화 됨</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">person1</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> is </span><span class="dl">"</span> <span class="nx">person1</span><span class="p">.</span><span class="nx">age</span><span class="p">.</span><span class="nx">toString</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="lazy">lazy</h3>
+<ul>
+  <li>호출 시점에 by lazy {…} 정의에 의해 블록 부분의 초기화를 진행한다. 람다식이라 생각하면 된다.</li>
+  <li>불변의 변수 선언인 val에서만 사용 가능하다.(읽기 전용)</li>
+  <li>val 이므로 값을 다시 변경 할 수 없다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">LazyTest</span> <span class="p">{</span>
+    <span class="nx">init</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">init block</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kr">private</span> <span class="nx">val</span> <span class="nx">subject</span> <span class="nx">by</span> <span class="nx">lazy</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">lazy initialized</span><span class="dl">"</span><span class="p">)</span>
+        <span class="dl">"</span><span class="s2">Kotlin Programming</span><span class="dl">"</span> <span class="c1">// lazy 반환 값 (람다식이라 생각하면 된다)</span>
+    <span class="p">}</span>
+
+    <span class="nx">fun</span> <span class="nx">flow</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">not initialized</span><span class="dl">"</span><span class="p">)</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">subject one: $subject</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 이떄 초기화가 진행 된다. lazy initialized 출력.</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">subject two: $subject</span><span class="dl">"</span><span class="p">)</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">test</span> <span class="o">=</span> <span class="nx">LazyTest</span><span class="p">()</span>
+    <span class="nx">test</span><span class="p">.</span><span class="nx">flow</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>lazy 객체 지연 초기화</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">val</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="nx">val</span> <span class="nx">age</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">isPersonInstantiated</span><span class="p">:</span> <span class="nb">Boolean</span> <span class="o">=</span> <span class="kc">false</span> <span class="c1">// 초기화 용도 확인</span>
+
+    <span class="nx">val</span> <span class="nx">person</span> <span class="p">:</span> <span class="nx">Person</span> <span class="nx">by</span> <span class="nx">lazy</span> <span class="p">{</span>
+        <span class="nx">isPersonInstantiated</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="nx">Person</span><span class="p">(</span><span class="dl">"</span><span class="s2">Kim</span><span class="dl">"</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span> <span class="c1">// 객첼 반환</span>
+    <span class="p">}</span>
+
+    <span class="nx">val</span> <span class="nx">personDelegate</span> <span class="o">=</span> <span class="nx">lazy</span> <span class="p">{</span> <span class="nx">Person</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hong</span><span class="dl">"</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span> <span class="p">}</span> <span class="c1">// 위임 변수를 사용한 초기화</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">person Init: $isPersonInstantiated</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">personDelegate Init: ${personDelegate.isInitialized()}</span><span class="dl">"</span><span class="p">)</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">person.name = ${person.name}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 이 때 초기화</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">personDelegate.value.name = ${personDelegate.value.name}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 이 때 초기화</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">person Init: $isPersonInstantiated</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">personDelegate Init: ${personDelegate.isInitialized()}</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>by laze의 모드</p>
+
+<p>3가지 모드를 지정 가능 하다</p>
+<ul>
+  <li>SYNCHRONIZED 락을 사용해 단일 스레드만이 사용하는 것을 보장(기본값)</li>
+  <li>PUBLICATION 여러 군데서 호출될 수 있으나 처음 초기화도니 후 반호나 값을 사용</li>
+  <li>NONE 락을 사용하지 않기 때문에 빠르지만 다중 스레드가 접근할 수 있음(값의 일관성을 보장할 수 없음)</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>private val model by lazy (mode = LazyThreadSafetyMode.NONE) {
+    Injector.app().transactionsModel() // 이 코드는 단일 스레드의 사용이 보장 될 때 사용하는 것이 안전하다 
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="by를-통한-위임">by를 통한 위임</h3>
+<p>위임(delegation)</p>
+<ul>
+  <li>하나의 클래스가 다른 클래스에 위임하도록 선언</li>
+  <li>위임된 클래스가 가지는 멤버를 참조없이 호출
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>&lt; val|var|class &gt; 프로퍼티 혹은 클래스 이름: 자료형 by 위임자
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kr">interface</span> <span class="nx">Animal</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">eat</span><span class="p">()</span> <span class="p">{...}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">Cat</span> <span class="p">:</span> <span class="nx">Animal</span> <span class="p">{</span> <span class="p">}</span>
+<span class="nx">val</span> <span class="nx">cat</span> <span class="o">=</span> <span class="nx">Cat</span><span class="p">()</span>
+<span class="kd">class</span> <span class="nx">Robot</span> <span class="p">:</span> <span class="nx">Animal</span> <span class="nx">by</span> <span class="nx">cat</span> <span class="c1">// Amimal의 정의된 Cat의 모든 멤버를 Robot에 위임함</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>cat은 Animal 자료형의 private 멤버로 Robot 클래스 내에 저장</li>
+  <li>Cat에서 구현된 모든 Animal의 메소드는 정적 메소드로 생성</li>
+  <li>따라서, Animal에 대한 명시적인 참조를 사용하지 않고도 eat()을 바로 호출</li>
+</ul>
+
+<p>위임을 사용하는 이유
+코틀린의 기본 라이브러리는 open 되지 않은 최종 클래스</p>
+<ul>
+  <li>표준 라이브러리의 무분별한 상속의 복잡한 문제들을 방지한다.</li>
+  <li>단, 상속이나 직접 클래스의 기능 확장을 하기 어렵다.</li>
+</ul>
+
+<p>위임을 사용하게 되면</p>
+<ul>
+  <li>위임을 통해 상속과 비슷하게 최종 클래스의 모든 기능을 사용하면서 동시에 기능을 추가 확장 구현할 수 있다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kr">interface</span> <span class="nx">Car</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">go</span><span class="p">():</span> <span class="nb">String</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">VanImpl</span><span class="p">(</span><span class="nx">val</span> <span class="nx">power</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Car</span><span class="p">{</span>
+    <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">go</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">는 짐을 적재하며 $power 마력을 가집니다.</span><span class="dl">"</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">SportImpl</span><span class="p">(</span><span class="nx">val</span> <span class="nx">power</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Car</span> <span class="p">{</span>
+    <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">go</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">는 경주용에 사용되며 $power 마력을 가집니다.</span><span class="dl">"</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">CarModel</span><span class="p">(</span><span class="nx">val</span> <span class="nx">model</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="nx">impl</span><span class="p">:</span> <span class="nx">Car</span><span class="p">):</span> <span class="nx">Car</span> <span class="nx">by</span> <span class="nx">impl</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">carInfo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">$model ${go()}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 참조 없이 각 인ㄴ터페이스 구현 클래스의 go를 접근한다.</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">myDamas</span> <span class="o">=</span> <span class="nx">CarModel</span><span class="p">(</span><span class="dl">"</span><span class="s2">Damas 2010</span><span class="dl">"</span><span class="p">,</span> <span class="nx">VanImpl</span><span class="p">(</span><span class="dl">"</span><span class="s2">100마력</span><span class="dl">"</span><span class="p">))</span>
+    <span class="nx">val</span> <span class="nx">my350z</span> <span class="o">=</span> <span class="nx">CarModel</span><span class="p">(</span><span class="dl">"</span><span class="s2">350Z 2008</span><span class="dl">"</span><span class="p">,</span> <span class="nx">SportImpl</span><span class="p">(</span><span class="dl">"</span><span class="s2">350마력</span><span class="dl">"</span><span class="p">))</span>
+
+    <span class="nx">myDamas</span><span class="p">.</span><span class="nx">carInfo</span><span class="p">()</span> <span class="c1">// carInfo에 대한 다형성을 나타냄</span>
+    <span class="nx">my350z</span><span class="p">,</span><span class="nx">carInfo</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>by위임을 사용하지 않을 시</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="kr">interface</span> <span class="nx">Car</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">go</span><span class="p">():</span> <span class="nb">String</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">VanImpl</span><span class="p">(</span><span class="nx">val</span> <span class="nx">power</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Car</span><span class="p">{</span>
+    <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">go</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">는 짐을 적재하며 $power 마력을 가집니다.</span><span class="dl">"</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">SportImpl</span><span class="p">(</span><span class="nx">val</span> <span class="nx">power</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Car</span> <span class="p">{</span>
+    <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">go</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">는 경주용에 사용되며 $power 마력을 가집니다.</span><span class="dl">"</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">CarModel</span><span class="p">(</span><span class="nx">val</span> <span class="nx">model</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">val</span> <span class="nx">impl</span><span class="p">:</span> <span class="nx">Car</span><span class="p">):</span> <span class="nx">Car</span> <span class="p">{</span>
+    <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">go</span><span class="p">()</span> <span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="c1">// interface이기 때문에 override 해줘야 한다.</span>
+        <span class="k">return</span> <span class="dl">"</span><span class="s2">Test</span><span class="dl">"</span> 
+    <span class="p">}</span>
+    
+    <span class="nx">fun</span> <span class="nx">carInfo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">$model ${impl.go()}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 참조 없이 각 인ㄴ터페이스 구현 클래스의 go를 접근한다.</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">myDamas</span> <span class="o">=</span> <span class="nx">CarModel</span><span class="p">(</span><span class="dl">"</span><span class="s2">Damas 2010</span><span class="dl">"</span><span class="p">,</span> <span class="nx">VanImpl</span><span class="p">(</span><span class="dl">"</span><span class="s2">100마력</span><span class="dl">"</span><span class="p">))</span>
+    <span class="nx">val</span> <span class="nx">my350z</span> <span class="o">=</span> <span class="nx">CarModel</span><span class="p">(</span><span class="dl">"</span><span class="s2">350Z 2008</span><span class="dl">"</span><span class="p">,</span> <span class="nx">SportImpl</span><span class="p">(</span><span class="dl">"</span><span class="s2">350마력</span><span class="dl">"</span><span class="p">))</span>
+
+    <span class="nx">myDamas</span><span class="p">.</span><span class="nx">carInfo</span><span class="p">()</span> <span class="c1">// carInfo에 대한 다형성을 나타냄</span>
+    <span class="nx">my350z</span><span class="p">,</span><span class="nx">carInfo</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="프로퍼티-위임과-by-lazy-다시보기">프로퍼티 위임과 by lazy 다시보기</h3>
+<p>by lazy {…} 도 위임이다.</p>
+<ul>
+  <li>사용된 프로퍼티는 람다식 함수에 전달되어(위임되어) 함수에 의해 사용</li>
+</ul>
+
+<p>동작분석</p>
+<ol>
+  <li>lazy 람다식 함수는 람다를 전달받아 저장한 Lazy<T> 인스턴스를 반환한다.</T></li>
+  <li>최초 프로퍼티의 게터 실행은 lazy에 넘겨진 람다식 함수를 실행하고 결과를 기록한다.</li>
+  <li>이후 프로퍼티의 게터 실행은 이미 초기화되어 기록된 값을 반환한다.</li>
+</ol>
+
+<h3 id="observable과-vetoable의-위임">observable과 vetoable의 위임</h3>
+<p>observable</p>
+<ul>
+  <li>프로퍼티를 감시하고 있다가 특정 코드의 로직에서 변경이 일어날 때 호출</li>
+</ul>
+
+<p>vetoable</p>
+<ul>
+  <li>감시보다는 수여한다는 의미로 반환값에 따라 프러포티 변경을 허용하거나 취소</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="k">import</span> <span class="nx">kotlin</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">Delegates</span>
+
+<span class="kd">class</span> <span class="nx">User</span> <span class="p">{</span>
+    <span class="c1">// observable은 값의 변화를 감시하는 일종의 콜백 루틴</span>
+    <span class="kd">var</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span> <span class="nx">by</span> <span class="nx">Delegates</span><span class="p">.</span><span class="nx">observable</span><span class="p">(</span><span class="dl">"</span><span class="s2">NONAME</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 1. 프로퍼티를 위임</span>
+        <span class="nx">prop</span><span class="p">,</span> <span class="nx">old</span><span class="p">,</span> <span class="k">new</span> <span class="o">-&gt;</span> <span class="c1">// 2. 람다식 매개변수로 프로퍼티, 기존값, 새로운 값</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">$old -&gt; $new) // 3 이 부분은 이벤트가 발생할 때만 실행된다.
+    } // 마지막 람다식이기 때문에 중괄호를 빼내서 사용하는 것
+}
+
+fun main() {
+    val user = User()
+    user.name = </span><span class="dl">"</span><span class="nx">Kildong</span><span class="dl">"</span><span class="s2"> // 4. 값이 변경되는 시점에서 첫 이벤트 발생
+    user.name = </span><span class="dl">"</span><span class="nx">Dooly</span><span class="dl">"</span><span class="s2"> // 5 값이 변경되는 시점에서 두번째 이벤트 발생
+}
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="k">import</span> <span class="nx">kotlin</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">Delegates</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">max</span><span class="p">:</span> <span class="nx">Int</span> <span class="nx">by</span> <span class="nx">Delegates</span><span class="p">.</span><span class="nx">vetoable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 1. 초기값은 0</span>
+        <span class="nx">prop</span><span class="p">,</span> <span class="nx">old</span><span class="p">,</span> <span class="k">new</span> <span class="o">-&gt;</span> 
+        <span class="k">new</span> <span class="o">&gt;</span> <span class="nx">old</span> <span class="c1">// 2. 조건에 맞지 않으면 거부권 행사</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span> <span class="c1">// 0</span>
+    <span class="nx">max</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span> <span class="c1">// 10</span>
+
+    <span class="c1">// 여기서는 기존 값이 새 값보다 크므로 false</span>
+    <span class="c1">// 따라서 5를 재할당 하지 않는다.</span>
+    <span class="nx">max</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">max</span><span class="p">)</span> <span class="c1">// 10</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

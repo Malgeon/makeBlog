@@ -1,0 +1,401 @@
+I"�]<h3 id="스레드풀">스레드풀</h3>
+
+<p>스레드풀(thread pool)의 사용</p>
+<ul>
+  <li>보통 CommonPool이 지정되어 코루틴이 사용할 스레드의 공동 풀(pool)을 사용</li>
+  <li>이미 초기화되어 있는 스레드 중 하나 혹은 그 이상이 선택되며 초기화하기 때문에 스레드를 생성하는 오버헤드가 없어 빠름</li>
+  <li>하나의 스레드에 다수의 코루틴이 동작할 수 있다.</li>
+</ul>
+
+<p>특정 스레드 개수를 직접 지정하는 경우</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+<span class="n">val</span> <span class="nc">MyContext</span> <span class="o">=</span> <span class="n">threadPool</span><span class="o">.</span><span class="na">asCoroutineDispatcher</span><span class="o">()</span>
+<span class="o">...</span>
+<span class="n">async</span><span class="o">(</span><span class="nc">MyContext</span><span class="o">)</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="o">...</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>부모-자식 및 독립적인 스코프의 코루틴</p>
+
+<p>예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span><span class="o">&lt;</span><span class="nc">Unit</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"runBlocking: $coroutineContext"</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">request</span> <span class="o">=</span> <span class="n">launch</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"requst: $coroutineContext"</span><span class="o">)</span>
+        <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span> <span class="c1">// 프로그램 전역으로 독립적인 수행 (부모-자식관계 없음)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: after suspend function, $coroutineContext"</span><span class="o">)</span> <span class="c1">// 작업 취소에 영향을 받지 않음</span>
+        <span class="o">}</span>
+
+        <span class="n">launch</span> <span class="o">{</span> <span class="c1">// 부모의 문맥을 상속(상위 launch의 자식)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: after suspend function, $coroutineContext"</span><span class="o">)</span> <span class="c1">// request(부모)가 취소되면 수행되지 않음</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="na">cancel</span><span class="o">()</span> <span class="c1">// 부모 코루틴의 취소</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"end"</span><span class="o">)</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>runBlocking: [Blocking...{Active}..., BlockingEventLoop...]
+request: [Standalone...{Active}..., BlockingEventLoop...]
+job1: before suspend function, [Standalone...{Active}..., DefaultDispatcher]
+job2: before suspend function, [Standalone...{Active}..., BlockingEventLoop...]
+job1: after suspend function, [Standalone...{Active}..., DefaultDispatcher]
+end
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span><span class="o">&lt;</span><span class="nc">Unit</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"runBlocking: $coroutineContext"</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">request</span> <span class="o">=</span> <span class="n">launch</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"requst: $coroutineContext"</span><span class="o">)</span>
+        <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span> 
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: after suspend function, $coroutineContext"</span><span class="o">)</span> 
+        <span class="o">}</span>
+
+        <span class="n">launch</span><span class="o">(</span><span class="nc">Dispatchers</span><span class="o">.</span><span class="na">Default</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 부모의 문맥을 상속(상위 launch의 자식), 분리된 작업</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: after suspend function, $coroutineContext"</span><span class="o">)</span> <span class="c1">// 여전히 상속되었으므로 취소</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="na">cancel</span><span class="o">()</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"end"</span><span class="o">)</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>runBlocking: [Blocking...{Active}..., BlockingEventLoop...]
+request: [Standalone...{Active}..., BlockingEventLoop...]
+job1: before suspend function, [Standalone...{Active}..., DefaultDispatcher]
+job2: before suspend function, [Standalone...{Active}..., DefaultDispatcher] // 달라진 부분
+job1: after suspend function, [Standalone...{Active}..., DefaultDispatcher]
+end
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span><span class="o">&lt;</span><span class="nc">Unit</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"runBlocking: $coroutineContext"</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">request</span> <span class="o">=</span> <span class="n">launch</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"requst: $coroutineContext"</span><span class="o">)</span>
+        <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span> 
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job1: after suspend function, $coroutineContext"</span><span class="o">)</span> 
+        <span class="o">}</span>
+
+        <span class="nc">CoroutineScope</span><span class="o">(</span><span class="nc">Dispatchers</span><span class="o">.</span><span class="na">Default</span><span class="o">).</span><span class="na">launch</span> <span class="o">{</span> <span class="c1">// 새로운 스코프가 구성되어 request와 무관</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: before suspend function, $coroutineContext"</span><span class="o">)</span>
+            <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"job2: after suspend function, $coroutineContext"</span><span class="o">)</span> <span class="c1">// 무관하므로 실행된다.</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="na">cancel</span><span class="o">()</span>
+    <span class="n">delay</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"end"</span><span class="o">)</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>runBlocking: [Blocking...{Active}..., BlockingEventLoop...]
+request: [Standalone...{Active}..., BlockingEventLoop...]
+job1: before suspend function, [Standalone...{Active}..., DefaultDispatcher]
+job2: before suspend function, [Standalone...{Active}..., DefaultDispatcher]
+job1: after suspend function, [Standalone...{Active}..., DefaultDispatcher]
+job2: after suspend function, [Standalone...{Active}..., DefaultDispatcher]
+end
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>실행방법의 비교
+1.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">work</span><span class="o">(</span><span class="nl">i:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Work $i done"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">time</span> <span class="o">=</span> <span class="n">measureTimeMillis</span> <span class="o">{</span>
+        <span class="n">runBlocking</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">launch</span> <span class="o">{</span>
+                    <span class="n">work</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Done in $time ms"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>Work 1 done
+Work 2 done
+Done in 2268 ms
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>생성된 두개의 작업은 단일 스레드에서 순차적으로 실행 된다.</p>
+
+<p>2.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">work</span><span class="o">(</span><span class="nl">i:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Work $i done"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">time</span> <span class="o">=</span> <span class="n">measureTimeMillis</span> <span class="o">{</span>
+        <span class="n">runBlocking</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">launch</span><span class="o">(</span><span class="nc">Despatchers</span><span class="o">.</span><span class="na">Default</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">work</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Done in $time ms"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>Work 1 done
+Work 2 done
+Done in 1260 ms
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>생성된 두개의 작업은 동시성을 제공하여 분리된 작업으로 실행된다.</p>
+
+<p>3.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">work</span><span class="o">(</span><span class="nl">i:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Work $i done"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">time</span> <span class="o">=</span> <span class="n">measureTimeMillis</span> <span class="o">{</span>
+        <span class="n">runBlocking</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span> <span class="o">{</span>
+                    <span class="n">work</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Done in $time ms"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>Done in 118 ms
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>부모와 무관한 독립 실행이므로 작업 완료를 기다리지 않는다. (join()으로 기다려줘야 한다.)</p>
+
+<h3 id="빌더의-특정-속성-지정">빌더의 특정 속성 지정</h3>
+
+<p>시작 시점에 대한 속성 - launch의 원형</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="n">fun</span> <span class="nf">launch</span><span class="o">(</span>
+    <span class="nl">context:</span> <span class="nc">CoroutineContext</span><span class="o">,</span>
+    <span class="nl">start:</span> <span class="nc">CoroutineStart</span><span class="o">,</span>
+    <span class="nl">parent:</span> <span class="nc">Job</span><span class="o">?,</span>
+    <span class="nl">onCompletion:</span> <span class="nc">CompletionHandler</span><span class="o">?,</span>
+    <span class="nl">block:</span> <span class="n">suspend</span> <span class="nc">CoroutineScope</span><span class="o">.()</span> <span class="o">-&gt;</span> <span class="nc">Unit</span><span class="o">):</span> <span class="nc">Job</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>CooroutineStart</p>
+<ul>
+  <li>DEFAULT: 즉시 시작(해당 문맥에 따라 즉시 스케쥴링 됨)</li>
+  <li>LAZY: 코루틴을 느리게 시작(처음에는 중단된 상태이며 start()나 await() 등으로 시작)</li>
+  <li>ATOMIC: 원자적으로 즉시 시작(DEFAULT와 비슷하나 코루틴을 실행저에는 취소 불가)</li>
+  <li>UNDISPATCHED: 현재 스레드에서 즉시 시작(첫 지연함수까지, 이후 재개시 디스패치 된다)</li>
+</ul>
+
+<p>start() 혹은 await()가 호출될 때 실제로 시작</p>
+<ul>
+  <li>launch나 async는 즉시 실행되지만 start 옵션에 따라 실행시점을 늦출 수 있다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="n">async</span><span class="o">(</span><span class="n">start</span> <span class="o">=</span> <span class="nc">CoroutineStart</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span> <span class="o">{</span> <span class="n">doWork1</span><span class="o">()</span> <span class="o">}</span>
+<span class="o">...</span>
+<span class="n">job</span><span class="o">.</span><span class="na">start</span><span class="o">()</span> <span class="c1">// 실제 시작 시점으로 또는 job.await()으로 시작됨</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>안드로이드의 버튼을 통한 시작 예
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">someJob</span> <span class="o">=</span> <span class="n">launch</span><span class="o">(</span><span class="n">start</span> <span class="o">=</span> <span class="nc">CoroutineStart</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// some code //</span>
+<span class="o">}</span>
+<span class="n">someButton</span><span class="o">.</span><span class="na">setOnClickListener</span> <span class="o">{</span>
+  <span class="n">someJob</span><span class="o">.</span><span class="na">start</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+:ET

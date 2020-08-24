@@ -1,0 +1,47 @@
+I"�	<h1 id="테스트-환경-설정">테스트 환경 설정</h1>
+
+<p>코틀린 환경으로 문제를 풀게 될 경우 풀이를 할 환경은 다음과 같이 제시되어 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="c1">// IntArray와 2차 IntArray를 매개변수로 받아 IntArray를 Return하는 문제.</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">array:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">commands:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">intArrayOf</span><span class="o">()</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>디버깅을 하기 위해 IDE 환경에서 풀고자 한다면 아래와 같이 설정하도록 하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>디버깅을 하기 위해서 IntelliJ</p>
+
+<h2 id="나">나</h2>
+<h3 id="다">다</h3>
+<h4 id="라">라</h4>
+<h5 id="마">마</h5>
+<h6 id="사">사</h6>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>/******************************************************************************/
+try {
+    ...
+} catch ( e: CancellationExceoption) {ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
+    ... 취소에 대한 예외처리 ...
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

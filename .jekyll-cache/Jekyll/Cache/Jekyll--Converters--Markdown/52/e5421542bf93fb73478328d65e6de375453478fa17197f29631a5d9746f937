@@ -1,0 +1,218 @@
+I"�3<h3 id="동시성-프로그래밍">동시성 프로그래밍</h3>
+
+<p>동기적(synchronous) 수행</p>
+<ul>
+  <li>순서대로 작업을 수행하여 하나의 루틴을 완료한 후 다른 루틴을 실행하는 방식</li>
+  <li>다양한 기능이 한꺼번에 일어나는 다중 실행 환경에서는 성능상의 제약 발생
+    <ul>
+      <li>예시) UI, 데이터 다운로드를 동시에 대응해야 하는 경우</li>
+    </ul>
+  </li>
+</ul>
+
+<p>비동기적(asynchronous) 수행</p>
+<ul>
+  <li>다양한 기능을 동시에 수행할 수 있는 방식</li>
+  <li>전통적인 스레드를 이용하거나 RxJava, Reactive와 같은 서드파티(third-party)라이브러리에서 제공</li>
+  <li>코틀린에서는 코루틴 (coroutines)을 기본으로 제공</li>
+</ul>
+
+<p>코루틴</p>
+<ul>
+  <li>먼저 하나의 개별적인 작업을 루틴(routine)이라고 부르는데 여러 개의 루틴들이 협력(co)한다는 의미로 만들어진 합성어</li>
+  <li>코틀린의 코루틴을 사용하면 넌블로킹(non-blocking) 또는 비동기 코드를 마치 일반적인 동기 코드처럼 쉽게 작성하면서도 비동기 효과를 낼 수 있다.</li>
+</ul>
+
+<p><img src="/assets/images/study/kotlin/kotlin_oop_blocking.JPG" alt="blocking" /></p>
+
+<p><img src="/assets/images/study/kotlin/kotlin_oop_nonblocking.JPG" alt="nonblocking" /></p>
+
+<p>Concurrency(병행성) : 시간을 짧게 나눠 하나의 코어에서 실행 - OS의 스케쥴러에서 처리를 해준다.</p>
+
+<h3 id="프로세스와-스레드">프로세스와 스레드</h3>
+
+<p>태스크(Task) 개념</p>
+<ul>
+  <li>보통 태스크는 큰 실행 단위인 프로세스(process)나 조금 더 작은 실행 단위인 스레드(thread)로 생각할 수 있다.</li>
+  <li>프로세스는 실행되는 메모리, 스택, 열린 파일 등을 모두 포함하기 때문에 프로세스간 문맥 교환(context-switching)을 하는 데 비용이 크다.</li>
+  <li>스레드는 자신의 스택만 독립적으로 가지고 나머지는 대부분 공유하므로 문맥 교환 비용이 낮아 프로그래밍에서 많이 사용된다.</li>
+  <li>다만 여러 개의 스레드를 구성하면 코드가 복잡하다.</li>
+</ul>
+
+<p>문맥 교환(context-switching)</p>
+<ul>
+  <li>하나의 프로세스나 스레드가 CPU를 사용하고 있는 상태에서 다른 프로세스나 스레드가 CPU를 사용하도록 하기 위해, 이전의 프로세스의 상태(문맥)를 보관하고 새로운 프로세스의 상태를 적재하는 과정
+(코루틴 자체에서는 문맥 교환이 없다고 할 수 있다.)</li>
+</ul>
+
+<p><img src="/assets/images/study/kotlin/kotlin_oop_context-switching.JPG" alt="context-switching" /></p>
+
+<p>스레드 연습</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="rouge-code"><pre><span class="c1">// 클래스</span>
+<span class="kd">class</span> <span class="nc">SimpleThread</span> <span class="o">:</span> <span class="nc">Thread</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">override</span> <span class="n">fun</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Class Thread ${Thread.currentThread()}"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// 인터페이스</span>
+<span class="kd">class</span> <span class="nc">SimpleRunnalbe</span> <span class="o">:</span> <span class="nc">Runnable</span> <span class="o">{</span>
+    <span class="n">override</span> <span class="n">fun</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Interface Thread ${Thread.currentThread()}"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">thread</span> <span class="o">=</span> <span class="nc">SimpleThread</span><span class="o">()</span>
+    <span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">()</span>
+
+    <span class="n">val</span> <span class="n">runnalbe</span> <span class="o">=</span> <span class="nc">SimpleRunnable</span><span class="o">()</span>
+    <span class="n">val</span> <span class="n">thread2</span> <span class="o">=</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">runnable</span><span class="o">)</span>
+    <span class="n">thread2</span><span class="o">.</span><span class="na">start</span><span class="o">()</span>
+
+    <span class="c1">// 익명 객체</span>
+    <span class="n">object</span> <span class="o">:</span> <span class="nc">Thread</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">override</span> <span class="n">fun</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"object Thread: ${Thread.currentThread()}"</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}.</span><span class="na">start</span><span class="o">()</span>
+
+    <span class="c1">// 람다식</span>
+    <span class="nc">Thread</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Lambda Thread: ${Thread.currentThread()}"</span><span class="o">)})</span>
+    <span class="o">}.</span><span class="na">start</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre><span class="c1">// 람다식 추가 함수를 만들어 실행</span>
+<span class="kd">public</span> <span class="n">fun</span> <span class="nf">thread</span><span class="o">(</span><span class="nl">start:</span> <span class="nc">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">isDaemon:</span> <span class="nc">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+                  <span class="nl">contextClassLoader:</span> <span class="nc">ClassLoader</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span> <span class="nl">name:</span> <span class="nc">String</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span>
+                  <span class="nl">priority:</span> <span class="nc">Int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nl">block:</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">Unit</span><span class="o">):</span> <span class="nc">Thread</span> <span class="o">{</span>
+    
+    <span class="n">val</span> <span class="n">thread</span> <span class="o">=</span> <span class="n">obejct</span> <span class="o">:</span> <span class="nc">Thread</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">override</span> <span class="n">fun</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">block</span><span class="o">()</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">isDaemon</span><span class="o">)</span> <span class="n">thread</span><span class="o">.</span><span class="na">isDaemon</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// 백그라운드 실행 여부</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">priority</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">thread</span><span class="o">.</span><span class="na">priority</span> <span class="o">=</span> <span class="n">priority</span> <span class="c1">// 우선순위 ( 1: 낮음 ~ 5: 보통 ~ 10: 높음) [default는 5]</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">name</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">thread</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span> <span class="c1">// 이름</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">contextClassLoader</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">thread</span><span class="o">.</span><span class="na">contextClassLoader</span> <span class="o">=</span> <span class="n">contextClassLoader</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">()</span>
+
+    <span class="k">return</span> <span class="n">thread</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 스레드의 옵션 변수를 손쉽게 설정할 수 있다.</span>
+
+    <span class="n">thread</span><span class="o">(</span><span class="n">start</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Current Threads(Custom function): ${Thread.currentThread()}"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Priority: ${Thread.currentThread().priority}"</span><span class="o">)</span> <span class="c1">// 기본값은 5</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Name: ${Thread.currentThread().name}"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Name: ${Thread.currentThread().isDaemon}"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>Current Threads(Custom function): Thread[Thread-0,5,main]
+Priority: 5
+Name: Thread-0
+Name: false
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="스레드-풀-사용하기">스레드 풀 사용하기</h3>
+<p>newFixedThreadPool()</p>
+<ul>
+  <li>자주 재사용되는 스레드를 이요하기 위해 미리 생성된 스레드풀에서 스레드 이용</li>
+  <li>예시) 8개의 스레드로 특정 백그라운드 서비스를 ㅏ도록 만든다고 했을 때</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="nl">myService:</span><span class="nc">ExecutorService</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">8</span><span class="o">)</span>
+<span class="kt">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">items</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 아주 큰 데이터를 처리할 때</span>
+    <span class="n">val</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+    <span class="n">myService</span><span class="o">.</span><span class="na">submit</span> <span class="o">{</span>
+        <span class="n">processItem</span><span class="o">(</span><span class="n">item</span><span class="o">)</span> <span class="c1">// 여기서 아주 긴 시간 동안 처리 하는 경우</span>
+    <span class="o">}</span>
+
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

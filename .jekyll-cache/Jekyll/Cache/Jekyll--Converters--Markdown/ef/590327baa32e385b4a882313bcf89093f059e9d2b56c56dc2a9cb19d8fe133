@@ -1,0 +1,223 @@
+I"�)<h3 id="job">Job()</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">delay</span><span class="o">(</span> <span class="mi">1000L</span> <span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"World"</span><span class="o">)</span>
+        <span class="n">doSomething</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"job: $job"</span><span class="o">)</span>
+    <span class="nc">THread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="mi">2000L</span> <span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"job: $job"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Do Something"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>Hello
+job: StandaloneCoroutine{Active}@....
+World
+Do Something
+job: StandaloneCoroutine{Completed}@....
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">delay</span><span class="o">(</span> <span class="mi">1000L</span> <span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"World"</span><span class="o">)</span>
+        <span class="n">doSomething</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"job: ${job.isActive}, ${job.isCompleted}"</span><span class="o">)</span>
+    <span class="nc">THread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span> <span class="mi">2000L</span> <span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"job: ${job.isActive}, ${job.isCompleted}"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Do Something"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>Hello
+job: true, false
+World
+Do Something
+job: false, true
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="job-객체">Job 객체</h3>
+<p>Job</p>
+<ul>
+  <li>코루틴의 생명주기를 관리하며 생성된 코루틴 작업들은 부모-자식과 같은 관계를 가질 수 있다.</li>
+</ul>
+
+<p>Job 규칙</p>
+<ul>
+  <li>부모가 취소(cancel)되거나 실행 실패하면 그 하위 자식들은 모두 취소된다.</li>
+  <li>자식의 실패는 그 부모에 전달되며 부모 또한 실패한다. (다른 모든 자식도 취소됨)</li>
+</ul>
+
+<p>SupervisorJob</p>
+<ul>
+  <li>자식의 실패가 그 부모나 다른 자식에 전달되지 않으므로 실행을 유지할 수 있다.</li>
+</ul>
+
+<h4 id="join-결과-기다리기">Join() 결과 기다리기</h4>
+<p>Join()</p>
+<ul>
+  <li>Job 객체의 join()을 사용해 완료를 기다릴 수 있다.
+    <ul>
+      <li>launch에서 반환 값을 받으면 Job 객체가 되기 때문에 이것을 이용해 main 메서드에서 join()을 호출할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="o">...</span>
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">=</span> <span class="n">runBlocking</span><span class="o">&lt;</span><span class="nc">Unit</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="n">launch</span> <span class="o">{</span> <span class="c1">// Job의 객체를 반환</span>
+        <span class="n">delay</span><span class="o">(</span><span class="mi">1000L</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"World!"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+    <span class="n">job</span><span class="o">.</span><span class="na">join</span><span class="o">()</span> <span class="c1">// 명시적으로 코루틴이 완료되길 기다림. 취소할 경우 job.cancel()을 사용</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">kotlinx.coroutines.*</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">runBlocking</span> <span class="o">{</span> <span class="c1">// coroutine Block 생성!</span>
+        <span class="n">val</span> <span class="n">job</span> <span class="o">=</span> <span class="nc">GlobalScope</span><span class="o">.</span><span class="na">launch</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">delay</span><span class="o">(</span> <span class="mi">1000L</span> <span class="o">)</span>
+            <span class="n">println</span><span class="o">(</span><span class="s">"World"</span><span class="o">)</span>
+            <span class="n">doSomething</span><span class="o">()</span>
+        <span class="o">}</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"job: ${job.isActive}, ${job.isCompleted}"</span><span class="o">)</span>
+        <span class="n">job</span><span class="o">.</span><span class="na">join</span><span class="o">()</span> <span class="c1">// launch가 완료될 때까지 상위 루틴은 블록킹한다.</span>
+        <span class="c1">// join()이 suspend 함수라서 coroutine 안에서만 사용가능</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"job: ${job.isActive}, ${job.isCompleted}"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">suspend</span> <span class="n">fun</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"Do Something"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>Hello
+job: true, false
+World
+Do Something
+job: false, true
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="job의-상태">Job의 상태</h3>
+<p>| 상태 | isActive | isCompleted | isCancelled |
+| — | — | — | — |
+| New | false | false | false |
+| Active(기본값 상태) | true | false | false |
+| Completing | true | false | false |
+| Cancelling | false | false | true |
+| Cancelled(최종 상태) | false | true | true |
+| Completed(최종 상태) | false | true | false |</p>
+
+<p><img src="/assets/images/study/kotlin/kotlin_oop_job_status.JPG" alt="Job-Status" /></p>
+
+<h3 id="코루틴의-중단과-취소">코루틴의 중단과 취소</h3>
+
+<p>중단 (코루틴 코드 내에서)</p>
+<ul>
+  <li>delay(시간값) - 일정 시간을 지연하며 중단</li>
+  <li>yield() - 특정 값을 산출하기 위해 중단</li>
+</ul>
+
+<p>취소 (코루틴 외부에서)</p>
+<ul>
+  <li>Job.cancel() - 지정된 코루틴 작업을 즉시 취소</li>
+  <li>Job.cancelAndJoin() - 지정된 코루틴 작업을 취소 (완료시까지 기다림)</li>
+  <li>기본적으로 부모 자식 관계에 적용될 수 있으며 부모 블록이 취소되면 모든 자식 코루틴이 취소된다.</li>
+</ul>
+:ET
