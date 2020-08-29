@@ -10,7 +10,7 @@ image: assets/images/study/kotlin.png
 ---
  
 
- ### closure
+### closure
 - 람다식으로 표현된 내부 함수에서 외부 범위에 선언된 변수에 접근할 수 있는 개념
 - 람다식 안에 있는 외부 변수는 값을 유지하기 위해 람다가 포획(capture)한 변수
 
@@ -69,10 +69,8 @@ fun main() {
         val str = score.let { it.toString() }
         println(str)
     }
-
     checkScore()
     checkScoreLet()
-
 }
 ```
 let 함수의 체이닝(chaining)
@@ -83,7 +81,7 @@ fun main() {
     val b = 2
 
     a = a.let { it + 2 }.let {
-        println("a = $a)
+        println("a = $a")
         val i = it + b
         i
     }
@@ -147,6 +145,7 @@ var firstName?.let { // obj가 null 아닐경우 작업 수행 (Safe calls + let
 ### also()
 
 `public inline fun <T> T.also(block: (T) -> Unit): T { block(this); return this }` 
+
 함수를 호출하는 객체 T를 이어지는 block에 전달하고 객체 T 자체를 반환.(let은 블록의 결과값 반환)
 
 ```javascript
@@ -198,6 +197,7 @@ fun makeDIr(path: String) = path.let { File(it) }.also{ it.mkdirs() }
 ### apply()
 
 `public inline fun <T> T.apply(block: T.() -> Unit): T { block(); return this }`
+
 also() 함수와 동일하게 호출하는 객체 T를 이어지는 block으로 전달하고 객체 자체인 this를 반환.
 also는 block에서 람다식으로 처리하지만 apply는 확장 함수로 처리한다. (it을 사용하지 않고, this를 사용)
 

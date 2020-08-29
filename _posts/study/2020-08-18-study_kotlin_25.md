@@ -25,6 +25,7 @@ for(element in numbers) { // 정수형으로 초기화된 배열 출력하기
 ```
 
 다차원 배열
+
 ```java
 val array1 = arrayOf(1, 2, 3)
 val array2 = arrayOf(4, 5, 6)
@@ -47,6 +48,7 @@ for (e1 in arr2d) {
 ```
 
 다양한 자료형
+
 ```java
 val mixArr = arrayOf(4, 5, 6, 1, "Chike", false) // 정수, 문자열, Boolean 혼합
 ```
@@ -62,6 +64,7 @@ val mixArr = arrayOf(4, 5, 6, 1, "Chike", false) // 정수, 문자열, Boolean �
 배열 요소에 접근
 
 선언부
+
 ```java
 // 코틀린 표준 라이브러리의 Array.kt
 public class Array<T> {
@@ -74,6 +77,7 @@ public class Array<T> {
 ```
 
 연산자를 통한 접근
+
 ```java
 arr.get(index) -> value = arr[index]
 arr.set(index) -> arr[index] = value
@@ -81,17 +85,18 @@ arr.set(index) -> arr[index] = value
 
 예시
 - 읽기 접근
+
 ```java
 val arr = intArrayOf(1, 2, 3, 4, 5)
 println(arr.get(2)) // 게터를 통한 접근
 println(arr[2]) // 연산자 오버로딩으로 대괄호를 통한 접근
-
 ```
 ```java
 val arr2d = arrayOf(arrayOf(1, 2, 3), arrayOf(4, 5, 6), arrayOf(7, 8, 9))
 println(arr2d[2][1]) // 8을 출력
 ```
 - 쓰기 접근
+
 ```java
 arr.set(2, 7) // 인덱스 2번 요소를 값 7로 교체
 arr[0] = 8 // 인덱스 0번 요소를 값 8로 교체
@@ -100,6 +105,7 @@ println("size: ${arr.size} arr[0]: ${arr[0]}, arr[2]: ${arr[2]}")
 ```
 
 practice
+
 ```java
 import java.util.Arrays // Arrays를 사용하기 위해
 
@@ -151,12 +157,14 @@ fun main(args: Array<String>) {
 
 배열 출력을 도와주는 함수
 toString
+
 ```java
 val arr = intArrayOf(1, 2, 3, 4, 5)
 println(Arrays.toString(arr)) // [1, 2, 3, 4, 5]
 ```
 
 deepToString() [다차원 배열에서 사용!]
+
 ```java
 val array = arrayOf(intArrayOf(1, 2),
             intArrayOf(3, 4)

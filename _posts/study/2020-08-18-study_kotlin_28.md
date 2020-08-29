@@ -28,6 +28,7 @@ s = "xyz" // 새로운 메모리 공간이 생성된다.
 ### 문자열 추출하고 병합하기
 문자열에서 특정 범위의 문자열을 추출
 - substring(), subsequence()
+
 ```
 String.substring( 인덱스 범위 지정 ): String
 CharSequence.subSequence( 인덱스 범위 지정 ): CharSequence
@@ -47,6 +48,7 @@ s = s.substring(0..1) + "x" + s.substring(3..s.length-1) // ab를 추출하고 x
 
 a.compareTo(b)를 사용한 비교
 - a와 b가 같다면 0을 반환하고, a가 b보다 작으면 양수, 그렇지 않으면 음수
+
 ```java
 var s1 = "Hello Kotlin"
 var s2 = "Hello KOTLIN"
@@ -68,6 +70,7 @@ s[2] = 'x' // 허용되지 않았던 요소이 변경이 가능하다. 결과는
 
 StringBuilder 관련 메서드
 - append(포함), insert(추가), delete(삭제) 등
+
 ```java
 var s = StringBuilder("Hello")
 s.append("World") // HelloWorld
@@ -83,6 +86,7 @@ s.delete(5, 10) // index 5부터 10 전까지 삭제되어 HelloAdded
 
 특정 문자 단위로 잘라내기
 - split("분리문자") - 분리된 내용은 List로 반환
+
 ```java
 var deli = "Welcome to Kotlin"
 val sp = deli.split(" ")
@@ -95,6 +99,7 @@ println(sp) // ["Welcome", "to", "Kotlin"]
 
 ### 리터럴 문자열
 이스케이프(Escape) 문자
+
 | 종류 | 의미 |
 | --- | --- |
 | \t | 탭(tab) |
@@ -135,6 +140,7 @@ val text = """
 
 ### 형식 문자 사용
 format()을 사용한 형식 문자
+
 ```java
 inline fun String.format(vararg args: Any?): String (source)
 ```

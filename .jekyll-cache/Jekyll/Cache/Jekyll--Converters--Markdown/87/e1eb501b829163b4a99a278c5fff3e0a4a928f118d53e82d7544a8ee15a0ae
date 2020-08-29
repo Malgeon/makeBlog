@@ -1,0 +1,478 @@
+I"Y�<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>/******************************************************************************/
+try {
+    ...
+} catch ( e: CancellationExceoption) {ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
+    ... 취소에 대한 예외처리 ...
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12901"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 2016년</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>내 풀이</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">a:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="kt">var</span> <span class="n">monthArr</span> <span class="o">=</span> <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">31</span><span class="o">,</span> <span class="mi">29</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">)</span>
+        <span class="kt">var</span> <span class="n">day</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="kt">var</span> <span class="n">monthCal</span> <span class="o">=</span> <span class="n">a</span><span class="o">-</span><span class="mi">1</span>
+        <span class="kt">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">monthCal</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">day</span> <span class="o">+=</span> <span class="n">monthArr</span><span class="o">[</span><span class="n">count</span><span class="o">]</span>
+            <span class="n">count</span><span class="o">++</span>
+            <span class="n">monthCal</span><span class="o">--</span>
+        <span class="o">}</span>
+        <span class="n">day</span> <span class="o">+=</span> <span class="n">b</span><span class="o">-</span><span class="mi">1</span>
+        <span class="kt">var</span> <span class="n">weekend</span> <span class="o">=</span> <span class="n">day</span> <span class="o">%</span> <span class="mi">7</span>
+    
+        <span class="n">when</span><span class="o">(</span><span class="n">weekend</span><span class="o">)</span> <span class="o">{</span>
+            <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"SAT"</span>
+            <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"SUN"</span>
+            <span class="mi">3</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"MON"</span>
+            <span class="mi">4</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"TUE"</span>
+            <span class="mi">5</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"WED"</span>
+            <span class="mi">6</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"THU"</span>
+            <span class="mi">0</span> <span class="o">-&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">"FRI"</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>다른사람 풀이</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">a:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>        
+        <span class="n">val</span> <span class="n">month</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">31</span><span class="o">,</span> <span class="mi">29</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">)</span>
+        <span class="n">val</span> <span class="n">dayOfWeek</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"FRI"</span><span class="o">,</span> <span class="s">"SAT"</span><span class="o">,</span> <span class="s">"SUN"</span><span class="o">,</span> <span class="s">"MON"</span><span class="o">,</span> <span class="s">"TUE"</span><span class="o">,</span> <span class="s">"WED"</span><span class="o">,</span> <span class="s">"THU"</span><span class="o">)</span>
+        <span class="kt">var</span> <span class="n">diff</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">diff</span> <span class="o">+=</span> <span class="n">month</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+        <span class="o">}</span>
+
+        <span class="n">diff</span> <span class="o">+=</span> <span class="o">(</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+
+        <span class="k">return</span> <span class="n">dayOfWeek</span><span class="o">[</span><span class="n">diff</span><span class="o">%</span><span class="mi">7</span><span class="o">]</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>1월 1일이 고정이라는 조건을 생각한다면, 위와 같이 단순히 for문을 통해서 월에 해당하는 일수를 더해줄 수 있다. 그리고 그런 방식의 코딩이 더 깔끔해 보이긴 하다.</li>
+</ul>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12903"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 가운데 글자 가져오기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="kt">var</span> <span class="n">middle</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="n">size</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span>
+        
+        <span class="kt">var</span> <span class="n">isOdd</span> <span class="o">=</span> <span class="n">size</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="kt">var</span> <span class="nl">point:</span><span class="nc">Int</span> <span class="o">=</span> <span class="n">size</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">isOdd</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">point</span><span class="o">..</span><span class="na">point</span><span class="o">)</span> <span class="k">else</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">point</span><span class="o">-</span><span class="mi">1</span><span class="o">..</span><span class="na">point</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>Int형이 아닌 수를 받으면 toInt하지 않아도 소수점 아래는 버려진다.</li>
+  <li>함수의 return은 String형이다. 따라서 s[1]같은 경우는 char형이기 때문에 컴파일 오류</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+  <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">)</span> <span class="o">=</span>
+    <span class="n">with</span><span class="o">(</span><span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="n">substring</span><span class="o">(</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">length</span> <span class="o">%</span> <span class="mi">2</span><span class="o">)</span> <span class="o">..</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>나의 풀이방식으로 하는 표준함수를 이용하였다.</li>
+</ul>
+
+<p>앞서 정리해둔 <a href="../study_kotlin_9">표준 함수 활용1</a>과 <a href="../study_kotlin_10">표준 함수 활용2</a>에서 자세히 다루고 있다.</p>
+
+<p>사실, with와 run의 기능이 유사하기 때문에 이를 run을 이용할 수도 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">run</span> <span class="o">{</span>
+                <span class="n">substring</span><span class="o">(</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">length</span> <span class="o">%</span> <span class="mi">2</span><span class="o">)</span> <span class="o">..</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="o">)</span>
+            <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>그런데 엄밀히 따지자면 
+with의 사용조건은 수신 객체가 Non-nullable이면서, 결과가 필요하지 않은 경우에 해당한다.
+run은 어떤 값을 계산할 필요가 있거나 여러개의 지역 변수의 범위를 제한하기 위해 사용한다.</p>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12910"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 나누어떨어지는 숫자 배열</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>2가지 방법을 생각하였다.</p>
+<ul>
+  <li>arr에서 순환하여 조건에 맞는 값을 빈 공간에 추가하기</li>
+  <li>arr로부터 filter를 이용해 배열을 만들기</li>
+</ul>
+
+<p>그런데 2가지 방법 모두 Collection을 이용해야 하므로 List에서만 사용이 가능하다.
+따라서 List에서 처리한후 toIntArray를 이용해 return함으로써 해결하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">divisor:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">value</span> <span class="n">in</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">%</span><span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">answer</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">().</span><span class="na">sortedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">divisor:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">filter</span><span class="o">{</span> <span class="n">it</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">answer</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="k">return</span> <span class="n">intArrayOf</span><span class="o">(-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">().</span><span class="na">sortedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12912"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 두 정수 사이의 합</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>두 정수 a, b 중 큰 값을 찾고, 순서대로 더해주는 쉬운 문제
+a와 b가 같다면 굳이 for문에 넣지 말고 바로 return 해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">a:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Long</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="nl">answer:</span><span class="nc">Long</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="nl">max:</span><span class="nc">Int</span>
+        <span class="n">val</span> <span class="nl">min:</span><span class="nc">Int</span>
+
+        <span class="nf">if</span> <span class="o">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">)</span> <span class="o">{</span><span class="n">max</span><span class="o">=</span><span class="n">a</span><span class="o">;</span> <span class="n">min</span><span class="o">=</span><span class="n">b</span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">&lt;</span><span class="n">b</span><span class="o">)</span> <span class="o">{</span><span class="n">max</span><span class="o">=</span><span class="n">b</span><span class="o">;</span> <span class="n">min</span><span class="o">=</span><span class="n">a</span><span class="o">}</span> <span class="k">else</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">min</span><span class="o">..</span><span class="na">max</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12915"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 문자열 내 마음대로 정렬하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>커스텀 기준점으로 정렬을 하면 되는 문제이다.
+기준점은 2단계로 나뉘어 있는데,</p>
+<ol>
+  <li>특정 순번의 Char 값을 기준으로 정렬</li>
+  <li>해당 Char 값이 같을 경우, 전체 값을 기준으로 정렬</li>
+</ol>
+
+<p>위와 같은 기준점을 해결하기 위해 방법으로는 3가지가 존재한다.</p>
+
+<ul>
+  <li>Comparator 이용 : 가장 처음으로 떠올린 방법으로 람다식을 이용해 기준점을 설정한다.</li>
+</ul>
+
+<p>기본적으로 람다식의 결과값이 양수면 swap, 0 또는 음수면 remain 하게 된다.
+같은 값을 찾아 내야 할 필요가 없으므로, 단순히 음수로 표현하여 만들었다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">strings:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="n">strings</span><span class="o">.</span><span class="na">sortWith</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span> <span class="o">-&gt;</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">a</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+                <span class="n">a</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">==</span> <span class="n">b</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="n">when</span> <span class="o">{</span>
+                        <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+                        <span class="k">else</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="o">}</span>
+        <span class="o">})</span>
+        <span class="k">return</span> <span class="n">strings</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>compareBy 이용 : comparator의 동작을 하나 단순하게 사용하게 도와주는 함수이다.</li>
+</ul>
+
+<p>기준점이 한단계만 존재 할 경우, 단순히 { it.length } 와 같이 사용할 수 있다.
+그러나 위 문제에선 기준점이 두단계가 존재하며, 그것은 아래와 같이 해결한다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">strings:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">strings</span>
+        <span class="kt">var</span> <span class="n">list</span> <span class="o">=</span>  <span class="n">answer</span><span class="o">.</span><span class="na">sortedWith</span><span class="o">(</span><span class="n">compareBy</span><span class="o">({</span> <span class="n">it</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">},</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}))</span>
+        <span class="cm">/*
+         순서가 매우 중요한데, {it[n]} 이 같게 되면 {it} 으로 
+         정렬을 해주는 것으로 이해하고있다.
+        */</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그런데 사실 위 문제는 정렬 과정의 기준점을 단계적으로 설정하는 것과는 다르게 전체값 기준 정렬을 한 후, 특정 Char값으로 정렬을 해서 풀수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">strings:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">strings</span>
+        <span class="kt">var</span> <span class="n">list</span> <span class="o">=</span>  <span class="n">answer</span><span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+        <span class="kt">var</span> <span class="n">result</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">sortedWith</span><span class="o">(</span><span class="n">compareBy</span><span class="o">({</span> <span class="n">it</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">}))</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>객체의 값을 변경해도 될 경우 also와 sort()를 사용하여 해결 할 수 있다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">strings:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">strings</span><span class="o">.</span><span class="na">also</span> <span class="o">{</span>
+            <span class="n">it</span><span class="o">.</span><span class="na">sort</span><span class="o">()</span>
+            <span class="n">it</span><span class="o">.</span><span class="na">sortBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">[</span><span class="n">n</span><span class="o">]</span> <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12917"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 문자열 내림차순으로 배치하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>단순히 문자열을 분리한 다음 내림차순 정렬 후 다시 합치면 된다.
+이때, 문자열을 분리하여 저장하는 것이 CharArray와 Array<String> 두가지로 나뉠 수 있다.</String></p>
+
+<ul>
+  <li>CharArray</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">=</span> <span class="nc">String</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">().</span><span class="na">sortedArrayDescending</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>Array<String></String></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">map</span> <span class="o">{</span><span class="n">it</span><span class="o">.</span><span class="na">toString</span><span class="o">()}.</span><span class="na">toTypedArray</span><span class="o">()</span>
+        <span class="n">answer</span><span class="o">.</span><span class="na">sortByDescending</span> <span class="o">{</span><span class="n">it</span><span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">joinToString</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12919"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 서울에서 김서방 찾기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>array에서 “Kim”을 찾아 해당 Idx를 출력해주는 문제.</p>
+
+<p>나는 코틀린에 익숙하지 않아, 직접 idx를 구하고, 문자열도 합쳐주었다. 
+그러나 코틀린에서는 더 나은 기능을 제공한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">seoul:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;):</span> <span class="nc">String</span> <span class="o">=</span> <span class="s">"김서방은 ${seoul.indexOf("</span><span class="nc">Kim</span><span class="s">")}에 있다"</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>아래는 자바스크립트와는 다르게 콜백함수에서도 break 하여 idx를 가져오는 방법이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">seoul:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">run</span> <span class="n">loop</span><span class="err">@</span><span class="o">{</span>
+            <span class="n">seoul</span><span class="o">.</span><span class="na">forEachIndexed</span><span class="o">{</span> <span class="n">index</span><span class="o">,</span> <span class="n">value</span> <span class="o">-&gt;</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"Kim"</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">answer</span> <span class="o">=</span> <span class="n">index</span>
+                    <span class="k">return</span><span class="nd">@loop</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="s">"김서방은 ${answer}에 있다"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

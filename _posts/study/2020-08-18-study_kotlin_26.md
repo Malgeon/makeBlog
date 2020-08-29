@@ -12,9 +12,11 @@ image: assets/images/study/kotlin.png
 ### 배열의 생성
 
 표현식을 통한 생성
+
 ```
 val|var 변수명 = Array(요소 개수, 초기값)
 ```
+
 - 초기값으로 람다식 함수 init: (Int) -> T와 같이 정의
 - 예시) 2씩 곱해지는 정수의 짝수 5개(0, 2, 4, 6, 8)의 요소
 
@@ -24,15 +26,16 @@ println("arr3: ${Arrays.toString(arr3)}")
 ```
 
 많은 양의 배열 생성
+
 ```java
 var a = arrayOfNulls <Int> (1000) // 1000개의 null로 채워진 정수 배열
 ```
-
 ```java
 var a = Array(1000, { 0 }) // 0으로 채워진 배열
 ```
 
 특정 클래스 객체로 배열 생성
+
 ```java
 var a = Array(1000, { i -> myClass(i) })
 ```
@@ -41,9 +44,9 @@ var a = Array(1000, { i -> myClass(i) })
 배열에 요소 추가하고 잘라내기
 배열이 일단 정의되면 고정됨
 - 새로 할당하는 방법으로 추가하거나 잘라낼 수 있음
+
 ```java
 val arr1 = int ArrayOf(1, 2, 3, 4, 5) // 다섯개로 고정된 배열(고정된다!)
-
 // 하나의 요소를 추가한 새 배열 생성
 val arr2 = arr1.plus(6)
 println("arr2: ${Arrays.toString(arr2)}")
@@ -57,6 +60,7 @@ println("arr3: ${Arrays.toString(arr3)}")
 
 기타 배열 관련 API
 API 사용 예
+
 ```java
 // 첫 번째와 마지막 요소 확인
 println(arr.first())
@@ -73,15 +77,14 @@ println("count: ${arr.count()}")
 ```
 
 존재 여부 확인
+
 ```java
 operator fun <T> Array<out T>.contains(element: T): Boolean
 ```
-
 ```java
 println(arr.contains(4)) // arr 배열에 요소 4가 포함되었는지 확인하고 true 반환
 println(4 in arr)
 ```
-
 ```java
 fun main() {
     val b = Array(10, { 0 })
@@ -104,6 +107,7 @@ fun main() {
 ### 배열의 순환
 
 #### 순환 메서드의 사용
+
 ```java
 // forEach에 의한 요소 순환
 arr.forEach { element -> print("$element ") }

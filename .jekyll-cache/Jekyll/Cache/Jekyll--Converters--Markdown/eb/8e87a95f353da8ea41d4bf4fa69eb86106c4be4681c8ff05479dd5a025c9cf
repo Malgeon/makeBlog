@@ -1,0 +1,375 @@
+I"�q<h3 id="closure">closure</h3>
+<ul>
+  <li>람다식으로 표현된 내부 함수에서 외부 범위에 선언된 변수에 접근할 수 있는 개념</li>
+  <li>람다식 안에 있는 외부 변수는 값을 유지하기 위해 람다가 포획(capture)한 변수</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">calc</span> <span class="o">=</span> <span class="nx">Calc</span><span class="p">()</span>
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">// 람다식 외부 변수</span>
+
+    <span class="nx">calc</span><span class="p">.</span><span class="nx">addNum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-&gt;</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">}</span> <span class="c1">// closure</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// 값을 유지하여 5가 출력된다!</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Calc</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">addNum</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">add</span><span class="p">:</span> <span class="p">(</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nx">Unit</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">// 길이가 일치하는 이름만 반환</span>
+<span class="nx">fun</span> <span class="nx">filteredNames</span><span class="p">(</span><span class="nx">length</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">arrayListOf</span><span class="p">(</span><span class="dl">"</span><span class="s2">Kim</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Hong</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Go</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Hwang</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Jeon</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">val</span> <span class="nx">filterResult</span> <span class="o">=</span> <span class="nx">names</span><span class="p">.</span><span class="nx">filter</span> <span class="p">{</span>
+        <span class="nx">it</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">length</span> <span class="c1">// 바깥의 length에 접근</span>
+    <span class="p">}</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">filterResult</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="let">let()</h3>
+<ul>
+  <li>함수를 호출하는 객체 T를 이어지는 block의 인자로 넘기고 block의 결과값 R을 반환</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">public inline fun &lt;T, R&gt; T.let(block: (T) -&gt; R):R { ... return block(this)}</code></p>
+
+<ul>
+  <li>매개변수 block은 T를 매개변수로 받아 R을 반환</li>
+  <li>let()함수 역시 R을 반환</li>
+  <li>본문의 this는 객체 T를 가리키는데 람다식 결과 부분을 그대로 반환한다는 뜻</li>
+  <li>다른 메서드를 실행하거나 연산을 수행해야 하는 경우 사용</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">score</span><span class="p">:</span> <span class="nx">Int</span><span class="p">?</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="c1">//var score = null</span>
+
+    <span class="c1">// 일반적인 null 검사</span>
+    <span class="nx">fun</span> <span class="nx">checkScore</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">score</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Score: $score</span><span class="dl">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// let을 사용해 null 검사를 제거</span>
+    <span class="nx">fun</span> <span class="nx">checkScoreLet</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">score</span><span class="p">?.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">println</span><span class="p">{</span><span class="dl">"</span><span class="s2">Score: $it</span><span class="dl">"</span><span class="p">}</span> <span class="p">}</span>
+        <span class="nx">val</span> <span class="nx">str</span> <span class="o">=</span> <span class="nx">score</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">it</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="p">}</span>
+        <span class="nx">println</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">checkScore</span><span class="p">()</span>
+    <span class="nx">checkScoreLet</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>let 함수의 체이닝(chaining)</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="nx">val</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="nx">a</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">it</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">}.</span><span class="kd">let</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">a = $a</span><span class="dl">"</span><span class="p">)</span>
+        <span class="nx">val</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">it</span> <span class="o">+</span> <span class="nx">b</span>
+        <span class="nx">i</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="c1">// 5</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>let의 중첩 사용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Kotlin!</span><span class="dl">"</span>
+    <span class="nx">x</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">outer</span> <span class="o">-&gt;</span>
+        <span class="nx">outer</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">inner</span> <span class="o">-&gt;</span>
+            <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">Inner is $inner and outer is $outer</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 이떄는 it을 사용하지 않고 명시적 이름을 사용한다.</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>반환값은 바깥쪽의 람다식에만 적용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Kotlin!</span><span class="dl">"</span>
+    <span class="nx">x</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">outer</span> <span class="o">-&gt;</span>
+        <span class="nx">outer</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">inner</span> <span class="o">-&gt;</span>
+            <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">Inner is $inner and outer is $outer</span><span class="dl">"</span><span class="p">)</span>
+            <span class="dl">"</span><span class="s2">Inner String</span><span class="dl">"</span> <span class="c1">// 이건 반환 되지 않는다.</span>
+        <span class="p">}</span>
+        <span class="dl">"</span><span class="s2">Outer String</span><span class="dl">"</span> <span class="c1">// 이 문자열이 반환되어 x에 할당된다.</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>let의 활용 - null 검사</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">obj</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span>
+<span class="p">...</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 기존 방식</span>
+    <span class="nx">Toast</span><span class="p">.</span><span class="nx">makeText</span><span class="p">(</span><span class="nx">applicationContext</span><span class="p">,</span> <span class="nx">obj</span><span class="p">,</span> <span class="nx">Toast</span><span class="p">.</span><span class="nx">LENGTH_LONG</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">obj</span><span class="p">?.</span><span class="kd">let</span> <span class="p">{</span> <span class="c1">// obj가 null 아닐경우 작업 수행 (Safe calls + let)</span>
+    <span class="nx">Toast</span><span class="p">.</span><span class="nx">makeText</span><span class="p">(</span><span class="nx">applicationContext</span><span class="p">,</span> <span class="nx">it</span><span class="p">,</span> <span class="nx">Toast</span><span class="p">.</span><span class="nx">LENGTH_LONG</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">firstName</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span>
+<span class="kd">var</span> <span class="nx">lastName</span><span class="p">:</span> <span class="nb">String</span>
+<span class="p">...</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="nx">firstName</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 기존 방식</span>
+    <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">$firstName $lastName</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">$lastName</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">firstName</span><span class="p">?.</span><span class="kd">let</span> <span class="p">{</span> <span class="c1">// obj가 null 아닐경우 작업 수행 (Safe calls + let)</span>
+    <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">$it $lastName</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span> <span class="p">?:</span> <span class="nx">print</span><span class="p">(</span><span class="dl">"</span><span class="s2">$lastName</span><span class="dl">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="also">also()</h3>
+
+<p><code class="language-plaintext highlighter-rouge">public inline fun &lt;T&gt; T.also(block: (T) -&gt; Unit): T { block(this); return this }</code></p>
+
+<p>함수를 호출하는 객체 T를 이어지는 block에 전달하고 객체 T 자체를 반환.(let은 블록의 결과값 반환)</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nx">m</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">also</span> <span class="p">{</span> <span class="nx">it</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">}</span>
+<span class="nx">println</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span> <span class="c1">// 1</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>let 과 also 비교</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="kd">class</span> <span class="nx">Person</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="kd">var</span> <span class="nx">skills</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">(</span><span class="dl">"</span><span class="s2">Kildong</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Kotlin</span><span class="dl">"</span><span class="p">)</span>
+
+    <span class="nx">val</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">person</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span>
+        <span class="nx">it</span><span class="p">.</span><span class="nx">skills</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Anroid</span><span class="dl">"</span>
+        <span class="dl">"</span><span class="s2">success</span><span class="dl">"</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">a: $a</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// success</span>
+
+    <span class="nx">val</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">person</span><span class="p">.</span><span class="nx">also</span> <span class="p">{</span>
+        <span class="nx">it</span><span class="p">.</span><span class="nx">skills</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Java</span><span class="dl">"</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">b: $b</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// person이 실행</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>also 활용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// 기존 함수</span>
+<span class="nx">fun</span> <span class="nx">makeDIr</span><span class="p">(</span><span class="nx">path</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">FIle</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">File</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+    <span class="nx">result</span><span class="p">.</span><span class="nx">mkdirs</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="c1">// let과 also 활용</span>
+<span class="nx">fun</span> <span class="nx">makeDIr</span><span class="p">(</span><span class="nx">path</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="kd">let</span> <span class="p">{</span> <span class="nx">File</span><span class="p">(</span><span class="nx">it</span><span class="p">)</span> <span class="p">}.</span><span class="nx">also</span><span class="p">{</span> <span class="nx">it</span><span class="p">.</span><span class="nx">mkdirs</span><span class="p">()</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>왜 let을 쓰고 also를 쓰는지 잘 생각해 보자.</p>
+
+<h3 id="apply">apply()</h3>
+
+<p><code class="language-plaintext highlighter-rouge">public inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T { block(); return this }</code></p>
+
+<p>also() 함수와 동일하게 호출하는 객체 T를 이어지는 block으로 전달하고 객체 자체인 this를 반환.
+also는 block에서 람다식으로 처리하지만 apply는 확장 함수로 처리한다. (it을 사용하지 않고, this를 사용)</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="kd">class</span> <span class="nx">Person</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="kd">var</span> <span class="nx">skills</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">(</span><span class="dl">"</span><span class="s2">Kildong</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Kotlin</span><span class="dl">"</span><span class="p">)</span>
+
+    <span class="nx">person</span><span class="p">.</span><span class="nx">apply</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">skills</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Swift</span><span class="dl">"</span> <span class="p">}</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span>
+
+    <span class="nx">val</span> <span class="nx">returnObj</span> <span class="o">=</span> <span class="nx">person</span><span class="p">.</span><span class="nx">apply</span> <span class="p">{</span>
+        <span class="nx">name</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Sean</span><span class="dl">"</span> <span class="c1">// this는 생략할수 있음</span>
+        <span class="nx">skills</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Java</span><span class="dl">"</span> <span class="c1">// this 없이 객체의 멤버에 여러번 접근 가능</span>
+    <span class="p">}</span>
+
+    <span class="nx">println</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">returnObj</span><span class="p">)</span> <span class="c1">// person이 실행</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>apply 활용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// 기존 코드</span>
+<span class="nx">val</span> <span class="nx">param</span> <span class="o">=</span> <span class="nx">LinearLayout</span><span class="p">.</span><span class="nx">LayoutParams</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">LinearLayout</span><span class="p">.</span><span class="nx">LayoutParams</span><span class="p">.</span><span class="nx">WRAP_CONTENT</span><span class="p">)</span>
+<span class="nx">param</span><span class="p">.</span><span class="nx">gravity</span> <span class="o">=</span> <span class="nx">Gravity</span><span class="p">.</span><span class="nx">CENTER_HORIZONTAL</span>
+<span class="nx">param</span><span class="p">.</span><span class="nx">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="nx">f</span>
+<span class="nx">param</span><span class="p">.</span><span class="nx">topMargin</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="nx">param</span><span class="p">.</span><span class="nx">bottomMargin</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">param</span> <span class="o">=</span> <span class="nx">LinearLayout</span><span class="p">.</span><span class="nx">LayoutParams</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">LinearLayout</span><span class="p">.</span><span class="nx">LayoutParams</span><span class="p">.</span><span class="nx">WRAP_CONTENT</span><span class="p">).</span><span class="nx">apply</span> <span class="p">{</span>
+    <span class="nx">gravity</span> <span class="o">=</span> <span class="nx">Gravity</span><span class="p">.</span><span class="nx">CENTER_HORIZONTAL</span>
+    <span class="nx">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="nx">f</span>
+    <span class="nx">topMargin</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="nx">bottomMargin</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>디렉토리 생성</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// 기존 함수</span>
+<span class="nx">fun</span> <span class="nx">makeDIr</span><span class="p">(</span><span class="nx">path</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">FIle</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">File</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+    <span class="nx">result</span><span class="p">.</span><span class="nx">mkdirs</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nx">File</span><span class="p">(</span><span class="nx">path</span><span class="p">).</span><span class="nx">apply</span> <span class="p">{</span> <span class="nx">mkdirs</span><span class="p">()</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

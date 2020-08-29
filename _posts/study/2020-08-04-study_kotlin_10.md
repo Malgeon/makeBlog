@@ -11,8 +11,9 @@ image: assets/images/study/kotlin.png
  
 ### run()
 run() 함수는 두 가지 형태이다.
-`public inline fun <R> run(block: () -> R):R = return block()`
-``public inline fun <T, R> T.run(block: T.() -> R):R = return block()`
+
+- `public inline fun <R> run(block: () -> R):R = return block()`
+- `public inline fun <T, R> T.run(block: T.() -> R):R = return block()`
 
 ```javascript
 var skills = "Kotlin"
@@ -41,7 +42,7 @@ fun main() {
     println("returnObj: $returnObj") // person
 
     val returnObj2 = person.run {
-        this,name = "Dooly"
+        this.name = "Dooly"
         this.skills = "C#"
         "success"
     }
@@ -93,7 +94,8 @@ fun main() {
 ### use()
 use()를 사용하면 객체를 사용한 후 close() 등을 자동적으로 호출해 닫아준다.
 
-`public inline fun <T : Closeable?, R> T.use(block: (T) -> R) : R` 또는
+`public inline fun <T : Closeable?, R> T.use(block: (T) -> R) : R` 
+<br> Or <br>
 `public inline fun <T : AutoCloseable?, R> T.use(block: (T) -> R) : R`
 
 - T의 제한된 자료형을 보면 Closeable?로 block은 닫힐 수 있는 객체를 지정해야 함
