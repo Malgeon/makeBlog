@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [28]"
-description: "Kotlin 코루틴 - 순차실행과 비동기"
+description: "코루틴 - 순차실행과 비동기"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

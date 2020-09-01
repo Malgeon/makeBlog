@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [1]"
-description: "Kotlin 함수편 기본"
+description: "변수, 자료형, elvis 연산자"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -71,7 +71,7 @@ fun main() {
 }
 ```
 
- ### 표현식에서 문자열
+### 표현식에서 문자열
 
 ```javascript
 fun main() {
@@ -83,7 +83,7 @@ fun main() {
 }
 ```
 
- ### nullable
+### nullable
   코틀린에서는 기본적으로 null을 허용하지 않는다. (프로그램이 NPE에서 자유롭게 구동하려는 의도로 이해하고 있다.) 그러나 상황에 따라 null이 필요하게 될 경우 자료형에 물음표를 붙임으로써 사용이 가능하다. 그리고 코틀린에서는 nullable 변수를 사용하더라도, 사용할 때 NPE에서 자유롭도록 코딩을 유도한다.
 
   주의할 점은 자료형 과 자료형? 은 다른 Type이다.
@@ -115,7 +115,9 @@ fun main() {
   println("str1: $str1, length: ${str1.length") // error null값의 길이를 참조할 수 있게 된다.
 }
 ```
+
 이때 추가적으로 코딩을 하지 않고 해결할 수 있는 방법은 2가지 이다. 
+
 1.  세이프콜(?.)을 사용한다. 
  혹시라도 Null일 경우 ?.의 뒷부분을 실행하지 않도록 해준다.
 

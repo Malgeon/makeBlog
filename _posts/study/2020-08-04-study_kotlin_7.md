@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [7]"
-description: "Kotlin 반복문"
+description: "반복문"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -11,6 +11,7 @@ image: assets/images/study/kotlin.png
  
 ### for문
 자바와 같은 세미콜론을 이용한 for문은 사용할 수 없다.
+
 ```javascript
 for (x in 1..5) { // 1->5
     println(x)
@@ -20,18 +21,21 @@ for (x in 1..5) println(x) // if문과 동일하게 한줄 표현도 가능
 ```
 
 하행 반복
+
 ```javascript
 // for (x in 5..1) println(x) // 잘못된 사용! 아무것도 출력되지 않는다.
 for (x in 5 downTo 1) println(x)
 ```
 
 필요한 단계 증가
+
 ```javascript
 for (x in 1..5 step 2) println(x) // 1 3 5
 for (x in 5 downTo 1 step 2) println(x) // 5 3 1
 ```
 
 until 
+
 ```javascript
 for (x in 1 until 6) println(x) // 6 전까지만 간다.
 ```
@@ -96,6 +100,7 @@ fun retFunc() {
 
 암묵적 라벨
 라벨에 이름을 붙여주는 대신 함수이름을 사용할 수 있다.
+
 ```javascript
 fun main() {
     retFunc()
@@ -133,6 +138,7 @@ fun retFunc() {
 
 
 람다식과 익명 함수 비교
+
 ```javascript
 val getmessage = lambda@ { num: Int ->
     if(num !in 1..100) {

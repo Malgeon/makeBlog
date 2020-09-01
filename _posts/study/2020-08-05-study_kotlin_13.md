@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [3]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 3"
+description: "캡슐화, 다양한 상속 연습"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -19,6 +19,7 @@ image: assets/images/study/kotlin.png
 - internal : 같은 정의의 모듈 내부에서는 접근이 가능 (자바에서는 package 모듈은 패키지보다 상위 개념이다.)
 
 선언 위치
+
 ```
 [가시성 지시자] <val | var> 전역 변수명
 
@@ -34,6 +35,7 @@ image: assets/images/study/kotlin.png
 
 
 ### 상속 Test
+
 ```javascript
 private class PrivateTest {
     private var i = 1
@@ -72,6 +74,7 @@ fun topFunction() {
 ```
 
 protected
+
 ```javascript
 open class Base {
     protected var i =1
@@ -117,6 +120,7 @@ fun main() {
 ```
 
 internal : 모듈 단위 - 프로젝트에 모듈을 만들지 않았다면 프로젝트 자체가 모듈이 된다.
+
 ```javascript
 internal class InternalClass {
     internal var i = 1

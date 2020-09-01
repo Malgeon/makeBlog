@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [3]"
-description: "Kotlin 함수편 기본 - 함수"
+description: "함수, 매개변수, 가변변수"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

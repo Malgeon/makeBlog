@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [9]"
-description: "Kotlin 표준함수활용 - 1"
+description: "표준함수 - closure, let, also, apply"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

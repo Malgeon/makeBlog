@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [29]"
-description: "Kotlin 코루틴 - 문맥과 스코프"
+description: "코루틴 - 문맥과 스코프"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

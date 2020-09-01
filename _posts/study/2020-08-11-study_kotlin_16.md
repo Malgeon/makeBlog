@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [6]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 6"
+description: "정적 변수, 컴패니언 객체, 최상위 함수, object, 싱글톤"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -200,5 +200,4 @@ fun main() {
     pretendedMan.talk()
     pretendedMan.fly()
 }
-
 ```

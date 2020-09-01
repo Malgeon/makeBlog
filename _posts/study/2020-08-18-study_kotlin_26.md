@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [16]"
-description: "Kotlin 배열 - 2"
+description: "배열의 생성, 배열의 순환"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

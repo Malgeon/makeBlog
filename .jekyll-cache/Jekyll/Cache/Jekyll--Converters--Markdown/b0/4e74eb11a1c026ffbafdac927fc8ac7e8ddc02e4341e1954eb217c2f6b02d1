@@ -1,0 +1,350 @@
+I"�m<h3 id="지역-클래스">지역 클래스</h3>
+<p>특정 메서드의 블록이다 init 블록과 같이 블록 범위에서만 유효한 클래스이며 블록 범위를 벗어나면 더 이상 사용되지 않는다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="p">...</span>
+<span class="kd">class</span> <span class="nx">Smartphone</span><span class="p">(</span><span class="nx">val</span> <span class="nx">model</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">private</span> <span class="nx">val</span> <span class="nx">cpu</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Exynos</span><span class="dl">"</span>
+    <span class="p">...</span>
+
+    <span class="nx">inner</span> <span class="kd">class</span> <span class="nx">ExternalStorage</span><span class="p">(</span><span class="nx">val</span> <span class="nx">size</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fun</span> <span class="nx">getInfo</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">${model}: Installed on $cpu with ${size}Gb</span><span class="dl">"</span> <span class="c1">// 바깥 클래스의 프로퍼티 접근</span>
+    <span class="p">}</span>
+
+    <span class="nx">fun</span> <span class="nx">powerOn</span><span class="p">():</span> <span class="nb">String</span> <span class="p">{</span>
+        <span class="kd">class</span> <span class="nx">Led</span><span class="p">(</span><span class="nx">val</span> <span class="nx">color</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 지역 클래스 선언</span>
+            <span class="nx">fun</span> <span class="nx">blink</span><span class="p">():</span> <span class="nb">String</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Blinking $color on $model</span><span class="dl">"</span> <span class="c1">// 외부의 프로퍼티는 접근 가능</span>
+        <span class="p">}</span>
+        <span class="nx">val</span> <span class="nx">powerStatus</span> <span class="o">=</span> <span class="nx">Led</span><span class="p">(</span><span class="dl">"</span><span class="s2">Red</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 여기에서 지역 클래스가 사용됨</span>
+        <span class="k">return</span> <span class="nx">powerStatus</span><span class="p">.</span><span class="nx">blink</span><span class="p">()</span>
+    <span class="p">}</span> <span class="c1">// powerOn() 블록 끝</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">val</span> <span class="nx">myphone</span> <span class="o">=</span> <span class="nx">Smartphone</span><span class="p">(</span><span class="dl">"</span><span class="s2">Note9</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">myphone</span><span class="p">.</span><span class="nx">ExternalStorage</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">myphone</span><span class="p">.</span><span class="nx">powerOn</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="익명-객체">익명 객체</h3>
+
+<p>자바에서는 익명 이너 클래스라는 것을 제공해 일회성으로 객체를 생성해 사용한다.
+코틀린에서는 object 키워드를 사용하는 익명 객체로 같은 기능을 수행한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="rouge-code"><pre><span class="kr">interface</span> <span class="nx">Switcher</span> <span class="p">{</span> <span class="c1">// 인터페이스의 선언</span>
+    <span class="nx">fun</span> <span class="nx">on</span><span class="p">():</span> <span class="nb">String</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Smartphone</span><span class="p">(</span><span class="nx">val</span> <span class="nx">model</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">private</span> <span class="nx">val</span> <span class="nx">cpu</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Exynos</span><span class="dl">"</span>
+    <span class="p">...</span>
+
+    <span class="nx">inner</span> <span class="kd">class</span> <span class="nx">ExternalStorage</span><span class="p">(</span><span class="nx">val</span> <span class="nx">size</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fun</span> <span class="nx">getInfo</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">${model}: Installed on $cpu with ${size}Gb</span><span class="dl">"</span> 
+    <span class="p">}</span>
+
+    <span class="nx">fun</span> <span class="nx">powerOn</span><span class="p">():</span> <span class="nb">String</span> <span class="p">{</span>
+        <span class="kd">class</span> <span class="nx">Led</span><span class="p">(</span><span class="nx">val</span> <span class="nx">color</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="nx">fun</span> <span class="nx">blink</span><span class="p">():</span> <span class="nb">String</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Blinking $color on $model</span><span class="dl">"</span> 
+        <span class="p">}</span>
+        <span class="nx">val</span> <span class="nx">powerStatus</span> <span class="o">=</span> <span class="nx">Led</span><span class="p">(</span><span class="dl">"</span><span class="s2">Red</span><span class="dl">"</span><span class="p">)</span> 
+        <span class="nx">val</span> <span class="nx">powerSwitch</span> <span class="o">=</span> <span class="nx">object</span> <span class="p">:</span> <span class="nx">Switcher</span> <span class="p">{</span> <span class="c1">// 익명 객체를 사용해 Switcher의 on()을 구현</span>
+            <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">on</span><span class="p">():</span> <span class="nb">String</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">powerStatus</span><span class="p">.</span><span class="nx">blink</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="c1">// 익명(object) 객체 블록의 끝</span>
+        <span class="k">return</span> <span class="nx">powerSwitch</span><span class="p">.</span><span class="nx">on</span><span class="p">()</span> <span class="c1">// 익명 객체의 메서드 사용</span>
+    <span class="p">}</span> 
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="실드sealed-클래스">실드(Sealed) 클래스</h3>
+<ul>
+  <li>실드란 ‘봉인된’이라는 의미로 무언가 안전하게 보관하기 위해 묶어 두는 것</li>
+  <li>sealed 키워드를 class와 함께 사용</li>
+  <li>실드 클래스 그 자체로는 추상 클래스와 같기 때문에 객체를 만들 수는 없다.</li>
+  <li>생성자도 기본적으로는 private이며 private이 아닌 생성자는 허용하지 않음</li>
+  <li>실드 클래스는 같은 파일 안에서는 상속이 가능(다른 파일에서 상속 불가)</li>
+  <li>블록 안에 선언되는 클래스는 상속이 필요한 경우 open 키워드로 선언</li>
+</ul>
+
+<p>실드 클래스는 상태를 정의하고 관리하는데 주로 쓰인다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">// 실드 클래스 선언 첫번째 스타일</span>
+<span class="nx">sealed</span> <span class="kd">class</span> <span class="nx">Result</span> <span class="p">{</span>
+    <span class="nx">open</span> <span class="kd">class</span> <span class="nx">Success</span><span class="p">(</span><span class="nx">val</span> <span class="nx">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Result</span><span class="p">()</span>
+    <span class="kd">class</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">val</span> <span class="nx">code</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">val</span> <span class="nx">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Result</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Status</span><span class="p">:</span> <span class="nx">Result</span><span class="p">()</span> <span class="c1">// 실드 클래스 상속은 같은 파일에서만 가능</span>
+<span class="kd">class</span> <span class="nx">Inside</span><span class="p">:</span> <span class="nx">Result</span><span class="p">.</span><span class="nx">Success</span><span class="p">(</span><span class="dl">"</span><span class="s2">Status</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 내부 클래스 상속</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">// 실드 클래스 선언 두번째 스타일</span>
+<span class="nx">sealed</span> <span class="kd">class</span> <span class="nx">Result</span>
+
+<span class="nx">open</span> <span class="kd">class</span> <span class="nx">Success</span><span class="p">(</span><span class="nx">val</span> <span class="nx">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Result</span><span class="p">()</span>
+<span class="kd">class</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">val</span> <span class="nx">code</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">val</span> <span class="nx">message</span><span class="p">:</span> <span class="nb">String</span><span class="p">):</span> <span class="nx">Result</span><span class="p">()</span>
+
+<span class="kd">class</span> <span class="nx">Status</span><span class="p">:</span> <span class="nx">Result</span><span class="p">()</span>
+<span class="kd">class</span> <span class="nx">Inside</span><span class="p">:</span> <span class="nx">Success</span><span class="p">(</span><span class="dl">"</span><span class="s2">Status</span><span class="dl">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">/// Success에 대한 객체 생성</span>
+    <span class="nx">val</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Result</span><span class="p">.</span><span class="nx">Success</span><span class="p">(</span><span class="dl">"</span><span class="s2">Good!</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">val</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 상태를 검사하기 위한 함수</span>
+<span class="nx">fun</span> <span class="nb">eval</span><span class="p">(</span><span class="nx">result</span><span class="p">:</span> <span class="nx">Result</span><span class="p">):</span> <span class="nb">String</span> <span class="o">=</span> <span class="nx">when</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">is</span> <span class="nx">Status</span> <span class="o">-&gt;</span> <span class="dl">"</span><span class="s2">in progress</span><span class="dl">"</span>
+    <span class="nx">is</span> <span class="nx">Result</span><span class="p">.</span><span class="nx">Success</span> <span class="o">-&gt;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">message</span>
+    <span class="nx">is</span> <span class="nx">Result</span><span class="p">.</span><span class="nb">Error</span> <span class="o">-&gt;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">message</span>
+    <span class="c1">// 모든 조건을 가지므로 else를 가질 필요가 없음</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="열거형-클래스">열거형 클래스</h3>
+<ul>
+  <li>여러 개의 상수를 선언하고 열거된 값을 조건에 따라 선택할 수 있는 특수한 클래스</li>
+  <li>자료형이 동일한 상수를 나열할 수 있다(실드 클래스 처럼 다양한 자료형을 다루지 못한다.)</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>enum class 클래스이름 [(생성자)] {
+    상수1[(값)], 상수2[(값)], 상수3[(값)], ...
+    [; 프로퍼티 혹은 메서드] // 상수가 끝났음을 의미하는 ; 그 이후 프로퍼티 혹은 메서드를 입력한다.
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kr">enum</span> <span class="kd">class</span> <span class="nx">Direction</span> <span class="p">{</span>
+    <span class="nx">NORTH</span><span class="p">,</span> <span class="nx">SOUTH</span><span class="p">,</span> <span class="nx">WEST</span><span class="p">,</span> <span class="nx">EAST</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kr">enum</span> <span class="kd">class</span> <span class="nx">DayOfWeek</span><span class="p">(</span><span class="nx">val</span> <span class="nx">num</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">MONDAY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nx">TUESDAY</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nx">WEDNESDAY</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="nx">THURSDAY</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+    <span class="nx">FRIDAY</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nx">SATURDAY</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="nx">SUNDAY</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nx">val</span> <span class="nx">day</span> <span class="o">=</span> <span class="nx">DayOfWeek</span><span class="p">.</span><span class="nx">SATURDAY</span> <span class="c1">// SATURDAY의 값을 읽기</span>
+<span class="nx">when</span><span class="p">(</span><span class="nx">day</span><span class="p">.</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span> <span class="o">-&gt;</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Weekday</span><span class="dl">"</span><span class="p">)</span>
+    <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span> <span class="o">-&gt;</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Weekend!</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="c1">// 메서드가 포함되는 경우</span>
+<span class="kr">enum</span> <span class="kd">class</span> <span class="nx">Color</span><span class="p">(</span><span class="nx">val</span> <span class="nx">r</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">val</span> <span class="nx">g</span><span class="p">:</span> <span class="nx">Int</span><span class="p">,</span> <span class="nx">val</span> <span class="nx">b</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">RED</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">ORANGE</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="nx">YELLOW</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">GREEN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nx">BLUE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="nx">INDIGO</span><span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">130</span><span class="p">),</span> <span class="nx">VIOLET</span><span class="p">(</span><span class="mi">238</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">238</span><span class="p">);</span> <span class="c1">// 여기에 세미콜론으로 끝을 알리고</span>
+
+    <span class="nx">fun</span> <span class="nx">rgb</span><span class="p">()</span> <span class="o">=</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span> <span class="mi">250</span> <span class="o">+</span> <span class="nx">g</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">+</span> <span class="nx">b</span> <span class="c1">// 메서드를 포함할 수 있다.</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">(</span><span class="nx">args</span><span class="p">:</span> <span class="nb">Array</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">Color</span><span class="p">.</span><span class="nx">BLUE</span><span class="p">.</span><span class="nx">rhb</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>열거형 클래스 사용 예시</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kr">interface</span> <span class="nx">Score</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">getScore</span><span class="p">():</span> <span class="nx">Int</span>
+<span class="p">}</span>
+
+<span class="kr">enum</span> <span class="kd">class</span> <span class="nx">Membertype</span><span class="p">(</span><span class="kd">var</span> <span class="nx">prio</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">:</span> <span class="nx">Score</span> <span class="p">{</span> <span class="c1">// Score를 구현할 엵형 클래스</span>
+    <span class="nx">NORMAL</span><span class="p">(</span><span class="dl">"</span><span class="s2">Thrid</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">getScore</span><span class="p">():</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">},</span>
+    <span class="nx">SILVER</span><span class="p">(</span><span class="dl">"</span><span class="s2">Second</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">getScore</span><span class="p">():</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="p">},</span>
+    <span class="nx">GOLD</span><span class="p">(</span><span class="dl">"</span><span class="s2">First</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">getScore</span><span class="p">():</span> <span class="nx">Int</span> <span class="o">=</span> <span class="mi">1500</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">MemberType</span><span class="p">.</span><span class="nx">NORMAL</span><span class="p">.</span><span class="nx">getScore</span><span class="p">())</span> <span class="c1">// 100</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">MemberType</span><span class="p">.</span><span class="nx">GOLD</span><span class="p">)</span> <span class="c1">// GOLD</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">MemberType</span><span class="p">.</span><span class="nx">valueOf</span><span class="p">(</span><span class="dl">"</span><span class="s2">SILVER</span><span class="dl">"</span><span class="p">))</span> <span class="c1">// SILVER</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">MemberType</span><span class="p">.</span><span class="nx">SILVER</span><span class="p">.</span><span class="nx">prio</span><span class="p">)</span> <span class="c1">// Second</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="nx">grade</span> <span class="k">in</span> <span class="nx">MemberType</span><span class="p">.</span><span class="nx">values</span><span class="p">())</span> <span class="p">{</span> <span class="c1">// 모든 값을 가져오기 위한 반복문</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">grade.name = ${grade.name}, prio = ${grade.prio}</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="애노테이션-클래스">애노테이션 클래스</h3>
+<p>annotation</p>
+<ul>
+  <li>코드에 부가 정보를 추가하는 기능 역할</li>
+  <li>@ 기호와 함꼐 나타내는 표기법으로 주로 컴파일러나 프로그램 실행 시간에서 사전 처리를 위해 사용
+    <ul>
+      <li>@Test 유닛 테스트</li>
+      <li>@JvmStatic 자바 코드에서 컴패니언 객체를 접근</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>annotation class 애노테이션명
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>애노테이션의 속성</p>
+<ul>
+  <li>@Target: 애노테이션이 지정되어 사용할 종류(클래스, 함수, 프로퍼티 등)를 정의</li>
+  <li>@Retention: 애노테이션을 컴파일된 클래스 파일에 저장할 것인지 실행 시간에 반영할 것인지 결정</li>
+  <li>@Repeatable: 애노테이션을 같은 요소에 여러 번 사용 가능하게 할지를 결정</li>
+  <li>@MustBeDocumented: 애노테이션이 API의 일부분으로 문서화하기 위해 사용</li>
+</ul>
+
+<p>속성과 함께 정의된 애노테이션 클래스의 예</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION,
+        AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.EXPRESSION)
+@Retention(AnnotationRetention.SOURCE) // 애노테이션의 처리 방법 - SOURCE: 컴파일 시간에 제거됨
+@MustBeDocumented
+annotation class Fancy
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

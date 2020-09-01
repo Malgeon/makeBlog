@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [7]"
-description: "Kotlin 클래스 - 추상클래스와 인터페이스"
+description: "추상클래스, 인터페이스"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -62,13 +62,13 @@ fun main() {
     car.year = "2014" // 추상 클래스의 비 추상 프로퍼티 사용
     car.displaySpec()
 }
-
 ```
 
 ### 단일 인스턴스로 객체를 생성
 
 object를 사용한 생성
 - 추상 클래스로부터 하위 클래스를 생성하지 않고 단일 인스턴스로 객체 생성 가능
+
 ```javascript
 abstract class Printer {
     abstract fun print() // 추상 메서드
@@ -155,6 +155,7 @@ println("Pet Message Tags: ${obj.msgTags}")
 ```
 
 인터페이스의 상속 예시
+
 ```javascript
 open class Animal(val name: String)
 
@@ -224,6 +225,7 @@ fun main() {
 클래스는 기본적으로 다중 상속을 지원하지 않지만, 인터페이스는 인터페이스 여러개를 하나의 클래스에서 구현하는 것이 가능하므로 다중 상속과 같은 효과를 가진다.
 
 다중 상속 예시
+
 ```javascript
 interface Bird {
     val wings: Int
@@ -250,6 +252,7 @@ class Pegasus: Bird, Horse {
 ```
 
 인터페이스의 위임
+
 ```javascript
 interface A {
     fun functionA(){}
@@ -276,6 +279,7 @@ class DelegatedC(a: A, b: B): A by a, B by b {
 위임을 사용하면 메서드를 쉽게 사용할 수 있다.
 
 위임을 이용한 멤버 접근
+
 ```javascript
 interface Nameable {
     var name: String

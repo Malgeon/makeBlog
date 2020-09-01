@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [17]"
-description: "Kotlin 배열의 정렬"
+description: "배열 정렬"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -54,6 +54,7 @@ fun main() {
 ```
 
 practice
+
 ```java
 data class Product(val name: String, val price: DOuble)
 
@@ -111,6 +112,7 @@ fun main() {
 
 ### 배열 필터링하기
 filter() 메서드를 활용하면 원하는 데이터를 골라낼 수 있다.
+
 ```java
 // 0 보다 큰 수 골라내기
 val arr = arrayOf(1, -2, 3, 4, -5, 0)
@@ -121,6 +123,7 @@ arr.filter { it > 0 }.forEach { print(it + " ")}
 ```
 
 체이닝을 통한 필터링 예
+
 ```java
 fun main() {
     val fruits = arrayOf("banana", "avocado", "apple", "kiwi")
@@ -134,6 +137,7 @@ fun main() {
 ```
 
 when 문을 사용한 요소 확인
+
 ```java
 when {
     "apple" in fruits -> println("Apple!")
@@ -142,6 +146,7 @@ when {
 ```
 
 큰 값 작은 값 골라내기
+
 ```java
 // 지정된 필드의 가장 작은/큰 값 골라내기
 println(products.minBy { it.price })
@@ -150,6 +155,7 @@ println(products.maxBy { it.price })
 
 배열 평탄화 하기
 - flatten() : 다차원 배열을 단일 배열 생성
+
 ```java
 fun main() {
     val numbers = arrayOf(1, 2, 3)

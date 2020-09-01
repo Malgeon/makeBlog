@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [18]"
-description: "Kotlin 문자열 다루기"
+description: "문자열"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -39,6 +39,7 @@ println(s.substring(0..2)) // abc
 ```
 
 추출 후 문자열 새로 할당하기
+
 ```java
 var s = "abcdef"
 s = s.substring(0..1) + "x" + s.substring(3..s.length-1) // ab를 추출하고 x를 덧붙이고 다시 def를 추출 -> abxdef
@@ -77,7 +78,6 @@ s.append("World") // HelloWorld
 s.insert(10, "Added") // index 10부터 추가되어 HelloWorldAdded
 s.delete(5, 10) // index 5부터 10 전까지 삭제되어 HelloAdded
 ```
-
 
 ### 기타 문자열 처리
 

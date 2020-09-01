@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [1]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 1"
+description: "생성자, init, 상속, 다형성"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -54,9 +54,8 @@ fun main() {
 ### init{} 초기화 블록
 객체가 생성될 때 자동으로 실행되는 block을 설정할수 있다. 해당 블록의 작업시간이 길어질수록 객체 생성 시간이 늘어나므로 간단한 코드를 사용한다.
 
-- 부 생성지(Secondary Constructor)
+- 부 생성자(Secondary Constructor)
 클래스 본문에 기술되며 하나 잇아의 부 생성자를 정의할 수 있다.
-
 
 ```javascript
 class Bird {
@@ -139,6 +138,7 @@ fun main() {
 Static Polymorphism
 - 컴파일 타임에 결정되는 다형성
 - 단순하게 보면 메서드 overloding을 사용할 때
+
 ```
 fun example(a: Int)
 fun example(a: Int, b: Int)
@@ -147,6 +147,7 @@ fun example(a: Int, b: Int)
 Dynamic Polymorphism
 - 런타임 다형성
 - 동적으로 구성되는 overrideing된 메서드를 사용할 때
+
 ```
 open class Parent (name: Int) {
     open fun example()
@@ -175,7 +176,6 @@ overloading
 - 기능은 같지만 인자를 다르게 하여 여러 경우를 처리
 - 출력한다 -> 행위 -> print()
 - print(123), print("Hello") 인자는 다르지만 출력의 기능은 동일함
-
 
 
 ```javascript

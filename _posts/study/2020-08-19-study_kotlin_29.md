@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [19]"
-description: "Kotlin 컬렉션 & 컬렉션 List - [1]"
+description: "컬렉션, List - [1]"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

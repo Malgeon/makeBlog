@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [2]"
-description: "Kotlin 함수편 기본 - 자료형과 스마트 캐스트"
+description: "자료형 변환, 스마트 캐스트, 비트 매서드"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

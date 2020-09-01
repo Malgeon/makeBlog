@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [14]"
-description: "Kotlin 자료형 프로젝션"
+description: "자료형 프로젝션"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [8]"
-description: "Kotlin 클래스 - 데이터 클래스"
+description: "데이터 클래스"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -25,6 +25,7 @@ image: assets/images/study/kotlin.png
 
 코틀린의 데이터 클래스(data class)
 - DTO를 표현하기 적합한 클래스 표현으로 data class 키워드를 사용해 정의한다
+
 ```
 코틀린의 프로퍼티 = 필드(변수) + 게터와 세터
 ```
@@ -48,6 +49,7 @@ data class Customer(var name: String, var email: String)
 - 데이터 클래스는 abstract, open, sealed, inner 키워드를 사용할 수 없다.
 
 데이터 클래스에 간단한 로직을 포함하려면 부 생성자나 init 블록을 넣어 데이터를 위한 간단한 로직을 포함 할 수 있다.
+
 ```javascript
 data class Customer(var name: String, var email: String) {
     var job: String = "Unknown"
@@ -61,6 +63,7 @@ data class Customer(var name: String, var email: String) {
 ```
 
 자동 생성 메서드들
+
 | 제공된 메서드 | 기능 |
 | --- | --- | 
 | equals() | 두 객체의 내용이 같은지 비교하는 연산자로 ==와 동일(고유값은 다르지만 의미값이 같을 떄) | 

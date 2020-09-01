@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [5]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 5"
+description: "지연초기화 - lateinit, lazy, 위임(by)"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [10]"
-description: "Kotlin 클래스 - 지역 클래스 & 익명 객체 & 실드 클래스 & 열거형 클래스"
+description: "지역 클래스, 익명 객체, 실드 클래스, 열거형 클래스"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -82,6 +82,7 @@ class Smartphone(val model: String) {
 - 블록 안에 선언되는 클래스는 상속이 필요한 경우 open 키워드로 선언
 
 실드 클래스는 상태를 정의하고 관리하는데 주로 쓰인다.
+
 ```javascript
 // 실드 클래스 선언 첫번째 스타일
 sealed class Result {
@@ -167,6 +168,7 @@ fun main(args: Array) {
 ```
 
 열거형 클래스 사용 예시
+
 ```javascript
 interface Score {
     fun getScore(): Int
@@ -215,7 +217,8 @@ annotation class 애노테이션명
 - @Repeatable: 애노테이션을 같은 요소에 여러 번 사용 가능하게 할지를 결정
 - @MustBeDocumented: 애노테이션이 API의 일부분으로 문서화하기 위해 사용
 
-솏ㅇ과 함꼐 정의된 애노테이션 클래스의 예
+속성과 함께 정의된 애노테이션 클래스의 예
+
 ```
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION,
         AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.EXPRESSION)

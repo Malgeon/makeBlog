@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [31]"
-description: "Kotlin 코루틴 - 블로킹과 문맥 변환"
+description: "코루틴 - 블로킹과 문맥 변환"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

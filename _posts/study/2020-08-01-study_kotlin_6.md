@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [6]"
-description: "Kotlin 조건문"
+description: "조건문"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

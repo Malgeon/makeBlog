@@ -2,15 +2,15 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [5]"
-description: "Kotlin 함수형 프로그래밍 - 2"
+description: "익명함수, 인라인함수, 확장함수, 중위표현법, 꼬리재귀함수"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
 image: assets/images/study/kotlin.png
 ---
  
-
 ### 익명 함수 
+
 ```javascript
 fun (x: Int, y; Int): Int = x + y // 함수의 이름이 생략되어 있다.
 ```

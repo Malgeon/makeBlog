@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [12]"
-description: "Kotlin 제네릭의 기본"
+description: "제네릭"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

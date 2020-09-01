@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [23]"
-description: "Kotlin 컬렉션 - 확장함수 - [1]"
+description: "확장함수 - [1]"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

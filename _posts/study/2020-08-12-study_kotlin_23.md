@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [13]"
-description: "Kotlin 제네릭 함수 혹은 메서드"
+description: "제네릭 함수 혹은 메서드, 가변성의 3가지 유형"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

@@ -2,13 +2,12 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [15]"
-description: "Kotlin 배열 - 1"
+description: "배열"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
 image: assets/images/study/kotlin.png
 ---
-
 
 배열 표현하기
 - arrayOf()나[-헬퍼 함수] Array() 생성자를 사용해 배열을 생성한다

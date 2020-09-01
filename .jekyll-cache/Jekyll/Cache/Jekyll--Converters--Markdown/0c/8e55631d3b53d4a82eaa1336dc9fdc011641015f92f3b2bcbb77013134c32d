@@ -1,0 +1,137 @@
+I"�-<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/67256"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 키패드 누르기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>왼쪽, 오른쪽의 Starting Point이 존재하고 조건에 따라 해당 Point는 바뀌는데, 조건은 바꾸려는 Point와 양쪽 의 거리 차이이다.
+따라서 배열을 구성해서 해당 Point간 거리를 구할수 있어야 하며, 움직일때마다 Point를 저장하고 있어야 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">data</span> <span class="kd">class</span> <span class="nf">Location</span><span class="o">(</span><span class="n">val</span> <span class="nl">x:</span> <span class="nc">Int</span><span class="o">,</span> <span class="n">val</span> <span class="nl">y:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="nc">Location</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="n">override</span> <span class="n">fun</span> <span class="nf">compareTo</span><span class="o">(</span><span class="nl">other:</span> <span class="nc">Location</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">abs</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="na">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">abs</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="na">y</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">val</span> <span class="n">keypad</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span>
+        <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">),</span>
+        <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">),</span>
+        <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">),</span>
+        <span class="n">intArrayOf</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">,-</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">)</span>
+    <span class="kt">var</span> <span class="n">record</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="kt">var</span> <span class="n">left</span> <span class="o">=</span> <span class="nc">Location</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="n">right</span> <span class="o">=</span> <span class="nc">Location</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">numbers:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">hand:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+      <span class="n">val</span> <span class="n">leftAssigned</span> <span class="o">=</span> <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">7</span><span class="o">)</span>
+      <span class="n">val</span> <span class="n">rightAssigned</span> <span class="o">=</span> <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">9</span><span class="o">)</span>
+
+      <span class="n">numbers</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">leftAssigned</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">it</span><span class="o">))</span> <span class="o">{</span>
+          <span class="n">move</span><span class="o">(</span><span class="s">"left"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">rightAssigned</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">it</span><span class="o">))</span> <span class="o">{</span>
+          <span class="n">move</span><span class="o">(</span><span class="s">"right"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="n">val</span> <span class="n">leftOrRight</span> <span class="o">=</span> <span class="n">distance</span><span class="o">(</span><span class="n">findLocation</span><span class="o">(</span><span class="n">it</span><span class="o">),</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span><span class="o">)</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">leftOrRight</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"right"</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">move</span><span class="o">(</span><span class="s">"right"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+              <span class="n">move</span><span class="o">(</span><span class="s">"left"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+            <span class="o">}</span>
+          <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">leftOrRight</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">){</span>
+            <span class="n">move</span><span class="o">(</span><span class="s">"left"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">move</span><span class="o">(</span><span class="s">"right"</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">record</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">findLocation</span><span class="o">(</span><span class="nl">target:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Location</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span><span class="o">..</span><span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">keypad</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">contains</span><span class="o">(</span><span class="n">target</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">Location</span><span class="o">(</span><span class="n">keypad</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">indexOf</span><span class="o">(</span><span class="n">target</span><span class="o">),</span> <span class="n">i</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="nf">Location</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">move</span><span class="o">(</span><span class="nl">hand:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">target:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"left"</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">record</span> <span class="o">+=</span> <span class="s">"L"</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">findLocation</span><span class="o">(</span><span class="n">target</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">record</span> <span class="o">+=</span> <span class="s">"R"</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">findLocation</span><span class="o">(</span><span class="n">target</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">distance</span><span class="o">(</span><span class="nl">target:</span> <span class="nc">Location</span><span class="o">,</span> <span class="nl">left:</span> <span class="nc">Location</span><span class="o">,</span> <span class="nl">right:</span> <span class="nc">Location</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">target</span><span class="o">)</span> <span class="o">-</span> <span class="n">right</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">target</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

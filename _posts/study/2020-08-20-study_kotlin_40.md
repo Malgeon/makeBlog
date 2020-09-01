@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [30]"
-description: "Kotlin 코루틴 - 빌더의 속성과 스코프의 부모-자식관계"
+description: "코루틴 - 빌더의 속성과 스코프의 부모-자식관계"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

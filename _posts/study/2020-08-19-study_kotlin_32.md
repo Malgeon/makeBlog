@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [22]"
-description: "Kotlin 컬렉션 - Map"
+description: "Collection.Map"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -23,6 +23,7 @@ Map의 생성
 
 
 ### mapOf() - 불변형
+
 ```
 val map: Map<키자료형, 값자료형> = mapOf(키 to 값[, ...])
 ```
@@ -44,6 +45,7 @@ fun main() {
 ```
 
 Map의 멤버
+
 | 멤버 | 설명 |
 | --- | --- |
 | size | 맵 컬렉션의 크기를 반환한다. |
@@ -57,6 +59,7 @@ Map의 멤버
 
 MutableMap의 추가 멤버
 - 추가, 삭제가 가능한 메서드 제공
+
 | 멤버 | 설명 |
 | --- | --- |
 | put(key: K, value: V) | 키와 값의 쌍을 맵에 추가한다. |
@@ -86,6 +89,7 @@ fun main() {
 
 putAll()을 사용해 맵 객체 통합해보기
 - 기존 요소에 추가된 요소를 병합 할 수 있다.
+
 ```java
 // putAll()을 사용한 맵의 추가
 val addData = mutableMapOf("USA" to "Washington")
@@ -93,11 +97,13 @@ capitalCityMap.putAll(addData)
 println(capitalCityMap)
 ```
 - 기존 요소
+
 ```
 {Korea=Seoul, Japan=Tokyo, UK=London}
 ```
 
 - 병합된 요소
+
 ```
 {Korea=Seoul, Japan=Tokyo, UK=London, USA=Washington}
 ```

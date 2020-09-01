@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [8]"
-description: "Kotlin 예외처리"
+description: "예외처리"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -31,6 +31,7 @@ image: assets/images/study/kotlin.png
 ```
 
 스택의 추적
+
 ```javascript
  ...
  } catch (e: Exception) {
@@ -43,6 +44,7 @@ image: assets/images/study/kotlin.png
 ```
 
 특정 조건에 따른 예외 발생
+
 ```
 throw Exception(message: String)
 ```

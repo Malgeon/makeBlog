@@ -1,0 +1,182 @@
+I"m0<h3 id="map">Map</h3>
+
+<p>개념</p>
+<ul>
+  <li>키(Key)와 값(Value)으로 구성된 요소를 저장한다.
+    <ul>
+      <li>키와 값은 모두 객체</li>
+    </ul>
+  </li>
+  <li>키는 중복될 수 없지만 값은 중복 저장될 수 있다.
+    <ul>
+      <li>만약 기존에 저장된 키왇 ㅗㅇ일하면 기존의 값은 없어지고 새로운 값으로 대체 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Map의 생성</p>
+<ul>
+  <li>불변형: mapOf()</li>
+  <li>가변형: mutableMapOf()</li>
+</ul>
+
+<h3 id="mapof---불변형">mapOf() - 불변형</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>val map: Map&lt;키자료형, 값자료형&gt; = mapOf(키 to 값[, ...])
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>키와 쌍은 ‘키 to 값’ 형태로 나타낸다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 불변형 Map의 선언 및 초기화</span>
+    <span class="n">val</span> <span class="nl">langMap:</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">mapOf</span><span class="o">(</span><span class="mi">11</span> <span class="n">to</span> <span class="s">"Java"</span><span class="o">,</span> <span class="mi">22</span> <span class="n">to</span> <span class="s">"Kotlin"</span><span class="o">,</span> <span class="mi">33</span> <span class="n">to</span> <span class="s">"C++"</span><span class="o">)</span>
+
+    <span class="k">for</span> <span class="o">((</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="n">in</span> <span class="n">langMap</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">"key = $key, value = &amp;value"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="s">"langMap[22] = ${langMap[22]}"</span><span class="o">)</span> <span class="c1">// 키 22에 대한 요소 출력</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"langMap.get(22) = ${langMap.get(22)}"</span><span class="o">)</span> <span class="c1">// 위와 동일한 표현</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"langMap.keys = ${langMap.keys}"</span><span class="o">)</span> <span class="c1">// 맵의 모든 키 출력</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Map의 멤버
+| 멤버 | 설명 |
+| — | — |
+| size | 맵 컬렉션의 크기를 반환한다. |
+| keys | 이 프로퍼티는 Set의 모든 키를 반환한다. |
+| values | 이 프로퍼티는 Set의 모든 값을 반환한다. |
+| isEmpty() | 맵이 비어있는지 확인하고 비어 있으면 true를, 아니면 false를 반환한다. |
+| containsKey(key: K) | 인자에 해당하는 키가 있다면 true를, 아니면 false를 반환한다. |
+| containsValue(value: V) | 인자에 해당하는 값이 있다면 true를, 아니면 false를 반환한다. |
+| get(key: K) | 키에 해당하는 값을 반환하며, 없으면 null을 반환한다. |</p>
+
+<p>MutableMap의 추가 멤버</p>
+<ul>
+  <li>추가, 삭제가 가능한 메서드 제공
+| 멤버 | 설명 |
+| — | — |
+| put(key: K, value: V) | 키와 값의 쌍을 맵에 추가한다. |
+| remove(key: K) | 키에 해당하는 요소를 맵에서 제거한다. |
+| putAll(from: Map&lt;out K, V&gt;) | 인자로 주어진 Map 데이터를 갱신하거나 추가한다. |
+| clear() | 모든 요소를 지운다. |</li>
+</ul>
+
+<p>mutableMapOf() 예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 가변형 Map의 선언 및 초기화</span>
+    <span class="n">val</span> <span class="nl">capitalCityMap:</span> <span class="nc">MutalbleMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="c1">// 선언 시 키와 값의 자료형을 명시할 수 있음(추론 가능 시 생략도 가능)</span>
+        <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">(</span><span class="s">"Korea"</span> <span class="n">to</span> <span class="s">"Seoul"</span><span class="o">,</span> <span class="s">"China"</span> <span class="n">to</span> <span class="s">"Beijing"</span><span class="o">,</span> <span class="s">"Japan"</span> <span class="n">to</span> <span class="s">"Tokyo"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">capitalCityMap</span><span class="o">.</span><span class="na">values</span><span class="o">)</span> <span class="c1">// 값만 출력</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">capitalCityMap</span><span class="o">.</span><span class="na">keys</span><span class="o">)</span> <span class="c1">// 키만 출력</span>
+    <span class="n">capitalCityMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"UK"</span><span class="o">,</span> <span class="s">"London"</span><span class="o">)</span> <span class="c1">// 요소의 추가</span>
+    <span class="n">capitalCityMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">"China"</span><span class="o">)</span> <span class="c1">// 요소의 삭제</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">capitalCityMap</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>[Seoul, Beiging, Tokyo]
+[Korea, China, Japan]
+{Korea=Seoul, Japan=Tokyo, UK=London}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>putAll()을 사용해 맵 객체 통합해보기</p>
+<ul>
+  <li>기존 요소에 추가된 요소를 병합 할 수 있다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="c1">// putAll()을 사용한 맵의 추가</span>
+<span class="n">val</span> <span class="n">addData</span> <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">(</span><span class="s">"USA"</span> <span class="n">to</span> <span class="s">"Washington"</span><span class="o">)</span>
+<span class="n">capitalCityMap</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">addData</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">capitalCityMap</span><span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>기존 요소
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>{Korea=Seoul, Japan=Tokyo, UK=London}
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>병합된 요소
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>{Korea=Seoul, Japan=Tokyo, UK=London, USA=Washington}
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="map을-위한-기타-자료구조">Map을 위한 기타 자료구조</h3>
+
+<p>특정 자료구조 이용</p>
+<ul>
+  <li>Map에서도 자바의 HashMap, SortedMap과 LinkedHashMap을 사용할 수 있다.</li>
+  <li>hashMapOf(), sortedMapOf(), linkedMapOf()로 각각 초기화</li>
+  <li>SortedMap의 경우 기복적으로 키에 대해 오름차순 정렬된 형태로 사용</li>
+  <li>내부 구조는 앞서 설명했던 Set의 구조와 비슷하게 해시, 트리, 링크드 리스트의 자료구조로 구현</li>
+</ul>
+
+<p>예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">java.util.*</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// java.util.HashMap의 사용</span>
+    <span class="n">val</span> <span class="nl">hashMap:</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">hashMapOf</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="s">"Hello"</span><span class="o">,</span> <span class="mi">2</span> <span class="n">to</span> <span class="s">"World"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"hashMap = $hashMap"</span><span class="o">)</span>
+
+    <span class="c1">// java.util.SortedMap의 사용</span>
+    <span class="n">val</span> <span class="nl">sortedMap:</span> <span class="nc">SortedMap</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">sortedMapOf</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="s">"Apple"</span><span class="o">,</span> <span class="mi">2</span> <span class="n">to</span> <span class="s">"Bababa"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"sortedMap = $sortedMap"</span><span class="o">)</span>
+
+    <span class="c1">// java.util.LinkedHashMap의 사용</span>
+    <span class="n">val</span> <span class="nl">linkedHash:</span> <span class="nc">LinkedHashMap</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">linkedMapOf</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="s">"Computer"</span><span class="o">,</span> <span class="mi">2</span> <span class="n">to</span> <span class="s">"Mouse"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"linkedHash = $linkedHash"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>hashMap = {1=Hello, 2=World}
+sortedMap = {1=Apple, 2=Banana}
+linkedHash = {1=Computer, 2=Mouse}
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

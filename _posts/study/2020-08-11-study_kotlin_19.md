@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [9]"
-description: "Kotlin 클래스 - 내부 클래스"
+description: "내부 클래스"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

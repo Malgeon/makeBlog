@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [4]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 4"
+description: "Getter, Setter"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -15,6 +15,7 @@ image: assets/images/study/kotlin.png
 코틀린에서 게터와 세터가 작동하는 방식
 
 - 접근 매서드는 생략(내부적으로 생성된다)
+
 ```javascript
 class User(_id: Int, _name: String, _age: Int) {
     // 프로퍼티들
@@ -25,6 +26,7 @@ class User(_id: Int, _name: String, _age: Int) {
 ```
 
 좀더 간략히
+
 ```javascript
 class User(val id: Int, var name: String, var age: Int)
 ```
@@ -47,6 +49,7 @@ fun main() {
 ### Custom: Getter & Setter
 
 게터와 세터가 포함되는 프로퍼티 선언 구조
+
 ```
 var 프로퍼티이름[: 프로퍼티자료형] [= 프로퍼티 초기화]
     [get() { 게터 본문 } ]
@@ -125,6 +128,7 @@ fun main() {
 ```
 
 임시적인 보조 프로퍼티
+
 ```javascript
 class User(_id: Int, _name: String, _age: Int) {
     // 프로퍼티들
@@ -156,6 +160,7 @@ fun main() {
 ```
 
 프로퍼티의 오버라이딩
+
 ```javascript
 open class First {
     open val x: Int = 0 // 오버라이딩 가능
@@ -185,3 +190,4 @@ fun main() {
     println(second.x) // 23
     println(second.y) // 부모로 부터 상속 받은 값
 }
+```

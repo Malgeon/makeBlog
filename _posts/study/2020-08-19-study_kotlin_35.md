@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [25]"
-description: "Kotlin 동시성 프로그래밍"
+description: "동시성 프로그래밍, 프로세스와 스레드"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

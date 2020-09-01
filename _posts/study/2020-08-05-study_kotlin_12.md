@@ -2,15 +2,14 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [2]"
-description: "Kotlin 객체 지향 프로그래밍 기본 - 2"
+description: "this, super, @, <>"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
 image: assets/images/study/kotlin.png
 ---
- 
 
- ### this & super
+### this & super
 
 | super | this | 
 | --- | --- |

@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [10]"
-description: "Kotlin 표준함수활용 - 2"
+description: "표준함수 - run, with, use, takeIf, takeUnless"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

@@ -1,0 +1,293 @@
+I"�K<h3 id="정적-변수와-컴페니언-객체">정적 변수와 컴페니언 객체</h3>
+
+<p>사용 범위에 따른 분류</p>
+<ul>
+  <li>지역(local)</li>
+  <li>전역(global)</li>
+</ul>
+
+<p>보통 클래스는 동적으로 객체를 생성하는데 정적으로 고정하는 방법</p>
+<ul>
+  <li>동적인 초기화 없이 서용할 수 잇는 개념으로 자바에서는 static 변수 또는 객체가 존재하는데, 코틀린에서는 이것을 컴페니언 객체(Companion object)로 사용한다</li>
+  <li>프로그램 실행 시 고정적으로 가지는 메모리로 객체 생성 없이 사용할 수 있다.</li>
+  <li>단, 자주 사용되지 않는 변수나 객체를 만들게 되면 메모리 낭비에 대한 이슈가 존재한다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Person</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">id</span><span class="p">:</span> <span class="nx">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Youngdeok</span><span class="dl">"</span>
+    <span class="nx">companion</span> <span class="nx">object</span> <span class="p">{</span> <span class="c1">// 이러한 객체 즉, 컴패니언 객체는 실제 객체의 싱글톤(singleton)으로 정의된다.</span>
+        <span class="kd">var</span> <span class="nx">language</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Korean</span><span class="dl">"</span>
+        <span class="nx">fun</span> <span class="nx">work</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">working...</span><span class="dl">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">Person</span><span class="p">.</span><span class="nx">language</span><span class="p">)</span> <span class="c1">// 인스턴스를 생성하지 않고 기본값 사용</span>
+    <span class="nx">Person</span><span class="p">.</span><span class="nx">language</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">English</span><span class="dl">"</span> <span class="c1">// 기본값 변경 가능</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">Person</span><span class="p">.</span><span class="nx">language</span><span class="p">)</span> <span class="c1">// 변경된 내용 출력</span>
+    <span class="nx">Person</span><span class="p">.</span><span class="nx">work</span><span class="p">()</span> <span class="c1">// 메서드 실행</span>
+    <span class="c1">// println(Person.name) // name은 companion object가 아니므로 에러</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>코틀린에서 자바의 static 멤버의 사용</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="c1">// Customer.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">LEVEL</span> <span class="o">=</span> <span class="s">"BASIC"</span><span class="o">;</span> <span class="c1">// static 필드</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">login</span><span class="o">()</span> <span class="o">{</span> <span class="c1">// static 메서드</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Login..."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// CustomerAccess.kt</span>
+<span class="c1">// 코틀린에서 자바의 static 접근</span>
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">Customer</span><span class="p">.</span><span class="nx">LEVEL</span><span class="p">)</span>
+    <span class="nx">Customer</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>자바에서 코틀린 컴패니언 객체 사용</p>
+
+<p>@JvmStatic 애노테이션 표기법 사용</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">KCustomer</span> <span class="p">{</span>
+    <span class="nx">companioon</span> <span class="nx">object</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">val</span> <span class="nx">LEVEL</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">INTERMEDIATE</span><span class="dl">"</span>
+        <span class="p">@</span><span class="nd">JvmStatic</span> <span class="nx">fun</span> <span class="nx">login</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Login...</span><span class="dl">"</span><span class="p">)</span>  <span class="c1">// 애노테이션 표기 사용</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">KCustomerAccess</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">}</span>
+    <span class="c1">// 코틀린 클래스의 컴패니언 객체를 접근</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">KCustomer</span><span class="o">.</span><span class="na">LEVEL</span><span class="o">);</span>
+    <span class="nc">KCustomer</span><span class="o">.</span><span class="na">login</span><span class="o">();</span> <span class="c1">// 애노테이션을 사용할 떄 접근 방법</span>
+    <span class="nc">KCustomer</span><span class="o">.</span><span class="na">Companion</span><span class="o">.</span><span class="na">login</span><span class="o">();</span> <span class="c1">// 위와 동일한 결과로 애노테이션을 사용하지 않을 때 접근 방법</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="최상위-함수top-level-function">최상위 함수(top-level function)</h3>
+
+<p>최상위 함수</p>
+<ul>
+  <li>클래스 없이 만들었던 최상위 함수들은 객체 생성 없이도 어디엣든 실행</li>
+  <li>패키지 레벨 함수(package-level function) 라고도 함</li>
+  <li>최상위 함수는 결국 자바에서 static final로 선언된 함수이다.</li>
+</ul>
+
+<p>자바에서 코틀린의 최상위 함수 접근</p>
+<ul>
+  <li>코틀린의 최상위 함수는 클래스가 없으나 자바와 연동시 내부적으로 파일명에 Kt 접미사가 붙은 클래스를 자동 생성하게 된다.</li>
+  <li>자동 변환되는 클래스명을 명시적으로 지정하고자 하는 경우 @file:JvmName(“ClassName”)을 코드 상단에 명시한다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1">// PackageLevelFUnction.kt</span>
+<span class="nx">fun</span> <span class="nx">packageLevelFUnc</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Package-Level Function</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">packageLevelFunc</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">//PackageLevelAccess.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PackageLevelAccess</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">PackageLevelFunctionKt</span><span class="o">.</span><span class="na">packageLevelFunc</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이름을 명시하여 최상위 함수 접근</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="c1">// PackageLevelFUnction.kt</span>
+
+<span class="p">@</span><span class="nd">file</span><span class="p">:</span><span class="nx">JvmName</span><span class="p">(</span><span class="dl">"</span><span class="s2">PKLevel</span><span class="dl">"</span><span class="p">)</span>
+<span class="nx">fun</span> <span class="nx">packageLevelFUnc</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Package-Level Function</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">packageLevelFunc</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">//PackageLevelAccess.java</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PackageLevelAccess</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">PKLevel</span><span class="o">.</span><span class="na">packageLevelFunc</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="object와-싱글톤">object와 싱글톤</h3>
+<p>상속할 수 없는 클래스에서 내용이 변경된 객체를 생성할 때</p>
+<ul>
+  <li>자바의 경우 익명 내부 클래스를 사용해 새로운 클래스 선언</li>
+  <li>코틀린에서는 object 표현식이나 object 선언으로 이 경우를 좀더 쉽게 처리한다</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="nx">object</span> <span class="nx">OCustomer</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Kildong</span><span class="dl">"</span>
+    <span class="nx">fun</span> <span class="nx">greeting</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">val</span> <span class="nx">HOBBY</span> <span class="o">=</span> <span class="nx">Hobby</span><span class="p">(</span><span class="dl">"</span><span class="s2">Basketball</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">init</span> <span class="p">{</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Init!</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">...</span>
+
+<span class="kd">class</span> <span class="nx">Hobby</span><span class="p">(</span><span class="nx">val</span> <span class="nx">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">OCustomer</span><span class="p">.</span><span class="nx">greeting</span><span class="p">()</span> <span class="c1">// 객체의 접근 시점</span>
+    <span class="nx">OCustomer</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Dooly</span><span class="dl">"</span>
+    <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">name = ${OCustomer.name}</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">OCustomer</span><span class="p">.</span><span class="nx">HOBBY</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>object 선언 방식은 접근 시점에 객체가 생성된다.
+그렇기 때문에 생성자 호출을 하지 않으므로 object 선언에는 주/부 생성자를 사용할 수 없다.</p>
+
+<p>자바에서는 <code class="language-plaintext highlighter-rouge">OCustomer.INSTANCE.getName();</code> 와 같이 접근 해야 한다.</p>
+
+<h3 id="object-표현식">object 표현식</h3>
+
+<p>object: - object 표현식을 사용할 때</p>
+<ul>
+  <li>object 선언과 달리 이름이 없으며 싱글톤이 아니다.</li>
+  <li>따라서 object 표현식이 사용될 때마다 새로운 인스턴스가 생성된다.</li>
+  <li>이름이 없는 익명 내부 클래스로 불리는 형태를 object 표현식으로 만들수 있다.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="nx">open</span> <span class="kd">class</span> <span class="nx">Superman</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fun</span> <span class="nx">work</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Taking photos</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">fun</span> <span class="nx">talk</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Talking with people.</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">open</span> <span class="nx">fun</span> <span class="nx">fly</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Flying in the air.</span><span class="dl">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">pretendedMan</span> <span class="o">=</span> <span class="nx">object</span><span class="p">:</span> <span class="nx">Superman</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// object 표현식으로 fly() 구현의 재정의</span>
+        <span class="nx">override</span> <span class="nx">fun</span> <span class="nx">fly</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">I'm not a real superman. I can't fly!</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">pretendedMan</span><span class="p">.</span><span class="nx">work</span><span class="p">()</span>
+    <span class="nx">pretendedMan</span><span class="p">.</span><span class="nx">talk</span><span class="p">()</span>
+    <span class="nx">pretendedMan</span><span class="p">.</span><span class="nx">fly</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

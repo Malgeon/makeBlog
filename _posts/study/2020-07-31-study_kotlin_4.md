@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 함수편 - [4]"
-description: "Kotlin 함수형 프로그래밍 - 1"
+description: "함수형 프로그래밍, 순수함수, 람다식, 고차함수"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
@@ -116,7 +116,6 @@ fun main() {
 fun highFunc(a: Int, b: Int, sum: (Int, Int) -> Int): Int = sum(a, b)// sum 매개변수는 함수
 ``` 
 
-
 ```javascript
 fun main() {
     val result = highFunc(1, 3) {x, y -> 
@@ -150,10 +149,10 @@ val multi: (Int, Int) -> Int = { a, b -> a * b}
 물론 모두 생략하는 것은 추론이 가능하지 않아서 안된다. 
 */
 result = multi(10, 20) //함수 처럼 사용이 가능하다.
-
 ``` 
 
 표현식이 2줄 이상일 경우는 마지막 표현식이 반환된다.
+
 ```javascript
 val result: Int
 val multi: (Int, Int) -> Int = { a, b -> 
@@ -164,6 +163,7 @@ result = multi(10, 20) //200
 ``` 
 
 반환 자료형이 없거나 매개변수가 하나 있을 경우
+
 ```javascript
 val greet: ()->Unit = { println("Hello World!") } // 추론이 가능하므로 자료형 생략
 val square: (Int)->Int = { x -> x * x } 
@@ -172,6 +172,7 @@ val square = { x: Int -> x * x }
 ``` 
 
 람다식 안에 람다식
+
 ```javascript
 val nestedLambda: ()->()->Unit = { { println("nested") } }  // 추론 가능하므로 생략 가능하다.
 val nestedLambda = { { println("nested") } }
@@ -179,6 +180,7 @@ val nestedLambda = { { println("nested") } }
 
 ### 고차함수 이용
 다음과 같은 예시를 살펴보자.
+
 ```javascript
 fun sum(a: Int, b: Int) = a + b
 
@@ -198,7 +200,9 @@ fun main() {
 람다식을 이용
 
 ### 함수 호출
+
 CallByValue
+
 ```javascript
 fun main() {
     val result = callByValue(lambda())
@@ -218,6 +222,7 @@ val lambda: () -> Boolean = {
 순서: lambda 바로 실행 결과 값 반환, 반환된 결과값을 callByValue 매개변수에 복사, return.
 
 CallByName
+
 ```javascript
 fun main() {
     val result = callByName(otherLambda)
@@ -237,6 +242,7 @@ val otherLambda: () -> Boolean = {
 순서: otherLambda가 callByName 매개변수에 복사, return에서 b()로 람다식 함수가 호출. 람다식 true return, callByname return.
 
 callByReference
+
 ```javascript
 fun sum(x: Int, y: Int) = x + y
 
@@ -260,6 +266,7 @@ fun noParam( out: () -> String) = println(out())
 ```
 
 매개변수 한 개
+
 ```javascript
 fun main() {
     oneParam( {  a ->  "Hello World! $a" } )
@@ -272,6 +279,7 @@ fun oneParam( out: (String) -> String) = println(out("OneParam"))
 ```
 
 매개변수 두 개 이상
+
 ```javascript
 fun main() {
     moreParam{ a, b ->  "Hello World! $a $b" }
@@ -281,6 +289,7 @@ fun moreParam( out: (String, String) -> String) = println(out("OneParam", "TwoPa
 ```
 
 만일 앞선 매개변수를 사용하지 않을 예정이라 생략하고 싶다면, 언더바를 사용하면 된다.
+
 ```javascript
 fun main() {
     moreParam{ _, b ->  "Hello World! $b" }
@@ -288,6 +297,7 @@ fun main() {
 ```
 
 일반 매개변수와 람다식 매개변수를 같이 사용
+
 ```javascript
 fun main() {
     withArgs("Arg1", "Arg2", { a, b -> "Hello World! $a $b"} )
@@ -309,6 +319,7 @@ fun withArgs(out: (String, String) -> String, a: String, b: String) {
 ```
 
 두 개 이상의 람다식을 가질 때
+
 ```javascript
 fun main() {
     twoLambda({ a, b ->  "First $a $b" }, {"Second $it"})
