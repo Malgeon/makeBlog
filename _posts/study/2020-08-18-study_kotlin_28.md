@@ -42,7 +42,8 @@ println(s.substring(0..2)) // abc
 
 ```java
 var s = "abcdef"
-s = s.substring(0..1) + "x" + s.substring(3..s.length-1) // ab를 추출하고 x를 덧붙이고 다시 def를 추출 -> abxdef
+s = s.substring(0..1) + "x" + s.substring(3..s.length-1) 
+// ab를 추출하고 x를 덧붙이고 다시 def를 추출 -> abxdef
 ```
 
 ### 문자열 비교

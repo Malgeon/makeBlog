@@ -1,0 +1,331 @@
+I"�H<h3 id="collection">Collection</h3>
+
+<ul>
+  <li>자주 사용되는 기초적인 자료구조를 모아놓은 일종의 프레임워크로 표준 라이브러리로 제공된다.</li>
+</ul>
+
+<p>코틀린의 컬렉션</p>
+<ul>
+  <li>컬렉션의 종류로는 List, Set, Map 등이 있으며 자바와는 다르게 불변형(immutable)과 가변형(mutable)으로 나뉘어 컬렉션을 다룰 수 있다.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>컬렉션</th>
+      <th>불변형(읽기 전용)</th>
+      <th>가변형</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>List</td>
+      <td>listOf</td>
+      <td>mutableListOf, arrayListOf</td>
+    </tr>
+    <tr>
+      <td>Set</td>
+      <td>setOf</td>
+      <td>mutableSetOf, hashSetOf, linkedSetOf, sortedSetOf</td>
+    </tr>
+    <tr>
+      <td>Map</td>
+      <td>mapOf</td>
+      <td>mutableMapOf, hashMapOf, linkedMapOf, sortedMapOf</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>다이어그램의 가장 상위의 Iterable 인터페이스는 컬렉션이 연속적인 요소를 표현 할 수 있게 한다.</li>
+</ul>
+
+<p><img src="/assets/images/study/kotlin/kotlin_oop_collections.JPG" alt="collections" /></p>
+
+<h3 id="collection-인터페이스">Collection 인터페이스</h3>
+
+<p>Collection 인터페이스의 특징</p>
+<ul>
+  <li>Iterable로부터 확장</li>
+  <li>불변형이므로 Collection으로부터 확장된 Set과 List는 읽기 전용의 컬렉션됨</li>
+</ul>
+
+<p>Collection 인터페이스의 멤버</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>멤버</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>size</td>
+      <td>컬렉션의 크기를 나타낸다</td>
+    </tr>
+    <tr>
+      <td>isEmpty()</td>
+      <td>컬렉션이 비어 있는 경우 true를 반환한다</td>
+    </tr>
+    <tr>
+      <td>contains(element: E)</td>
+      <td>특정 요소가 있다면 true를 반환한다</td>
+    </tr>
+    <tr>
+      <td>containsAll(element: Collection<E>)</E></td>
+      <td>인자로 받아들인 Collection이 있다면 true를 반환한다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="mutableiterable과-mutablecollection-인터페이스">MutableIterable과 MutableCollection 인터페이스</h3>
+<p>특징</p>
+<ul>
+  <li>가변형 컬렉션을 지원하기 위해 준비된 인터페이스</li>
+  <li>요소를 추가하거나 제거하는 등의 기능을 수행할 수 있따.</li>
+</ul>
+
+<p>MutableCollection의 멤버</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>멤버</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>add(element: E)</td>
+      <td>인자로 전달반은 요소를 추가하고 true를 반환하며, 이미 요소가 있거나 중복이 허용되지 않으면 false를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>remove(element: E)</td>
+      <td>인자로 받은 요소를 삭제하고 true를 반환하며, 삭제하려는 요소가 없다면 false를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>addAll(elements: Collection<E>)</E></td>
+      <td>컬렉션을 인자로 전달받아 모든 요소를 추가하고 true를 반환하며, 실패 시 false를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>removeAll(elements: Collection<E>)</E></td>
+      <td>컬렉션을 인자로 전달받아 모든 요소를 삭제하고 true를 반환하며, 실패 시 false를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>retainAll(elements: Collection<E>)</E></td>
+      <td>인자로 전달받은 컬렉션의 요소만 보유한다. 성공 시 true를 반환하고 실패 시 false를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>clear()</td>
+      <td>컬렉션의 모든 요소를 삭제한다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="list">List</h3>
+<p>List</p>
+<ul>
+  <li>순서에 따라 정렬된 요소를 가지는 컬렉션 (가장 많이 사용되는 컬렉션 중에 하나)</li>
+  <li>값을 변경할 수 없는 불변형 List를 만들기 위해 헬퍼 함수인 listOf()를 사용</li>
+  <li>값을 변경할 수 있는 가변형을 표현하기 위해서는 mutablelistOf()를 사용</li>
+  <li>인자는 원하는 만큼의 가변 인자를 가지도록 vararg로 선언 가능</li>
+</ul>
+
+<p>헬퍼 함수</p>
+<ul>
+  <li>객체 생성 시 요소를 직접 선언하기 보다 특정 함수의 도움을 통해 생성</li>
+</ul>
+
+<h3 id="listof">listOf()</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">listOf</span><span class="o">(</span><span class="n">vararg</span> <span class="nl">elements:</span> <span class="no">T</span><span class="o">):</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>vararg는 가변 인자를 받을 수 있기 때문에 원하는 만큼 요소를 지정</li>
+  <li>값을 반환할 때는 List<T>를 사용</T></li>
+  <li>형식 매개변수 <T>는 필요에 따라 원하는 자료형을 지정해 선언
+</T>    <ul>
+      <li>사용하지 않으면 <Any>가 기본값이며 어떤 자료형이든 혼합 사용 가능</Any></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 불변형 List의 사용</span>
+    <span class="kt">var</span> <span class="nl">numbers:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="nl">names:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">name</span> <span class="n">in</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">num</span> <span class="n">in</span> <span class="n">numbers</span><span class="o">)</span> <span class="n">print</span><span class="o">(</span><span class="n">num</span><span class="o">)</span> <span class="c1">// 한 줄에서 처리하기</span>
+    <span class="n">println</span><span class="o">()</span> <span class="c1">// 내용이 없을 때는 한 줄내리는 개행</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>형식 매개변수 생략 예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="kt">var</span> <span class="n">mixedTypes</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mf">2.445</span><span class="o">,</span> <span class="sc">'s'</span><span class="o">)</span>
+<span class="cm">/* 아래와 같은 표현이다
+var mixedTypes: List&lt;Any&gt; = listOf("Hello", 1, 2.445, 's')
+*/</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="컬렉션에-접근할-때">컬렉션에 접근할 때</h3>
+<ul>
+  <li>for와 .indices 멤버를 통한 접근</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">fruits</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">,</span> <span class="s">"kiwi"</span><span class="o">)</span>
+<span class="c1">// for과 in을 사용한 출력</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">item</span> <span class="n">in</span> <span class="n">fruits</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">item</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>apple
+banana
+kiwi
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="k">for</span> <span class="o">(</span><span class="n">index</span> <span class="n">in</span> <span class="n">fruits</span><span class="o">.</span><span class="na">indices</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"fruits[$index] = ${fruits[index]}"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>fruits[0] = apple
+fruits[1] = banana
+fruits[2] = kiwi
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="기타-list-생성-함수">기타 List 생성 함수</h3>
+
+<p>emptyList()</p>
+<ul>
+  <li>빈 리스트를 생성</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="nl">emptyList:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span> <span class="o">=</span> <span class="n">emptyList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;()</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>listOfNotNull()</p>
+<ul>
+  <li>null을 제외한 요소만 반환</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="c1">// null이 아닌 요소만 골라 컬렉션을 초기화</span>
+<span class="n">val</span> <span class="nl">nonNullsList:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOfNotNull</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">45</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">nonNullsList</span><span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>[2, 45, 2, 5]
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="list-추가-멤버-메서드">List 추가 멤버 메서드</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>멤버 메서드</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>get(index: Int)</td>
+      <td>특정 인덱스를 인자로 받아 해당 요소를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>indexOf(element: E)</td>
+      <td>인자로 받은 요소가 첫 번째로 나타나는 인덱스를 반환하며, 없으면 -1을 반환한다.</td>
+    </tr>
+    <tr>
+      <td>lastIndexOf(element: E)</td>
+      <td>인자로 받은 요소가 마지막으로 나타나는 인덱스를 반환하고, 없으면 -1을 반환한다.</td>
+    </tr>
+    <tr>
+      <td>listIterator()</td>
+      <td>목록에 있는 iterator를 반환한다.</td>
+    </tr>
+    <tr>
+      <td>subList(fromIndex: Int, toIndex: Int</td>
+      <td>특정 인덱스의 from과 to 범위에 있는 요소 목록을 반환한다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>practice</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="c1">// 자료형 확인 단축기 Ctrl + Shift</span>
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">numbers1</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="nl">numbers2:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="n">names1</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="nl">names2:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="n">mixed1</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">,</span> <span class="sc">'c'</span><span class="o">)</span>
+    <span class="kt">var</span> <span class="nl">mixed2:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Any</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">,</span> <span class="sc">'c'</span><span class="o">)</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="s">"numbers $numbers1"</span><span class="o">)</span> <span class="c1">// [1, 2, 3, 4, 5]</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"names $names1"</span><span class="o">)</span> <span class="c1">// [one, two, three]</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"mixed $mixed1"</span><span class="o">)</span> <span class="c1">// [one, 1, 1.5, c]</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="n">numbers1</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="c1">// 5</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">numbers1</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span> <span class="c1">// 2</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">numbers1</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span> <span class="c1">// 1</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">numbers1</span><span class="o">[</span><span class="mi">0</span><span class="o">])</span> <span class="c1">// 1</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">numbers1</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span> <span class="c1">// </span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

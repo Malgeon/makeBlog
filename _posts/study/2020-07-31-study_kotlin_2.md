@@ -13,12 +13,14 @@ image: assets/images/study/kotlin.png
 ## 자료형 변환
 
 - 변환 메서드 사용
+
 ```javascript
 var a: Int = 1
 var b: Double = a.toDouble()
 ```
 
 - 표현식에서 자동 변환
+
 ```javascript
 var result = 1L + 3// Long + Int => result: Long
 ```

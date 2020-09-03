@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [24]"
-description: "확장함수 - [2]"
+description: "확장함수 - [2] (map, groupBy, sequence"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]

@@ -726,29 +726,30 @@ class Solution {
 
 <div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12940"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 최대 공약수와 최소 공배수</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
 
+
+최대 공약수의 2부터 두 숫자 중 작은 숫자까지 둘다 나누어 떨어지는 값이 있다면 그중 가장 큰 값에 해당하며, 없다면 1이게 된다.
+최대 공배수는 두 숫자의 곱에 최대 공약수로 나눈 값에 해당한다.
+
 ```java
 class Solution {
     fun solution(n: Int, m: Int): IntArray {
-        val max: Int
-        val min: Int
-        if(n>m) {
-            max = n
-            min = m
-        } else {
-            max = m
-            min = n
-        }
         var gcd: Int = 1
-        for(i in 2..min) {
-            if(max % i == 0 && min % i == 0) {
+        for(i in Math.min(n, m) downTo 2) {
+            if(n % i == 0 && m % i == 0) {
                 gcd = i
+                break
             }
         }
-
         return intArrayOf(gcd, m*n/gcd)
     }
 }
 ```
+
+a와 b가 있을때, a와 b의 최대공약수를 구하면 a를 b로 나눈 나머지를 구하고,
+해당 나머지를 다시 b로 나눈 나머지를 구하며 나누어 떨어질때까지 진행한다.
+a와 b의 크기에 따른 순서는 상관이 없다. 유클리드 호제법을 통한 최대공약수를 구한는 방법이다.
+
+이를 [꼬리 재귀 함수](../study_kotlin_5)를 사용해 해결하였다.
 
 ```java
 class Solution {
@@ -761,27 +762,177 @@ class Solution {
     tailrec fun gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
 }
 ```
+
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12943"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 콜라츠 추측</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+피보나치 수열과도 같은 문제.
+반복문을 이용한 방법과 재귀를 이용한 방법이 있다.
+
+반복문 : value값을 바꿔야 하기 때문에, 새로 설정을 해주고 그것을 기준으로 반복
+
+
 ```java
 class Solution {
-    fun solution(n: Int, m: Int): IntArray {
-        var gcd = 1
-        var lcm = n * m
-
-        for(i in Math.min(n, m) downTo 1) {
-            if(n % i == 0 && m % i == 0) {
-                gcd = i
-                break
+    fun solution(num: Int): Int {
+        var answer = 0
+        var value:Long = num.toLong()
+        while(value != 1L) {
+            if(answer >500) return -1
+            when (value%2L) {
+                0L -> value /= 2L
+                else -> value = value * 3L + 1L
             }
+            answer++
         }
-
-        for(i in Math.max(n, m).. lcm) {
-            if(i % n == 0 && i % m == 0) {
-                lcm = i
-                break
-            }
-        }
-        var answer = intArrayOf(gcd, lcm)
         return answer
+    }
+}
+```
+
+재귀 : 꼬리 재귀 함수를 이용해 해결
+
+```java
+class Solution {
+    fun solution(num: Int): Int = collatzAlgorithm(num.toLong(),0)
+
+    tailrec fun collatzAlgorithm(n:Long, c:Int):Int =
+        when{
+            c > 500 -> -1
+            n == 1L -> c
+            else -> collatzAlgorithm(if( n%2 == 0L ) n/2 else (n*3)+1, c+1)
+        }
+}
+```
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12944"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 평균 구하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+배열의 평균을 구해준다. 
+
+```java
+class Solution {
+    fun solution(arr: IntArray) = arr.sum().toDouble()/arr.size
+}
+```
+
+average() 함수가 지원이 된다. (Double return)
+
+```java
+class Solution {
+    fun solution(arr: IntArray) = arr.average()
+}
+```
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12947"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 평균 구하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+```java
+class Solution {
+    fun solution(x: Int) =  x % x.toString().map{it.toInt() - '0'.toInt()}.toIntArray().sum() == 0
+}
+```
+
+[fold]((../study_kotlin_33))를 사용할 수 있다.
+
+```java
+class Solution {
+    fun solution(x: Int) =  x % x.toString().fold(0){acc, v -> acc + v.toInt() - '0'.toInt()} == 0
+}
+```
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12948"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 핸드폰 번호 가리기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+바꿀 글자 길이를 가져와서  "*"를 만든다음 substring으로 합치는 방법을 사용하였다.
+
+```java
+class Solution {
+    fun solution(phone_number: String): String {
+        var answer = ""
+        val len = phone_number.length
+        for(i in 0..len-5) answer += "*"
+        return answer + phone_number.substring(len-4..len-1)
+    }
+}
+```
+
+slice를 사용할 수 도 있다.
+
+```java
+class Solution {
+    fun solution(phone_number: String): String {
+        var answer = ""
+        val last = phone_number.lastIndex
+
+        for (i in 0..last - 4) answer += "*"
+        return answer + phone_number.slice(last - 3..last)
+    }
+}
+```
+
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12950"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 행렬의 덧셈</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+우선 새로 배열을 만들고, 해당 배열의 값을 직접 넣어주는 방법이 있다.
+
+```java
+class Solution {
+    fun solution(arr1: Array<IntArray>, arr2: Array<IntArray>): Array<IntArray> {
+        var answer = Array<IntArray>(arr1.size,{ IntArray(arr1.get(0).size,{0})})
+        for(i in 0 until arr1.size) {
+            arr1[i].forEachIndexed { j, it ->
+                var num = it + arr2[i].get(j)
+                answer[i].set(j, num)
+            }
+        }
+        return answer
+    }
+}
+```
+
+Array class를 사용해서 생성할 때, 값을 직접 넣어주는 방법이 있다.
+
+```java
+class Solution {
+    fun solution(arr1: Array<IntArray>, arr2: Array<IntArray>): Array<IntArray> {
+        return Array(arr1.size) { row ->
+            IntArray(arr1[0].size) { col ->
+                arr1[row][col] + arr2[row][col]
+            }
+        }
+    }
+}
+```
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12954"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : x만큼 간격이 있는 n개의 숫자</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+람다식을 이용한 배열 초기화 기억해두자.
+
+```java
+class Solution {
+    fun solution(x: Int, n: Int) = LongArray(n) { it -> x.toLong() * (it + 1) }
+}
+```
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12969"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : x만큼 간격이 있는 n개의 숫자</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+처음 프로그래밍 배울 때, 해보는 연습
+
+```java
+fun main(args: Array<String>) {
+    val (a, b) = readLine()!!.split(' ').map(String::toInt)
+    var star : String = ""
+    for(i in 1..a) star += "*"
+    for(i in 1..b) println(star)
+}
+```
+
+```java
+fun main(args: Array<String>) {
+    val (a, b) = readLine()!!.split(' ').map(String::toInt)
+    for(i in 1..b) {
+        for(j in 1..a) {
+            print("*")
+        }
+        println()
     }
 }
 ```

@@ -36,6 +36,7 @@ Collection 인터페이스의 특징
 - 불변형이므로 Collection으로부터 확장된 Set과 List는 읽기 전용의 컬렉션됨
 
 Collection 인터페이스의 멤버
+
 | 멤버 | 설명 |
 | --- | --- |
 | size | 컬렉션의 크기를 나타낸다 |
@@ -50,6 +51,7 @@ Collection 인터페이스의 멤버
 - 요소를 추가하거나 제거하는 등의 기능을 수행할 수 있따.
 
 MutableCollection의 멤버
+
 | 멤버 | 설명 |
 | --- | --- |
 | add(element: E) | 인자로 전달반은 요소를 추가하고 true를 반환하며, 이미 요소가 있거나 중복이 허용되지 않으면 false를 반환한다. |
@@ -105,6 +107,7 @@ var mixedTypes: List<Any> = listOf("Hello", 1, 2.445, 's')
 
 ### 컬렉션에 접근할 때
 - for와 .indices 멤버를 통한 접근
+
 ```java
 val fruits = listOf("apple", "banana", "kiwi")
 // for과 in을 사용한 출력
@@ -134,12 +137,14 @@ fruits[2] = kiwi
 
 emptyList()
 - 빈 리스트를 생성
+
 ```java
 val emptyList: List<String = emptyList<String>>()
 ```
 
 listOfNotNull()
 - null을 제외한 요소만 반환
+
 ```java
 // null이 아닌 요소만 골라 컬렉션을 초기화
 val nonNullsList: List<Int> = listOfNotNull(2, 45, 2, null, 5, null)
@@ -160,6 +165,7 @@ println(nonNullsList)
 |  subList(fromIndex: Int, toIndex: Int| 특정 인덱스의 from과 to 범위에 있는 요소 목록을 반환한다. |
 
 practice
+
 ```java
 // 자료형 확인 단축기 Ctrl + Shift
 fun main() {

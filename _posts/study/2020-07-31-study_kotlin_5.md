@@ -46,6 +46,7 @@ fun main() {
 
 noinline
 일부 람다식 함수를 인라인 되지 않게 하기 위함.
+
 ```javascript
 inline fun sub(out1: () -> Unit, noinline out2 () -> Unit) {
     ...
@@ -53,6 +54,7 @@ inline fun sub(out1: () -> Unit, noinline out2 () -> Unit) {
 ```
 
 crossinline
+
 ```javascript
 inline fun shortFunc(a: Int, out: (Int) -> Unit) {
     println("Hello")
@@ -68,6 +70,7 @@ fun main() {
 ```
 
 crossinline을 사용하므로써 비지역반환을 금지하게 한다.
+
 ```javascript
 inline fun shortFunc(a: Int, crossinline out: (Int) -> Unit) {
     println("Hello")

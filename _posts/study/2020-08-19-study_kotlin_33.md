@@ -2,7 +2,7 @@
 layout: post
 author: study
 title:  "Kotlin 객체편 - [23]"
-description: "확장함수 - [1]"
+description: "확장함수 - [1] (forEach, reduce, fold)"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
