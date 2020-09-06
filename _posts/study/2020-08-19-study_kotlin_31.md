@@ -19,6 +19,13 @@ image: assets/images/study/kotlin.png
 - 불변형 Set : setOf()
 - 가변형 Set : mutableSetOf()
 
+| 함수 | 기능 | 불변형 | 가변형 | 
+| -- | -- | -- | -- |
+| contains | 값이 있는지 확인 | O | O |
+| size | 값의 개수 | O | O |
+| add | 값 추가 |  | O |
+| remove | 값 제거 |  | O |
+
 
 예시 - 불변형
 ```java
@@ -55,6 +62,10 @@ fun main() {
 [Lion, Dog, Cat, Python, Hippo]
 [Lion, Dog, Cat, Hippo]
 ```
+- add : 값 추가
+- remove : 값 제거
+
+
 
 ### Set의 여러 가지 자료구조
 

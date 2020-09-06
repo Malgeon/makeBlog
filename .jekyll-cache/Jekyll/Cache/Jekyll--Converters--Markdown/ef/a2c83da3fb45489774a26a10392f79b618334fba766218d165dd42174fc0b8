@@ -1,0 +1,132 @@
+I"<h1 id="우선순위-큐">우선순위 큐</h1>
+
+<p>우선순위 큐를 코틀린에서는 지원을 해준다.</p>
+
+<p>이런 우선순위 큐를 알아보자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>import java.util.PriorityQueue
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+  <span class="n">val</span> <span class="n">queue1</span> <span class="o">=</span> <span class="nc">PriorityQueue</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span> 
+  <span class="n">val</span> <span class="n">queue2</span> <span class="o">=</span> <span class="nc">PriorityQueue</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">.</span><span class="na">reverseOrder</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;())</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>PriorityQueue를 사용하기 위해서는 java.util.PriorityQueue(java.util.*)가 필요하다.
+기본값으로는 값이 낮을 수록 우선순위가 높게 설정되어 있다. 이를 값이 높을 수록 우선순위가 높도록 바꾸기 위해선 queue2처럼 선언하면 된다.</p>
+
+<p>사용가능한 함수로는 아래와 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>함수</th>
+      <th>기능</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>add</td>
+      <td>추가</td>
+    </tr>
+    <tr>
+      <td>offer</td>
+      <td>추가</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>크기</td>
+    </tr>
+    <tr>
+      <td>clear</td>
+      <td>모두 지우기</td>
+    </tr>
+    <tr>
+      <td>peek</td>
+      <td>가장 앞부분 가져오기(해당 값 복사)</td>
+    </tr>
+    <tr>
+      <td>poll</td>
+      <td>가장 앞부분 빼오기(해당 값 잘라내기)</td>
+    </tr>
+    <tr>
+      <td>isEmpty</td>
+      <td>비어있는지 확인</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="add-와-offer의-차이">add 와 offer의 차이</h3>
+
+<p>AbstarctQueue일때</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">add</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">offer</span><span class="o">(</span><span class="n">e</span><span class="o">))</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">else</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Queue full"</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="사용-예">사용 예</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">(</span><span class="nl">args:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;)</span> <span class="o">{</span>
+  <span class="n">val</span> <span class="nl">nums:</span> <span class="nc">PriorityQueue</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nc">PriorityQueue</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+
+  <span class="c1">// Add items (enqueue)</span>
+  <span class="n">nums</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">800</span><span class="o">)</span>
+  <span class="n">nums</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+  <span class="n">nums</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+  <span class="n">nums</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">550</span><span class="o">)</span>
+
+  <span class="n">println</span><span class="o">(</span><span class="s">"peek: "</span> <span class="o">+</span> <span class="n">nums</span><span class="o">.</span><span class="na">peek</span><span class="o">())</span>
+  
+  <span class="c1">// Remove items (dequeue)</span>
+  <span class="k">while</span> <span class="o">(!</span><span class="n">nums</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">nums</span><span class="o">.</span><span class="na">remove</span><span class="o">())</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>peek: 50
+50
+200
+550
+800
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

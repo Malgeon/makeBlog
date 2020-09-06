@@ -6,9 +6,6 @@ description: "연습 문제"
 categories: [ test ]
 tags: [standard ]
 image: assets/images/study/algorithm.jpg
-featured: true
-hidden: true
-study: true
 ---
 
 # 이진탐색
