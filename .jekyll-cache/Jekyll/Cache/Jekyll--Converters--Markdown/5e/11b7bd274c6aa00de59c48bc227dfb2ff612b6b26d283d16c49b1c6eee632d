@@ -1,0 +1,94 @@
+I"�&<h3 id="collection-list">Collection List</h3>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12910"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 나누어떨어지는 숫자 배열</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>2가지 방법을 생각하였다.</p>
+<ul>
+  <li>arr에서 순환하여 조건에 맞는 값을 빈 공간에 추가하기</li>
+  <li>arr로부터 filter를 이용해 배열을 만들기</li>
+</ul>
+
+<p>그런데 2가지 방법 모두 Collection을 이용해야 하므로 List에서만 사용이 가능하다.
+따라서 List에서 처리한후 toIntArray를 이용해 return함으로써 해결하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">divisor:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">value</span> <span class="n">in</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">%</span><span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">answer</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">().</span><span class="na">sortedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">divisor:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">filter</span><span class="o">{</span> <span class="n">it</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">answer</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="k">return</span> <span class="n">intArrayOf</span><span class="o">(-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">().</span><span class="na">sortedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12935"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 제일 작은 수 제거하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>작은수를 찾고, 해당 index를 알아서 빼줘야하는 고민을 하고 있엇는데, filter기능을 이해하면 한번에 해결이 가능하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="n">intArrayOf</span><span class="o">(-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="na">filter</span><span class="o">{</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">arr</span><span class="o">.</span><span class="na">min</span><span class="o">()</span> <span class="o">}.</span><span class="na">toIntArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="collection-확장함수-fold">Collection 확장함수 fold</h3>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12947"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 평균 구하기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">x:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">=</span>  <span class="n">x</span> <span class="o">%</span> <span class="n">x</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">map</span><span class="o">{</span><span class="n">it</span><span class="o">.</span><span class="na">toInt</span><span class="o">()</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">.</span><span class="na">toInt</span><span class="o">()}.</span><span class="na">toIntArray</span><span class="o">().</span><span class="na">sum</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><a href="(../study_kotlin_33)">fold</a>를 사용할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">x:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">=</span>  <span class="n">x</span> <span class="o">%</span> <span class="n">x</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">fold</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span><span class="n">acc</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="na">toInt</span><span class="o">()</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">.</span><span class="na">toInt</span><span class="o">()}</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

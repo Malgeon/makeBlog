@@ -1,0 +1,11 @@
+I"p<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/60060"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2020 KAKAO BLIND RECRUITMENT : 가사 검색</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>이분 탐색이라고 타이틀을 정했지만, 사실 이 문제로부터 이분 탐색을 끌어내는 것 보다 더 쉽게 풀수 있는 방법이 Trie 자료구조라는 것이다.
+그럼에도 이분 탐색이라고 하는 이유는 Trie 자료구조라는 것은 실무에서 적용 사례가 드물기 때문에, 만일 필요하다면 그때 가서 공부하는 것이 더욱 좋을 것 같은 판단 떄문이다.</p>
+
+<p>정답률은 0.8%로 아마도 문제로 확인하고 나서야 이러한 자료구조라는 것이 있다는 것을 사람들이 많이 생각했을것 같다.</p>
+
+<p>심지어 카카오에서도 풀이 방법으로 제시한 것이 Trie구조 이지만, 이분 탐색으로도 풀수 있다고 첨언을 해놓았기 때문에 그렇게 풀고자 한다.</p>
+
+<p>이 문제 또한 문제 설명을 토대로 구현을 하다보면 결국에는 완전탐색으로 만들어지게 된다.</p>
+:ET

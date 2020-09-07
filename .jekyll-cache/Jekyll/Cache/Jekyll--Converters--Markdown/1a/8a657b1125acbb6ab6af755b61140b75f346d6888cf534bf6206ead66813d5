@@ -1,0 +1,65 @@
+I"�<h3 id="재귀">재귀</h3>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12943"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 콜라츠 추측</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>피보나치 수열과도 같은 문제.
+반복문을 이용한 방법과 재귀를 이용한 방법이 있다.</p>
+
+<p>반복문 : value값을 바꿔야 하기 때문에, 새로 설정을 해주고 그것을 기준으로 반복</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="kt">var</span> <span class="nl">value:</span><span class="nc">Long</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">1L</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">answer</span> <span class="o">&gt;</span><span class="mi">500</span><span class="o">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">when</span> <span class="o">(</span><span class="n">value</span><span class="o">%</span><span class="mi">2L</span><span class="o">)</span> <span class="o">{</span>
+                <span class="mi">0L</span> <span class="o">-&gt;</span> <span class="n">value</span> <span class="o">/=</span> <span class="mi">2L</span>
+                <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">3L</span> <span class="o">+</span> <span class="mi">1L</span>
+            <span class="o">}</span>
+            <span class="n">answer</span><span class="o">++</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>재귀 : 꼬리 재귀 함수를 이용해 해결</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">=</span> <span class="n">collatzAlgorithm</span><span class="o">(</span><span class="n">num</span><span class="o">.</span><span class="na">toLong</span><span class="o">(),</span><span class="mi">0</span><span class="o">)</span>
+
+    <span class="n">tailrec</span> <span class="n">fun</span> <span class="nf">collatzAlgorithm</span><span class="o">(</span><span class="nl">n:</span><span class="nc">Long</span><span class="o">,</span> <span class="nl">c:</span><span class="nc">Int</span><span class="o">):</span><span class="nc">Int</span> <span class="o">=</span>
+        <span class="n">when</span><span class="o">{</span>
+            <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">500</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">n</span> <span class="o">==</span> <span class="mi">1L</span> <span class="o">-&gt;</span> <span class="n">c</span>
+            <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">collatzAlgorithm</span><span class="o">(</span><span class="k">if</span><span class="o">(</span> <span class="n">n</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0L</span> <span class="o">)</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span> <span class="k">else</span> <span class="o">(</span><span class="n">n</span><span class="o">*</span><span class="mi">3</span><span class="o">)+</span><span class="mi">1</span><span class="o">,</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

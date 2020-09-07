@@ -1,0 +1,24 @@
+I"�	<h3 id="논리-연산자---and">논리 연산자 - and</h3>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12937"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 짝수와 홀수</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>전형적인 문제풀이</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="s">"Even"</span> <span class="k">else</span> <span class="s">"Odd"</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>and operator를 사용하여 해결한다. 여기서 and는 논리연산 and를 의미하며 비트연산으로 판단한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="n">and</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="s">"Odd"</span> <span class="k">else</span> <span class="s">"Even"</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

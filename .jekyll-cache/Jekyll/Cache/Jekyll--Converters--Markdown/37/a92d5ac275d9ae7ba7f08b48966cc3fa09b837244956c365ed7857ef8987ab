@@ -1,0 +1,86 @@
+I"�<h3 id="반복문">반복문</h3>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12912"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 두 정수 사이의 합</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>두 정수 a, b 중 큰 값을 찾고, 순서대로 더해주는 쉬운 문제
+a와 b가 같다면 굳이 for문에 넣지 말고 바로 return 해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">a:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Long</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="nl">answer:</span><span class="nc">Long</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="nl">max:</span><span class="nc">Int</span>
+        <span class="n">val</span> <span class="nl">min:</span><span class="nc">Int</span>
+
+        <span class="nf">if</span> <span class="o">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">)</span> <span class="o">{</span><span class="n">max</span><span class="o">=</span><span class="n">a</span><span class="o">;</span> <span class="n">min</span><span class="o">=</span><span class="n">b</span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">&lt;</span><span class="n">b</span><span class="o">)</span> <span class="o">{</span><span class="n">max</span><span class="o">=</span><span class="n">b</span><span class="o">;</span> <span class="n">min</span><span class="o">=</span><span class="n">a</span><span class="o">}</span> <span class="k">else</span> <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">min</span><span class="o">..</span><span class="na">max</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12928"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 약수의 합</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>전형적인 문제풀이</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="n">n</span>
+        <span class="nf">for</span><span class="o">(</span> <span class="n">i</span> <span class="n">in</span> <span class="mi">2</span><span class="o">..</span><span class="na">n</span><span class="o">/</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">answer</span> <span class="o">+=</span> <span class="n">i</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">+</span><span class="n">n</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>배열과 filter를 이용해서 문제를 해결할 수 있다.
+이때, n 이 1일경우 (1..0.5) 이기 때문에 answer는 0이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">n:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="o">(</span><span class="mi">1</span><span class="o">..</span><span class="na">n</span><span class="o">/</span><span class="mi">2</span><span class="o">).</span><span class="na">filter</span> <span class="o">{</span> <span class="n">n</span> <span class="o">%</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">}.</span><span class="na">sum</span><span class="o">()</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET
