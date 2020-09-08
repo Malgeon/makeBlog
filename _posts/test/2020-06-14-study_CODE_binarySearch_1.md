@@ -5,8 +5,6 @@ title:  "이분탐색 : 예산"
 description: "연습 문제"
 categories: [ test ]
 tags: [standard ]
-testFeatured: true
-hidden: true
 ---
 
 

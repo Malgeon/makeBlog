@@ -13,7 +13,7 @@ tags: [programming, javascript]
    
 * * *
 
- ## Graph
+## Graph
 
   ![SAMPLE]({{ site.asset_url }}/images/javascript/sample/dfs.png "SAMPLE")
 

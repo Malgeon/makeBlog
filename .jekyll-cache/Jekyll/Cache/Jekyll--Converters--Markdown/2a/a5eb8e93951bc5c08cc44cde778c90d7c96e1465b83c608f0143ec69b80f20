@@ -1,0 +1,58 @@
+I"k
+<h3 id="코틀린-기본">코틀린 기본</h3>
+<p>코틀린에서 기본적인 동작을 예제에서 확인해보자.</p>
+
+<ul>
+  <li><a href="../study_Kotlin_array_1">배열</a></li>
+  <li><a href="../study_Kotlin_string_1">문자열</a></li>
+  <li><a href="../study_Kotlin_loop_1">반복문</a></li>
+  <li><a href="../study_Kotlin_math_1">수식</a></li>
+  <li><a href="../study_Kotlin_recursive_1">재귀</a></li>
+  <li><a href="../study_Kotlin_logicaloperator_1">논리 연산자</a></li>
+</ul>
+
+<h3 id="배열-정렬">배열 정렬</h3>
+<p>기본적인 함수라고 할수 있지만, 자주 쓰이므로 따로 구분해 놓는다.</p>
+<ul>
+  <li><a href="../study_Kotlin_27">배열의 정렬</a></li>
+</ul>
+
+<p><a href="../study_Kotlin_design_3">배열의 정렬 예제</a></p>
+
+<h3 id="표준-함수">표준 함수</h3>
+<p>함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.</p>
+
+<ul>
+  <li><a href="../study_Kotlin_9">표준 함수 내용 - 1</a>, <a href="../study_Kotlin_10">표준 함수 내용 - 2</a></li>
+</ul>
+
+<p><a href="../study_Kotlin_standardfunction_1">표준 함수의 이용 예제</a></p>
+
+<h3 id="collection">Collection</h3>
+<p>Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 때문에 자주 쓰인다.
+해당 기능 수행 후 toIntArray() 와 같이 원하는 자료형 형태로 return이 가능하게 해준다.</p>
+
+<ul>
+  <li>List : <br />
+<a href="../study_Kotlin_29">Collection List-1</a>, <a href="../study_Kotlin_30">Collection List-2</a></li>
+  <li>Set : <br />
+<a href="../study_Kotlin_31">Collection Set</a></li>
+  <li>Map : <br />
+<a href="../study_Kotlin_32">Collection Map</a></li>
+</ul>
+
+<p><a href="../study_Kotlin_standardfunction_1">Collection 관련 예제</a></p>
+
+<h3 id="우선순위-큐">우선순위 큐</h3>
+<p>코틀린은 자바와 같이 우선순위 큐를 지원해 준다.</p>
+
+<p><a href="../study_Programming_priorityQueue">우선 순위 큐 기본</a>, <a href="../study_Kotlin_stack&amp;queue_1">우선 순위 큐 예제</a></p>
+
+<h3 id="이분탐색">이분탐색</h3>
+<p>어려운 문제로 등장하기 쉬운 문제 중 하나 이다.</p>
+
+<p>기본 컨셉은 매우 간단해서 단순히 이분 탐색을 이용해 조건에 맞는 값을 찾는 것을 구하는 것보다 upper/lower bound를 이용하여 조건에 맞는 가장 작은 값을 찾는 문제로 변별력을 갖추려는 것 같다.</p>
+
+<p><a href="../study_Kotlin_binarySearch_1">이분 탐색 예제 - upper/lower bound easy</a>, <a href="../study_Kotlin_binarySearch_2">이분 탐색 예제 - upper/lower bound hard</a></p>
+
+:ET

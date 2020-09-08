@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Graph [BFS, DFS]"
-description: "그래프 구현하기"
+title:  "Queue, Stack, Tree"
+description: "자바스크립트로 구현해보자"
 categories: [ study ]
 tags: [programming, javascript]
 ---

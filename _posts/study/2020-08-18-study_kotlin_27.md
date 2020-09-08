@@ -110,6 +110,48 @@ fun main() {
 }
 ```
 
+### -With, -By
+- with : comparator를 이용하여 정렬을 할수 있게 해준다.
+
+```java
+fun <T> Array<out T>.sortedWith(
+    comparator: Comparator<in T>
+): List<T>
+```
+- By : 람다식을 이용해 정렬을 도와준다.
+
+```java
+inline fun <T, R : Comparable<R>> Array<out T>.sortedBy(
+    crossinline selector: (T) -> R?
+): List<T>
+```
+
+여기서 crossinlin selector이기 때문에 매개변수가 없다면 생략 가능
+
+```java
+val list = listOf("aa", "b", "bb", "a")
+val sorted = list.sortedWith(compareBy { it.length })
+println(sorted)
+```
+```
+[b, a, aa, bb]
+```
+
+2개 이상의 람다식도 가능하다. 이때 해당 람다식은 이전 람다식이 같게되면 다음으로 진행하는 것으로 판단된다.
+
+```java
+val list = listOf("aa", "b", "bb", "a")
+val sorted = list.sortedWith(compareBy(
+    { it.length },
+    { it }
+))
+println(sorted)
+```
+```
+[a, b, aa, bb]
+```
+
+
 ### 배열 필터링하기
 filter() 메서드를 활용하면 원하는 데이터를 골라낼 수 있다.
 

@@ -24,7 +24,7 @@ study: true
 
 ### 배열 정렬
 기본적인 함수라고 할수 있지만, 자주 쓰이므로 따로 구분해 놓는다.
-- [배열의 정렬](../study_Kotlin_array_27)
+- [배열의 정렬](../study_Kotlin_27)
 
 [배열의 정렬 예제](../study_Kotlin_design_3)
 
@@ -32,9 +32,16 @@ study: true
 ### 표준 함수
 함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.
 
-- [표준 함수 내용 - 1](../study_Kotlin_9), [표준 함수 내용 - 2](../study_Kotlin_10)
+- [closure, let, also, apply](../study_Kotlin_9)
+- [run, with, use, takeIf, takeUnless](../study_Kotlin_10)
 
 [표준 함수의 이용 예제](../study_Kotlin_standardfunction_1)
+
+### 확장 함수
+함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.
+
+- [forEach, reduce, fold](../study_Kotlin_33)
+- [map, groupBy, sequence](../study_Kotlin_34)
 
 
 ### Collection
@@ -42,20 +49,27 @@ Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 
 해당 기능 수행 후 toIntArray() 와 같이 원하는 자료형 형태로 return이 가능하게 해준다. 
 
 - List : <br>
-[Collection List-1](../study_Kotlin_29), [Collection List-2](../study_Kotlin_30)
+    - [Collection List-1](../study_Kotlin_29)
+    - [Collection List-2](../study_Kotlin_30)
 - Set : <br>
-[Collection Set](../study_Kotlin_31)
+    - [Collection Set](../study_Kotlin_31)
 - Map : <br>
-[Collection Map](../study_Kotlin_32)
+    - [Collection Map](../study_Kotlin_32)
 
 [Collection 관련 예제](../study_Kotlin_standardfunction_1)
+
+### 그래프
+DFS, BFS에서 주로 사용된다. 
+방향, 가중치를 이용한 문제도 출시 된적이 있으니 잘 숙지해두자.
+
 
 
 
 ### 우선순위 큐
 코틀린은 자바와 같이 우선순위 큐를 지원해 준다.
 
-[우선 순위 큐 기본](../study_Programming_priorityQueue), [우선 순위 큐 예제](../study_Kotlin_stack&queue_1)
+[우선 순위 큐 기본](../study_Programming_priorityQueue)
+- [우선 순위 큐 예제](../study_Kotlin_stack&queue_1)
 
 
 ### 이분탐색
@@ -63,6 +77,7 @@ Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 
 
 기본 컨셉은 매우 간단해서 단순히 이분 탐색을 이용해 조건에 맞는 값을 찾는 것을 구하는 것보다 upper/lower bound를 이용하여 조건에 맞는 가장 작은 값을 찾는 문제로 변별력을 갖추려는 것 같다.
 
-[이분 탐색 예제 - upper/lower bound easy](../study_Kotlin_binarySearch_1), [이분 탐색 예제 - upper/lower bound hard](../study_Kotlin_binarySearch_2)
+- [이분 탐색 예제 - upper/lower bound easy](../study_Kotlin_binarySearch_1) 
+- [이분 탐색 예제 - upper/lower bound hard](../study_Kotlin_binarySearch_2)
 
 

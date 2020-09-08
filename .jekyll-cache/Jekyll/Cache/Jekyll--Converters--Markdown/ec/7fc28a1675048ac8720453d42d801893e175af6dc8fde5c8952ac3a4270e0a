@@ -1,0 +1,324 @@
+I"?d<h3 id="배열의-정렬">배열의 정렬</h3>
+
+<p>정렬(Sort)</p>
+<ul>
+  <li>오름차순(ascending)으로 정렬하거나 내림차순(descending) 정렬</li>
+  <li>Array는 기본적인 정렬 알고리즘을 제공한다.</li>
+</ul>
+
+<p>정렬된 배열을 반환</p>
+<ul>
+  <li>sortedArray()</li>
+  <li>sortedArrayDescending()</li>
+</ul>
+
+<p>원본 배열에 대한 정렬을 진행</p>
+<ul>
+  <li>sort()</li>
+  <li>sortDescending()</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="mi">8</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+
+    <span class="n">val</span> <span class="n">sortedArr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">sortedArray</span><span class="o">()</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">Array</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">sortedArr</span><span class="o">))</span> <span class="c1">// [1, 2, 3, 4, 5, 8, 9]</span>
+
+    <span class="n">val</span> <span class="n">sortedArrDesc</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">sortedArrayDescending</span><span class="o">()</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">sortedArrDesc</span><span class="o">))</span> <span class="c1">// [9, 8, 5, 4, 3, 2, 1]</span>
+
+    <span class="n">arr</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">))</span>  <span class="c1">// [8, .. 3, 4, .. 2, 5, 9, 1]</span>
+    <span class="n">arr</span><span class="o">.</span><span class="na">sortDescending</span><span class="o">()</span> <span class="c1">// parameter 옵션이 없다.</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">))</span>  <span class="c1">// [9, 8, 5, 4, 3, 2, 1]</span>
+
+    <span class="c1">// 3. List로 반환</span>
+    <span class="n">val</span> <span class="nl">listSorted:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+    <span class="n">val</span> <span class="nl">listDesc:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">sortedDescending</span><span class="o">()</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="s">"LST: "</span> <span class="o">+</span> <span class="n">listSorted</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"LST: "</span> <span class="o">+</span> <span class="n">listDesc</span><span class="o">)</span>
+
+    <span class="c1">// 4. SortBy를 이용한 특정 표현식에 따른 정렬</span>
+    <span class="n">val</span> <span class="n">items</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;(</span><span class="s">"Dog"</span><span class="o">,</span> <span class="s">"Cat"</span><span class="o">,</span> <span class="s">"Lion"</span><span class="o">,</span> <span class="s">"Kangaroo"</span><span class="o">,</span> <span class="s">"Po"</span><span class="o">)</span>
+    <span class="n">items</span><span class="o">.</span><span class="na">sortBy</span> <span class="o">{</span> <span class="n">item</span> <span class="o">-&gt;</span> <span class="n">item</span><span class="o">.</span><span class="na">length</span> <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">items</span><span class="o">))</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>practice</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="n">data</span> <span class="kd">class</span> <span class="nf">Product</span><span class="o">(</span><span class="n">val</span> <span class="nl">name:</span> <span class="nc">String</span><span class="o">,</span> <span class="n">val</span> <span class="nl">price:</span> <span class="nc">DOuble</span><span class="o">)</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">products</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Snow Ball"</span><span class="o">,</span> <span class="mf">870.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Smart Phone"</span><span class="o">,</span> <span class="mf">999.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Drone"</span><span class="o">,</span> <span class="mf">240.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Mouse"</span><span class="o">,</span> <span class="mf">333.55</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Keyboard"</span><span class="o">,</span> <span class="mf">125.99</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Monitor"</span><span class="o">,</span> <span class="mf">1500.99</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Tablet"</span><span class="o">,</span> <span class="mf">512.99</span><span class="o">))</span>
+
+    <span class="n">products</span><span class="o">.</span><span class="na">sortBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">price</span> <span class="o">}</span>
+    <span class="n">products</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="n">data</span> <span class="kd">class</span> <span class="nf">Product</span><span class="o">(</span><span class="n">val</span> <span class="nl">name:</span> <span class="nc">String</span><span class="o">,</span> <span class="n">val</span> <span class="nl">price:</span> <span class="nc">DOuble</span><span class="o">)</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">products</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Snow Ball"</span><span class="o">,</span> <span class="mf">870.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Smart Phone"</span><span class="o">,</span> <span class="mf">999.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Drone"</span><span class="o">,</span> <span class="mf">240.00</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Mouse"</span><span class="o">,</span> <span class="mf">333.55</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Keyboard"</span><span class="o">,</span> <span class="mf">125.99</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Monitor"</span><span class="o">,</span> <span class="mf">1500.99</span><span class="o">),</span>
+        <span class="nc">Product</span><span class="o">(</span><span class="s">"Tablet"</span><span class="o">,</span> <span class="mf">512.99</span><span class="o">))</span>
+
+    <span class="n">products</span><span class="o">.</span><span class="na">sortWith</span><span class="o">(</span>
+        <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Product</span><span class="o">&gt;</span> <span class="o">{</span> <span class="n">p1</span><span class="o">,</span> <span class="n">p2</span> <span class="o">-&gt;</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">p1</span><span class="o">.</span><span class="na">price</span> <span class="o">&gt;</span> <span class="n">p2</span><span class="o">.</span><span class="na">price</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+                <span class="n">p1</span><span class="o">.</span><span class="na">price</span> <span class="o">==</span> <span class="n">p2</span><span class="o">.</span><span class="na">price</span> <span class="o">-&gt;</span> <span class="mi">0</span>
+                <span class="k">else</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">)</span>
+
+    <span class="n">product</span><span class="o">.</span><span class="na">forEach</span><span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+    <span class="n">println</span><span class="o">()</span>
+
+    <span class="c1">// CompareBy를 함께 사용해 두개의 정보 정렬</span>
+    <span class="c1">// varargs(가변인수)로 받고 있으므로 두개 이상 사용 가능</span>
+    <span class="n">products</span><span class="o">.</span><span class="na">sortWith</span><span class="o">(</span> <span class="n">compareBy</span><span class="o">(</span> <span class="o">{</span><span class="n">it</span><span class="o">.</span><span class="na">name</span><span class="o">},</span> <span class="o">{</span><span class="n">it</span><span class="o">.</span><span class="na">price</span><span class="o">}))</span>
+    <span class="n">products</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+    <span class="n">println</span><span class="o">()</span>
+
+    <span class="c1">// 지정된 필드의 가장 작은/큰 값 골라내기</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">products</span><span class="o">.</span><span class="na">minBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">price</span> <span class="o">})</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">products</span><span class="o">.</span><span class="na">maxBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">price</span> <span class="o">})</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="-with--by">-With, -By</h3>
+<ul>
+  <li>with : comparator를 이용하여 정렬을 할수 있게 해준다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="n">out</span> <span class="no">T</span><span class="o">&gt;.</span><span class="na">sortedWith</span><span class="o">(</span>
+    <span class="nl">comparator:</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="n">in</span> <span class="no">T</span><span class="o">&gt;</span>
+<span class="o">):</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>By : 람다식을 이용해 정렬을 도와준다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">inline</span> <span class="n">fun</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">R</span> <span class="o">:</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="no">R</span><span class="o">&gt;&gt;</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="n">out</span> <span class="no">T</span><span class="o">&gt;.</span><span class="na">sortedBy</span><span class="o">(</span>
+    <span class="n">crossinline</span> <span class="nl">selector:</span> <span class="o">(</span><span class="no">T</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="no">R</span><span class="o">?</span>
+<span class="o">):</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>여기서 crossinlin selector이기 때문에 매개변수가 없다면 생략 가능</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="s">"bb"</span><span class="o">,</span> <span class="s">"a"</span><span class="o">)</span>
+<span class="n">val</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">sortedWith</span><span class="o">(</span><span class="n">compareBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">length</span> <span class="o">})</span>
+<span class="n">println</span><span class="o">(</span><span class="n">sorted</span><span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>[b, a, aa, bb]
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>2개 이상의 람다식도 가능하다. 이때 해당 람다식은 이전 람다식이 같게되면 다음으로 진행하는 것으로 판단된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="s">"bb"</span><span class="o">,</span> <span class="s">"a"</span><span class="o">)</span>
+<span class="n">val</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">sortedWith</span><span class="o">(</span><span class="n">compareBy</span><span class="o">(</span>
+    <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">length</span> <span class="o">},</span>
+    <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+<span class="o">))</span>
+<span class="n">println</span><span class="o">(</span><span class="n">sorted</span><span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>[a, b, aa, bb]
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="배열-필터링하기">배열 필터링하기</h3>
+<p>filter() 메서드를 활용하면 원하는 데이터를 골라낼 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// 0 보다 큰 수 골라내기</span>
+<span class="n">val</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">arr</span><span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">}.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">print</span><span class="o">(</span><span class="s">"$e "</span><span class="o">)}</span>
+<span class="cm">/* 같은 표현
+arr.filter { it &gt; 0 }.forEach { print(it + " ")}
+*/</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>체이닝을 통한 필터링 예</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">fruits</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="s">"banana"</span><span class="o">,</span> <span class="s">"avocado"</span><span class="o">,</span> <span class="s">"apple"</span><span class="o">,</span> <span class="s">"kiwi"</span><span class="o">)</span>
+
+    <span class="n">fruits</span>
+    <span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"a"</span><span class="o">)</span> <span class="o">}</span>
+    <span class="o">.</span><span class="na">sortedBy</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+    <span class="o">.</span><span class="na">map</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">}</span>
+    <span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>when 문을 사용한 요소 확인</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="n">when</span> <span class="o">{</span>
+    <span class="s">"apple"</span> <span class="n">in</span> <span class="n">fruits</span> <span class="o">-&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"Apple!"</span><span class="o">)</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>큰 값 작은 값 골라내기</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="c1">// 지정된 필드의 가장 작은/큰 값 골라내기</span>
+<span class="n">println</span><span class="o">(</span><span class="n">products</span><span class="o">.</span><span class="na">minBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">price</span> <span class="o">})</span>
+<span class="n">println</span><span class="o">(</span><span class="n">products</span><span class="o">.</span><span class="na">maxBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">price</span> <span class="o">})</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>배열 평탄화 하기</p>
+<ul>
+  <li>flatten() : 다차원 배열을 단일 배열 생성</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">strs</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">simpleArray</span> <span class="o">=</span> <span class="n">arrayOf</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">strs</span><span class="o">)</span> <span class="c1">// 2차원 배열</span>
+
+    <span class="n">simpleArray</span><span class="o">.</span><span class="na">forEach</span><span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+
+    <span class="n">val</span> <span class="n">flattenSimpleArray</span> <span class="o">=</span> <span class="n">simpleArray</span><span class="o">.</span><span class="na">flatten</span><span class="o">()</span> <span class="c1">// 단일 배열로 변환하기</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">flattenSimpleArray</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET
