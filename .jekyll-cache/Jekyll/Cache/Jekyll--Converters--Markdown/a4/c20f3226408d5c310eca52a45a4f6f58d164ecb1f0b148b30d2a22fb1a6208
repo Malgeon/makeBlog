@@ -1,0 +1,21 @@
+I"�<h3 id="graph">Graph</h3>
+<p>그래프를 다뤄보자.</p>
+
+<ul>
+  <li>방향 그래프(digraph, directed graph)</li>
+</ul>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><div class=""><img class="inserturl" src="/assets/images/study/Graph.png" alt="programmers.co.kr" /></div></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>무방향 그래프(undirected graph)</li>
+  <li>가중치 그래프(weighted graph)</li>
+</ul>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><div class=""><img class="inserturl" src="/assets/images/study/Weighted_Direction_Graph.png" alt="programmers.co.kr" /></div></div></div>
+
+:ET

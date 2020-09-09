@@ -15,12 +15,18 @@ study: true
 ### 코틀린 기본
 코틀린에서 기본적인 동작을 예제에서 확인해보자.
 
-- [배열](../study_Kotlin_array_1)
-- [문자열](../study_Kotlin_string_1)
-- [반복문](../study_Kotlin_loop_1)
-- [수식](../study_Kotlin_math_1)
-- [재귀](../study_Kotlin_recursive_1)
-- [논리 연산자](../study_Kotlin_logicaloperator_1)
+- [배열 예제](../study_Kotlin_array_1)
+- [문자열 예제](../study_Kotlin_string_1)
+- [반복문 예제](../study_Kotlin_loop_1)
+- [수식 예제](../study_Kotlin_math_1)
+- [재귀 예제](../study_Kotlin_recursive_1)
+- [논리 연산자 예제](../study_Kotlin_logicaloperator_1)
+
+### 배열
+배열 선언과 출력하는 부분을 잘 숙지해 두자
+- [배열](../study_Kotlin_25)
+- [배열의 선언](../study_Kotlin_26)
+
 
 ### 배열 정렬
 기본적인 함수라고 할수 있지만, 자주 쓰이므로 따로 구분해 놓는다.

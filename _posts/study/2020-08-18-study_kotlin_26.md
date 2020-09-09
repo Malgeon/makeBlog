@@ -40,6 +40,13 @@ var a = Array(1000, { 0 }) // 0으로 채워진 배열
 var a = Array(1000, { i -> myClass(i) })
 ```
 
+다차원 배열 생성
+
+```java
+var arr = Array(5) { Array(5) { 0 }}
+println(Arrays.deepToString(arr))
+```
+
 
 배열에 요소 추가하고 잘라내기
 배열이 일단 정의되면 고정됨
@@ -59,6 +66,7 @@ println("arr3: ${Arrays.toString(arr3)}")
 ```
 
 기타 배열 관련 API
+
 API 사용 예
 
 ```java

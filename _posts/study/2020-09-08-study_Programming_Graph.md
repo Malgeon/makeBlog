@@ -1,88 +1,151 @@
 ---
 layout: post
 author: study
-title:  "우선순위 큐"
-description: "우선순위 큐 다루기"
+title:  "Graph - DFS/BFS"
+description: "무방향 그래프, 방향, 가중치 그래프 그리고 DFS/BFS"
 categories: [ study ]
 tags: [programming, kotlin]
-postImgOn: true
+postImgOn: false
 image: assets/images/study/kotlin.png
 ---
 
-# 우선순위 큐
-max heap 또는 min heap 이라고도 할 수 있는 우선순위 큐를 코틀린에서는 지원을 해준다.
+### Graph
+그래프를 다뤄보자.
 
-이런 우선순위 큐를 알아보자.
-
-```
-import java.util.PriorityQueue
-```
-```java
-fun main() {
-  val queue1 = PriorityQueue<Int>() 
-  val queue2 = PriorityQueue(Comparator.reverseOrder<Int>())
-}
-```
-
-PriorityQueue를 사용하기 위해서는 java.util.PriorityQueue(java.util.*)가 필요하다. <br>
-기본값으로는 값이 낮을 수록 우선순위가 높게 설정되어 있다. 이를 값이 높을 수록 우선순위가 높도록 바꾸기 위해선 queue2처럼 선언하면 된다.
+- 정점 (Vertex / Node) <br>
+    그래프에서 위치를 나타냅니다.
+- 간선 (Edge / Link / Branch) <br>
+    그래프에서 위치간의 관계를 나타냅니다. 즉, 각 정점(노드)를 연결하는 선을 의미합니다.
+- 인접 정점 (Adjacent Vertex) <br>
+    간선(Edge)에 의해 직접 연결된 정점을 의미합니다.
+- G(V, E) <br>
+    그래프는 정점과 간선의 집합이므로 G(V, E)는 그래프 자체를 의미합니다.
 
 
-사용가능한 함수로는 아래와 같다.
 
-| 함수 | 기능 |
-| -- | -- |
-| add | 추가 |
-| offer | 추가 |
-| size | 크기 |
-| clear | 모두 지우기 |
-| peek | 가장 앞부분 가져오기(해당 값 복사) |
-| poll | 가장 앞부분 빼오기(해당 값 잘라내기) |
-| isEmpty | 비어있는지 확인 |
+#### 무방향 그래프(undirected graph)
 
+<div class="card h-100 my-u-padding"><div class="insertcover"><div class=""><img class="inserturl" src="{{ site.baseurl }}/assets/images/study/Graph.png" alt="programmers.co.kr"/></div></div></div>
 
-### add 와 offer의 차이
-
-AbstarctQueue일때 
+| Vertex |	Edge | 
+| :---: | :---: | 
+| 8 | [[1, 2], [1, 3], [2, 4], [2, 5], [3, 6], [3, 7], [4, 8], [5, 8], [6, 8], [7, 8]] |
 
 ```java
-public boolean add(E e) {
-    if (offer(e))
-        return true;
-    else
-        throw new IllegalStateException("Queue full");
-}
+val edge = arrayOf(intArrayOf(1, 2), intArrayOf(1, 3), intArrayOf(2, 4),
+            intArrayOf(2, 5), intArrayOf(3, 6), intArrayOf(3, 7),
+            intArrayOf(4, 8), intArrayOf(5, 8), intArrayOf(6, 8), intArrayOf(7, 8))
 ```
 
-
-### 사용 예
+- 행렬
 
 ```java
-fun main(args: Array<String>) {
-  val nums: PriorityQueue<Int> = PriorityQueue<Int>()
-
-  // Add items (enqueue)
-  nums.add(800)
-  nums.add(50)
-  nums.add(200)
-  nums.add(550)
-
-  println("peek: " + nums.peek())
-  
-  // Remove items (dequeue)
-  while (!nums.isEmpty()) {
-    println(nums.remove())
-  }
-}
+val arr = Array(9) { Array(9) { 0 } }
+// 무뱡향
+edge.forEach {
+        arr[it[0]][it[1]] = 1 
+        arr[it[1]][it[0]] = 1
+    }
+arr.forEach {
+        println(Arrays.toString(it))
+    }
+```
+```
+[0, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 1, 0, 0, 0, 0, 0]
+[0, 1, 0, 0, 1, 1, 0, 0, 0]
+[0, 1, 0, 0, 0, 0, 1, 1, 0]
+[0, 0, 1, 0, 0, 0, 0, 0, 1]
+[0, 0, 1, 0, 0, 0, 0, 0, 1]
+[0, 0, 0, 1, 0, 0, 0, 0, 1]
+[0, 0, 0, 1, 0, 0, 0, 0, 1]
+[0, 0, 0, 0, 1, 1, 1, 1, 0]
 ```
 
-Output: 
+- 리스트
 
+```java
+val list = List(9) { ArrayList<Int>() }
+// 무뱡향
+edge.forEach {
+        list[it[0]].add(it[1])
+        list[it[1]].add(it[0])
+    }
+list.forEach {
+        println(it.toString())
+    }
 ```
-peek: 50
-50
-200
-550
-800
+```
+[]
+[2, 3]
+[1, 4, 5]
+[1, 6, 7]
+[2, 8]
+[2, 8]
+[3, 8]
+[3, 8]
+[4, 5, 6, 7]
 ```
 
+#### 방향 그래프(digraph, directed graph), 가중치 그래프(weighted graph)
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><div class=""><img class="inserturl" src="{{ site.baseurl }}/assets/images/study/Weighted_Direction_Graph.png" alt="programmers.co.kr"/></div></div></div>
+
+
+| Vertex |	Edge [vertex1, vertex2, weight] | 
+| :---: | :---: | 
+| 5 | [[1, 2, 12], [1, 3, 6], [1, 4, 10], [2, 3, 10], [2, 5, 2], [3, 4, 3], [4, 2, 2], [4, 5, 5]] |
+
+```java
+val edge = arrayOf(intArrayOf(1, 2, 12), intArrayOf(1, 3, 6), 
+            intArrayOf(1, 4, 10), intArrayOf(2, 3, 10), intArrayOf(2, 5, 2),
+            intArrayOf(3, 4, 3), intArrayOf(4, 2, 2), intArrayOf(4, 5, 5))
+```
+
+- 행렬
+
+```java
+val infinite = 99999999
+val arr = Array(6) { Array(6) { infinite } } 
+// 1 ~ 5 의 vertex를 가진다. weight 초기값은 무한
+// 단방향
+edge.forEach {
+        arr[it[0]][it[1]] = it[3]
+    }
+arr.forEach {
+        println(Arrays.toString(it))
+    }
+```
+```
+[∞, ∞,  ∞,  ∞,  ∞,  ∞]
+[∞, ∞, 12,  6, 10,  ∞]
+[∞, ∞,  ∞, 10,  ∞,  2]
+[∞, ∞,  ∞,  ∞,  3,  ∞]
+[∞, ∞,  2,  ∞,  ∞,  5]
+[∞, ∞,  ∞,  ∞,  ∞,  ∞]
+```
+
+- 리스트
+
+```java
+val list = List(5) { ArrayList<Int>() } // 1 ~ 8 의 vertex를 가진다.
+// 단방향
+edge.forEach {
+        list[it[0]].add(it[1])
+    }
+    
+list.forEach {
+        println(it.toString())
+    }
+```
+```
+[]
+[2, 3]
+[1, 4, 5]
+[1, 6, 7]
+[2, 8]
+[2, 8]
+[3, 8]
+[3, 8]
+[4, 5, 6, 7]
+```
