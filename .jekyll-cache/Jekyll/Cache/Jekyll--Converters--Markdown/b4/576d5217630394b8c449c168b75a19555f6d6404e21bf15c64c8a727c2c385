@@ -1,0 +1,221 @@
+I"�I<h3 id="컬렉션의-확장-함수">컬렉션의 확장 함수</h3>
+<p>코틀린은 컬렉션을 위한 많은 확장 함수를 제공하고 있다.
+확장 함수 범주</p>
+<ul>
+  <li>연산자(operators) 기능의 메서드: 더하고 빼는 등의 기능</li>
+  <li>집계(aggregators) 기능의 메서드: 최대, 최소, 집합, 총합 등의 계산 기능</li>
+  <li>검사(checks) 기능의 메서드: 요소를 검사하고 순환하기 위한 기능</li>
+  <li>필터(filtering) 기능의 메서드: 원하는 요소를 골라내기 위한 기능</li>
+  <li>변환(transformers) 기능의 메서드: 뒤집기, 정렬, 자르기 등의 변환 기능</li>
+</ul>
+
+<p>예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 연산자를 사용하게 될 경우, 기존 컬렉션의 값을 바꾸는 것이 아닌 새로운 컬렉션을 만드는 것임을 기억하자!</span>
+    <span class="n">val</span> <span class="n">list1</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">list2</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="n">val</span> <span class="nl">list3:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="c1">// val list3: List&lt;Int&gt; = listOf(1, 2, 3, "Hello") // Error!</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="n">list1</span> <span class="o">+</span> <span class="s">"four"</span><span class="o">)</span> <span class="c1">// + 연산자를 사용한 문자열 요소 추가 : [one, two, three, four]</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list1</span> <span class="o">-</span> <span class="s">"one"</span><span class="o">)</span> <span class="c1">// 요소의 제거 : [two, three]</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list1</span><span class="o">)</span> <span class="c1">// [one, two, three] 불변형!</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list1</span> <span class="o">+</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"abc"</span><span class="o">,</span> <span class="s">"def"</span><span class="o">))</span> <span class="c1">// 두 lIst의 병합 : [one, two, three, abc, def]</span>
+    
+    <span class="n">println</span><span class="o">(</span><span class="n">list2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">)</span> <span class="c1">// [1, 2, 3, 4]</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list2</span> <span class="o">+</span> <span class="s">"Hello"</span><span class="o">)</span> <span class="c1">// [1, 2, 3, Hello] </span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list2</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// [2, 3]</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list2</span> <span class="o">-</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">))</span> <span class="c1">// 일차하는 요소의 제거 : [1]</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">list2</span><span class="o">)</span> <span class="c1">// [1, 2, 3]</span>
+    
+    <span class="n">println</span><span class="o">(</span><span class="n">list3</span> <span class="o">+</span> <span class="s">"Hello"</span><span class="o">)</span> <span class="c1">// [1, 2, 3, Hello] 새로운 컬렉션이 생성된다고 할수 있기 때문에 가능하다.</span>
+
+    <span class="n">val</span> <span class="n">map1</span> <span class="o">=</span> <span class="n">mapOf</span><span class="o">(</span><span class="s">"hi"</span> <span class="n">to</span> <span class="mi">1</span><span class="o">,</span> <span class="s">"hello"</span> <span class="n">to</span> <span class="mi">2</span><span class="o">,</span> <span class="s">"Goodbye"</span> <span class="n">to</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">map1</span> <span class="o">+</span> <span class="nc">Pair</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">,</span> <span class="mi">4</span><span class="o">))</span> <span class="c1">// Pair()를 사용한 Map의 요소 추가</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">map1</span> <span class="o">-</span> <span class="s">"hello"</span><span class="o">)</span> <span class="c1">// 일치하는 값의 제거</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">map1</span> <span class="o">+</span> <span class="n">mapOf</span><span class="o">(</span><span class="s">"Apple"</span> <span class="n">to</span> <span class="mi">4</span><span class="o">,</span> <span class="s">"Orange"</span> <span class="n">to</span> <span class="mi">5</span><span class="o">))</span> <span class="c1">// Map의 병합</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">map1</span> <span class="o">-</span> <span class="n">listOf</span><span class="o">(</span><span class="s">"hi"</span><span class="o">,</span> <span class="s">"hello"</span><span class="o">))</span> <span class="c1">// List에 일치하는 값을 Map에서 제거</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="요소의-처리와-집계에-대한-연산">요소의 처리와 집계에 대한 연산</h3>
+<p>요소를 집계를 위한 확장 함수</p>
+<ul>
+  <li>forEach, forEachIndexed, onEach, count, max, min, maxBy, minBy, fold, reduce, sumBy 등</li>
+</ul>
+
+<p>요소의 순환</p>
+<ul>
+  <li>forEach: 각 요소를 람다식으로 처리한 후 컬렉션을 반환하지 않음</li>
+  <li>onEach: 각 요소를 람다식으로 처리한 후 컬렉션을 반환 받음</li>
+</ul>
+
+<p>forEach 예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">listPair</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="nc">Pair</span><span class="o">(</span><span class="s">"A"</span><span class="o">,</span> <span class="mi">300</span><span class="o">),</span> <span class="nc">Pair</span><span class="o">(</span><span class="s">"B"</span><span class="o">,</span> <span class="mi">200</span><span class="o">),</span> <span class="nc">Pair</span><span class="o">(</span><span class="s">"C"</span><span class="o">,</span> <span class="mi">100</span><span class="o">))</span>
+    <span class="n">val</span> <span class="n">map</span> <span class="o">=</span> <span class="n">mapOf</span><span class="o">(</span><span class="mi">11</span> <span class="n">to</span> <span class="s">"Java"</span><span class="o">,</span> <span class="mi">22</span> <span class="n">to</span> <span class="s">"Kotlin"</span><span class="o">,</span> <span class="mi">33</span> <span class="n">to</span> <span class="s">"C++"</span><span class="o">)</span>
+
+    <span class="c1">// forEach: 각 요소를 람다식으로 처리</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">print</span><span class="o">(</span><span class="s">"$it "</span><span class="o">)}</span>
+    <span class="n">println</span><span class="o">()</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">foreachInexed</span> <span class="o">{</span> <span class="n">index</span><span class="o">,</span> <span class="n">value</span> <span class="o">-&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"index[$index] : $value"</span><span class="o">)</span> <span class="o">}</span> <span class="c1">// 인덱스 포함</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>1 2 3 4 5 6
+index[0] : 1 
+index[1] : 2
+index[2] : 3
+index[3] : 4
+index[4] : 5
+index[5] : 6
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>onEach 예시</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>    <span class="c1">// onEach: 각 요소를 람다식으로 처리한 후 컬렉션으로 반환</span>
+    <span class="n">val</span> <span class="n">returnedList</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">onEach</span> <span class="o">{</span> <span class="n">print</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+    <span class="n">println</span><span class="o">()</span>
+    <span class="n">val</span> <span class="n">returnedMap</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">onEach</span> <span class="o">{</span> <span class="n">println</span><span class="o">(</span><span class="s">"key: ${it.ket}, value: ${it.value}"</span><span class="o">)</span> <span class="o">}</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"returnedList = $returnedList"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"returnedMap = $returnedMap"</span><span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>123456
+key: 11, value: Java
+key: 22, value: Kotlin
+key: 33, value: C++
+returnedList = [1, 2, 3, 4, 5, 6]
+returnedMap = {11=Java, 22=Kotlin, 33=C++}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="foreach에서-break의-기능을-할수-있도록-해보자">forEach에서 break의 기능을 할수 있도록 해보자</h3>
+
+<p>사실 확장 함수로서 return의 지점을 정해주는 것이 정확한 표현이지만 더 기억하기 쉽도록 하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">seoul:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">run</span> <span class="n">loop</span><span class="err">@</span><span class="o">{</span>
+            <span class="n">seoul</span><span class="o">.</span><span class="na">forEachIndexed</span><span class="o">{</span> <span class="n">index</span><span class="o">,</span> <span class="n">value</span> <span class="o">-&gt;</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"Kim"</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">answer</span> <span class="o">=</span> <span class="n">index</span>
+                    <span class="k">return</span><span class="nd">@loop</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="s">"김서방은 ${answer}에 있다"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="요소를-집계를-위한-확장-함수">요소를 집계를 위한 확장 함수</h3>
+<p>각 요소의 정해진 식 적용</p>
+<ul>
+  <li>fold와 reduce : 초기 값과 정해진 식에 따라 요소에 처리하기 위해
+    <ul>
+      <li>fold는 초기값과 정해진 식에 따라 처음 요소부터 끝 요소에 적용해 값 반환</li>
+      <li>reduce는 fold와 동일하지만 초기값을 사용하지 않는다.</li>
+    </ul>
+  </li>
+  <li>foldRight, reduceRight: 위의 개념과 동일하지만 요소의 마지막(오른쪽)요소에서 처음 요소로 순서대로 적용한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">)</span>
+
+<span class="c1">// fold: 초기값과 정해진 식에 따라 처음 요소부터 끝 요소에 적용하며 값을 생성</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">+</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 4 + 1 + ... + 6 = 25</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">*</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 1 * 1 * 2 * ... * 6 = 720</span>
+
+<span class="c1">// foldRight: fold와 같고 마지막 요소에서 처음 요소로 반대로 적용</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">foldRight</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">+</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 4 + 6 + ... + 1 = 25</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">foldRight</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">*</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 1 * 6 * ... * 1 = 720</span>
+
+<span class="c1">// reduce: fold와 동일하지만 초기값을 사용하지 않음</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">reduce</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">+</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 1 + ... + 6 = 21</span>
+<span class="n">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">reduceRight</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span> <span class="n">total</span> <span class="o">+</span> <span class="n">next</span> <span class="o">})</span> <span class="c1">// 6 + ... + 1 = 21</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Graph - DFS/BFS"
-description: "무방향 그래프, 방향, 가중치 그래프 그리고 DFS/BFS"
+title:  "Graph"
+description: "무방향 그래프, 방향 그리고 가중치 그래프"
 categories: [ study ]
 tags: [programming, kotlin]
 postImgOn: false
@@ -34,7 +34,8 @@ image: assets/images/study/kotlin.png
 ```java
 val edge = arrayOf(intArrayOf(1, 2), intArrayOf(1, 3), intArrayOf(2, 4),
             intArrayOf(2, 5), intArrayOf(3, 6), intArrayOf(3, 7),
-            intArrayOf(4, 8), intArrayOf(5, 8), intArrayOf(6, 8), intArrayOf(7, 8))
+            intArrayOf(4, 8), intArrayOf(5, 8), intArrayOf(6, 8), 
+            intArrayOf(7, 8))
 ```
 
 - 행렬
@@ -63,6 +64,8 @@ arr.forEach {
 ```
 
 - 리스트
+
+vertex 할당
 
 ```java
 val list = List(9) { ArrayList<Int>() }
@@ -128,10 +131,13 @@ arr.forEach {
 - 리스트
 
 ```java
-val list = List(5) { ArrayList<Int>() } // 1 ~ 8 의 vertex를 가진다.
+val list = List(6) { ArrayList<Pair<Int, Int>>() } // 1 ~ 5 의 vertex를 가진다.
+// vertex의 개수는 추가해주는 것보다 초기부터 설정해놓고 
+// 안쓰는 것은 빈공간으로 두는 것도 하나의 방법이다
 // 단방향
 edge.forEach {
-        list[it[0]].add(it[1])
+        list[it[0]].add(Pair(it[1], it[2]))
+        // Pair(edge, weigth)
     }
     
 list.forEach {
@@ -140,12 +146,14 @@ list.forEach {
 ```
 ```
 []
-[2, 3]
-[1, 4, 5]
-[1, 6, 7]
-[2, 8]
-[2, 8]
-[3, 8]
-[3, 8]
-[4, 5, 6, 7]
+[(2, 12), (3, 6), (4, 10)]
+[(3, 10), (5, 2)]
+[(4, 3)]
+[(2, 2), (5, 5)]
+[]
 ```
+
+
+### vertex가 좌표이며 동적으로 주어지는 경우
+
+

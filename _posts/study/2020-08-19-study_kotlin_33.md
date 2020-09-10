@@ -99,6 +99,28 @@ returnedList = [1, 2, 3, 4, 5, 6]
 returnedMap = {11=Java, 22=Kotlin, 33=C++}
 ```
 
+### forEach에서 break의 기능을 할수 있도록 해보자
+
+사실 확장 함수로서 return의 지점을 정해주는 것이 정확한 표현이지만 더 기억하기 쉽도록 하자.
+
+```java
+class Solution {
+    fun solution(seoul: Array<String>): String {
+        var answer = 0
+
+        run loop@{
+            seoul.forEachIndexed{ index, value ->
+                if(value.contains("Kim")) {
+                    answer = index
+                    return@loop
+                }
+            }
+        }
+        return "김서방은 ${answer}에 있다"
+    }
+}
+```
+
 
 ### 요소를 집계를 위한 확장 함수
 각 요소의 정해진 식 적용
@@ -125,3 +147,5 @@ println(list.foldRight(1) { total, next -> total * next }) // 1 * 6 * ... * 1 = 
 println(list.reduce { total, next -> total + next }) // 1 + ... + 6 = 21
 println(list.reduceRight) { total, next -> total + next }) // 6 + ... + 1 = 21
 ```
+
+

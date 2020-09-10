@@ -68,8 +68,12 @@ Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 
 DFS, BFS에서 주로 사용된다. 
 방향, 가중치를 이용한 문제도 출시 된적이 있으니 잘 숙지해두자.
 
+- [그래프](../study_Programming_Graph)
 
+### BFS/DFS
+어려운 문제로 자주 사용되는 알고리즘.
 
+- [BFS/DFS](../study_Programming_BFS&DFS)
 
 ### 우선순위 큐
 코틀린은 자바와 같이 우선순위 큐를 지원해 준다.
