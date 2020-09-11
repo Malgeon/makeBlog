@@ -1,0 +1,74 @@
+I"�<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/62048"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">스택/큐 : 기능개발</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>스택/큐로 구분지어져 있으나, 정확히는 FIFO의 컨셉만 가지고 있는 배열을 다루는 문제라고 생각한다.
+그렇게 어렵지 않는 풀이라 문제와 풀이를 읽어보면 바로 이해가 될 것이다.</p>
+
+<p>그것 보다도 해당 문제를 풀어가면서 kotlin에서 배열을 다룰 때, 자바스크립트와 비교해 차이점에 대해 알아보고자 한다.</p>
+
+<ol>
+  <li>
+    <p>배열에서 해당 배열의 size를 넘어갈때, 자바스크립트는 undefined를 return 하지만 코틀린은 범위가 넘어간 exception을 발생한다.
+따라서 코틀린에서 배열을 while문에서 다룰 때, exception이 넘어가지 않도록 주의를 해야 한다.</p>
+  </li>
+  <li>
+    <p>자바스크립트의 splice는 코틀린에서 drop으로 기능을 대체할수 있을것 같다.
+그러나 drop은 List를 return 하므로 자료형 변환에 주의해야 한다.</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">progresses:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">speeds:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+
+        <span class="kt">var</span> <span class="n">nextStep</span> <span class="o">=</span> <span class="n">progresses</span><span class="o">.</span><span class="na">toMutableList</span><span class="o">()</span>
+        <span class="kt">var</span> <span class="n">speedsList</span> <span class="o">=</span> <span class="n">speeds</span><span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">nextStep</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">speedsList</span><span class="o">.</span><span class="na">forEachIndexed</span> <span class="o">{</span> <span class="n">index</span><span class="o">,</span> <span class="n">i</span> <span class="o">-&gt;</span>
+                <span class="n">nextStep</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">+=</span> <span class="n">i</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span><span class="o">(</span><span class="n">nextStep</span><span class="o">.</span><span class="na">first</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">nextStep</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">)</span> <span class="k">break</span>
+                    <span class="n">count</span><span class="o">++</span>
+                <span class="o">}</span>
+
+                <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">count</span><span class="o">)</span>
+                <span class="n">nextStep</span> <span class="o">=</span> <span class="n">nextStep</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">count</span><span class="o">).</span><span class="na">toMutableList</span><span class="o">()</span>
+                <span class="n">speedsList</span> <span class="o">=</span> <span class="n">speedsList</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">count</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

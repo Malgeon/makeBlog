@@ -27,6 +27,8 @@ study: true
 - [배열](../study_Kotlin_25)
 - [배열의 선언](../study_Kotlin_26)
 
+[배열 예제](../study_Kotlin_stack&queue_2)
+
 
 ### 배열 정렬
 기본적인 함수라고 할수 있지만, 자주 쓰이므로 따로 구분해 놓는다.
@@ -74,6 +76,9 @@ DFS, BFS에서 주로 사용된다.
 어려운 문제로 자주 사용되는 알고리즘.
 
 - [BFS/DFS](../study_Programming_BFS&DFS)
+
+### 스택/큐
+- [큐 예제](../study_Kotlin_stack&queue_3)
 
 ### 우선순위 큐
 코틀린은 자바와 같이 우선순위 큐를 지원해 준다.
