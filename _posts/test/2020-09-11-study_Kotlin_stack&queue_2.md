@@ -4,7 +4,7 @@ author: test
 title:  "스택/큐 : 기능개발"
 description: "스택 + 배열다루기"
 categories: [ test ]
-tags: [ standard ]
+tags: [ stack ]
 postImgOn: false
 image: assets/images/test/programmers.png
 insertUrlImg: assets/images/study/programmers.png

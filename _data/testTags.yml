@@ -13,8 +13,8 @@
 - name : sort
   url : test/sort
 
-- name : bp
-  url : test/bp
+- name : bf
+  url : test/bf
 
 - name : greedy
   url : test/greedy
