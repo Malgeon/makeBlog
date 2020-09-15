@@ -96,3 +96,8 @@ DFS, BFS에서 주로 사용된다.
 - [이분 탐색 예제 - upper/lower bound hard](../study_Kotlin_binarySearch_2)
 
 
+
+### Greedy
+사고력과 순발력을 요구를 하기 때문에 여러워지기 쉬운것 같다. 
+
+- [Greedy 예제1](../study_Kotlin_greedy_1)

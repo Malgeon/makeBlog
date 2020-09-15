@@ -3,8 +3,8 @@ layout: post
 author: test
 title:  "스택/큐 : 다리를 지나는 트럭"
 description: "큐 + 배열 다루기"
-categories: [ queue ]
-tags: [ STACK ]
+categories: [ test ]
+tags: [ queue ]
 postImgOn: false
 image: assets/images/test/programmers.png
 insertUrlImg: assets/images/study/programmers.png

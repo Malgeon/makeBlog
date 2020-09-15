@@ -1,0 +1,186 @@
+I"[><div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42883"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">탐욕법(Greedy) : 큰 수 만들기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>Greedy 알고리즘 문제는 얼마나 효과적인 제한 조건을 설정하고, 해당 조건을 구현할수 있는 지를 판단하는 것 같다.</p>
+
+<p>이 문제 또한 그러한데, 자릿 수가 정해져 있기 때문에 빼고자 하는 숫자의 자리의 범주를 정할수 있고, 그 숫자를 빼면서 진행해 가면된다.</p>
+
+<p>여기서 문제 해결을 위한 두가지 방법이 있다.</p>
+<ol>
+  <li>큰 수로 만들어지도록 숫자를 제거하면서 진행</li>
+  <li>큰 수로 만들어지는 숫자를 뽑으면서 진행</li>
+</ol>
+
+<p>1번 같은 경우 치명적인 문제점이 존재하는데, 대상 문자의 길이와 제거하고자 하는 글자 수의 차이가 결국 같아져서 drop(-1)을 입력하게 된다.
+이 경우를 추가적으로 제외해 줘야 한다.</p>
+
+<p>만약 문제로 나와서 해결하다보면 문제점을 결국에는 찾지 못하리라고 생각이 드는 지점.</p>
+
+<h5 id="숫자-제거">숫자 제거</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">number:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">k:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">makeBigNum</span><span class="o">(</span><span class="n">number</span><span class="o">,</span> <span class="n">k</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">makeBigNum</span><span class="o">(</span><span class="nl">number:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">k:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">fixedStr:</span> <span class="nc">String</span> <span class="o">=</span> <span class="s">""</span> <span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="n">fixedStr</span> <span class="o">+</span> <span class="n">number</span>
+        <span class="nf">if</span><span class="o">(</span><span class="n">number</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">k</span><span class="o">)</span> <span class="k">return</span> <span class="n">fixedStr</span> <span class="o">+</span> <span class="n">number</span><span class="o">.</span><span class="na">maxBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">toInt</span><span class="o">()}.</span><span class="na">toString</span><span class="o">()</span> 
+        <span class="c1">// 추가 조건</span>
+        <span class="kt">var</span> <span class="n">choiceStr</span> <span class="o">=</span> <span class="n">number</span><span class="o">.</span><span class="na">dropLast</span><span class="o">(</span><span class="n">number</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+        <span class="n">val</span> <span class="nl">dropIdx:</span> <span class="nc">Int</span> <span class="o">=</span> <span class="n">findIndex</span><span class="o">(</span><span class="n">choiceStr</span><span class="o">)</span>
+        <span class="k">return</span> <span class="nf">if</span> <span class="o">(</span><span class="n">dropIdx</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>  <span class="n">makeBigNum</span><span class="o">(</span><span class="n">number</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="n">k</span><span class="o">,</span> <span class="n">fixedStr</span> <span class="o">+</span> <span class="n">number</span><span class="o">.</span><span class="na">first</span><span class="o">())</span> 
+               <span class="k">else</span> <span class="nf">makeBigNum</span><span class="o">(</span><span class="n">number</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">dropIdx</span><span class="o">),</span> <span class="n">k</span><span class="o">-</span><span class="n">dropIdx</span><span class="o">,</span> <span class="n">fixedStr</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">findIndex</span><span class="o">(</span><span class="nl">choiceStr:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="c1">// 추가 함수</span>
+        <span class="kt">var</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="kt">var</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">choiceStr</span><span class="o">.</span><span class="na">indices</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">value</span> <span class="o">=</span> <span class="n">choiceStr</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toInt</span><span class="o">()</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">max</span> <span class="o">&lt;</span> <span class="n">value</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="n">max</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">idx</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="숫자-뽑기">숫자 뽑기</h5>
+
+<p>여기서 생각해 볼만한 지점은 아래와 같다.</p>
+
+<ol>
+  <li>재귀로 풀게되면 수행 시간이 늘어가는 것으로 판단이 된다.
+아래의 코드에 findIndex는 단순히 max index를 찾는 함수인데, 이를 indexOf와 maxBy로 해결하게 되면 시간 초과가 나오게 된다.
+반복문으로 하게 되면 비슷한 매커니즘으로 동작하는 문제이면서, indexOf와 max를 사용했음에도 절반의 속도의 향상이 있었다.</li>
+  <li>어떤 결과값이 null일 수도 있는 경우 kotlin에서는 해당 null 처리를 꼭 하도록 요구를 하는데, 이를 let으로 쉽게 처리가 가능하다.
+잘 숙지해두자.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">number:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">k:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="kt">var</span> <span class="n">stringSize</span> <span class="o">=</span> <span class="n">number</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">k</span>
+        <span class="kt">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="nc">Char</span><span class="o">&gt;()</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">stringSize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">string</span> <span class="o">=</span> <span class="n">number</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">number</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="o">(</span><span class="n">stringSize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span>
+            <span class="n">string</span><span class="o">.</span><span class="na">max</span><span class="o">()?.</span><span class="na">let</span> <span class="o">{</span><span class="n">max</span> <span class="o">-&gt;</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="n">string</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">max</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">max</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="n">stringSize</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="o">}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">joinToString</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>array로 만들어서 with를 사용해 풀수도 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">number:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">k:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">answerBuilder</span> <span class="o">=</span> <span class="nc">StringBuilder</span><span class="o">()</span>
+        <span class="n">with</span><span class="o">(</span><span class="n">number</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">remainLetterCount</span> <span class="o">=</span> <span class="n">number</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">k</span>
+            <span class="kt">var</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">remainLetterCount</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">remainLetterCount</span> <span class="o">==</span> <span class="n">size</span> <span class="o">-</span> <span class="n">left</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">for</span><span class="o">(</span><span class="n">eachIndex</span> <span class="n">in</span> <span class="n">left</span> <span class="o">..</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="n">answerBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="k">this</span><span class="o">[</span><span class="n">eachIndex</span><span class="o">])</span>
+                    <span class="k">return</span> <span class="n">answerBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+                <span class="o">}</span>
+                <span class="kt">var</span> <span class="n">frontSubMaxValue</span> <span class="o">=</span> <span class="sc">'/'</span>
+                <span class="kt">var</span> <span class="n">frontSubMaxIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span><span class="o">(</span><span class="n">eachIndex</span> <span class="n">in</span> <span class="n">left</span> <span class="o">..</span> <span class="n">size</span> <span class="o">-</span> <span class="n">remainLetterCount</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="n">frontSubMaxValue</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">[</span><span class="n">eachIndex</span><span class="o">])</span> <span class="o">{</span>
+                        <span class="n">frontSubMaxValue</span> <span class="o">=</span> <span class="k">this</span><span class="o">[</span><span class="n">eachIndex</span><span class="o">]</span>
+                        <span class="n">frontSubMaxIndex</span> <span class="o">=</span> <span class="n">eachIndex</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="n">answerBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">frontSubMaxValue</span><span class="o">)</span>
+                <span class="n">remainLetterCount</span><span class="o">--</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">frontSubMaxIndex</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answerBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

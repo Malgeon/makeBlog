@@ -26,7 +26,7 @@ class 클래스명 constructor(필요한 매개변수들..) { // 주 생성자�
 - 주 성생자(Primary constructor)
 클래스명과 함께 기술되며 보통의 경우 constructor 키우드를 생략할 수 있다.
 
-```javascript
+```java
 class Bird (var name: String, val wing: Int, var beak: String) {
     /*var name: String = _name
     val wing: Int = _wing
@@ -57,7 +57,7 @@ fun main() {
 - 부 생성자(Secondary Constructor)
 클래스 본문에 기술되며 하나 잇아의 부 생성자를 정의할 수 있다.
 
-```javascript
+```java
 class Bird {
     var name: String
     val wing: Int
@@ -102,7 +102,7 @@ class 파생 클래스명 : 기반 클래스명() { // 기반 클래스로 부�
 코틀린의 모든 클래스는 묵시적으로 Any로부터 상속
 
 
-```javascript
+```java
 open class Bird(var name: String, var wing: Int, var beak: String) {
     fun fly () {
         println("Fly")
@@ -139,7 +139,7 @@ Static Polymorphism
 - 컴파일 타임에 결정되는 다형성
 - 단순하게 보면 메서드 overloding을 사용할 때
 
-```
+```java
 fun example(a: Int)
 fun example(a: Int, b: Int)
 ```
@@ -148,7 +148,7 @@ Dynamic Polymorphism
 - 런타임 다형성
 - 동적으로 구성되는 overrideing된 메서드를 사용할 때
 
-```
+```java
 open class Parent (name: Int) {
     open fun example()
 }

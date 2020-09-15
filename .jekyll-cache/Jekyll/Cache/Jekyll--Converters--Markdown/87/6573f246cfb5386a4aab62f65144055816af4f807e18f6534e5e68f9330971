@@ -1,0 +1,128 @@
+I"s.<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/60058"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2020 KAKAO BLIND RECRUITMENT : 괄호 변환</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>주어진 조건을 가지고 설계를 해낼수 있는지 파악하기 위함이 목적이라고 생각이 된다.
+여기서 시간을 많이 잡아먹지 않도록 해야 하는데, 그러기 위한 방법은 하나 뿐이라고 생각한다.
+정말 여러문제를 많이 풀어봐야 한다.
+빠른 시간내에 해결하려면 문자열, 배열, List, map 등 을 다룰때 조건에 맞게 사용할 수 있는 각종 함수와 언어의 제약 조건을 잘 파악해야 하는데,
+이것은 단순한 암기가 아닌 여러 문제를 풀면서 나오는 노하우라고 할수 있기 때문이다.</p>
+
+<p>풀이 과정은 특별할 것 없이 지문에 맞는 기능을 구현 했는지 확인하면서 설계해 나가면 된다.
+이때 주의할 점은 지문의 요구를 정확하게 파악하고 있어야 한다.</p>
+
+<p>아래의 답안에서 reverseStr을 reversed()를 사용하지 않고 map을 사용한 이유는 지문에서의 요구가 역순으로 정렬하는 것이 아닌
+해당 값을 뒤집는 것이기 때문이다. 여기서 틀린 사람들이 많을 것으로 예상 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">p:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">if</span><span class="o">(</span><span class="n">checkCollect</span><span class="o">(</span><span class="n">p</span><span class="o">))</span> <span class="n">p</span> <span class="k">else</span> <span class="nf">makeCollect</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">makeCollect</span><span class="o">(</span><span class="nl">p:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">balanceIdx</span> <span class="o">=</span> <span class="n">checkBalance</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+        <span class="k">return</span> <span class="nf">if</span><span class="o">(</span><span class="n">balanceIdx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">subStr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">balanceIdx</span><span class="o">)</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">checkCollect</span><span class="o">(</span><span class="n">subStr</span><span class="o">))</span> <span class="n">subStr</span> <span class="o">+</span> <span class="n">makeCollect</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">balanceIdx</span><span class="o">))</span>
+            <span class="k">else</span> <span class="s">"("</span> <span class="o">+</span> <span class="n">makeCollect</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">balanceIdx</span><span class="o">))</span> <span class="o">+</span> <span class="s">")"</span> <span class="o">+</span> <span class="n">reverseStr</span><span class="o">(</span><span class="n">subStr</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="s">""</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">reverseStr</span><span class="o">(</span><span class="nl">subStr:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">String</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">if</span><span class="o">(</span><span class="n">subStr</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="o">)</span> <span class="s">""</span> <span class="k">else</span>  <span class="n">subStr</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">dropLast</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">map</span> <span class="o">{</span> <span class="k">if</span><span class="o">(</span><span class="n">it</span> <span class="o">==</span> <span class="sc">'('</span><span class="o">)</span> <span class="sc">')'</span> <span class="k">else</span> <span class="sc">'('</span> <span class="o">}.</span><span class="na">joinToString</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">checkCollect</span><span class="o">(</span><span class="nl">subStr:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">stack</span> <span class="o">=</span> <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Char</span><span class="o">&gt;()</span>
+        <span class="n">val</span> <span class="n">first</span> <span class="o">=</span> <span class="n">subStr</span><span class="o">.</span><span class="na">first</span><span class="o">()</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">first</span> <span class="o">==</span> <span class="sc">')'</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span>
+        <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">first</span><span class="o">)</span>
+        <span class="kt">var</span> <span class="n">flag</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span> <span class="n">until</span> <span class="n">subStr</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="n">subStr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="o">)</span><span class="k">return</span> <span class="kc">false</span> <span class="k">else</span> <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">subStr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+                <span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">()</span> <span class="o">==</span> <span class="n">subStr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">subStr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">-&gt;</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">checkBalance</span><span class="o">(</span><span class="nl">p:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span> <span class="n">p</span> <span class="o">==</span> <span class="s">""</span><span class="o">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">val</span> <span class="n">stack</span> <span class="o">=</span> <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Char</span><span class="o">&gt;()</span>
+        <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">first</span><span class="o">())</span>
+        <span class="kt">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span> <span class="n">until</span> <span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="k">return</span> <span class="n">count</span>
+            <span class="kt">var</span> <span class="n">compare</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">()</span>
+            <span class="k">if</span><span class="o">(</span> <span class="n">compare</span> <span class="o">==</span> <span class="n">p</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">)</span> <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">p</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+            <span class="k">else</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span>
+            <span class="n">count</span><span class="o">++</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">count</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

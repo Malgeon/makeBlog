@@ -1,0 +1,187 @@
+I"�:<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/60057"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2020 KAKAO BLIND RECRUITMENT : 문자열 압축</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>문제를 잘 살펴보면 조건이 매우 제한적이며, (abcdab 압축 시 abcdab가 되는 것이지 2abcd가 되는 것이 아니다.) 직접 해보는 방법 밖에 풀이 방법이 생각나지 않는다. 
+이럴 땐 정말 직접 해봐야 된다. (이래서 이분 탐색과 완전 탐색을 파악하기 어렵게 다가온다.) 
+쉽게 생각하면 효율성을 체크하지 않는 이상 오히려 완전 탐색을 하는 것이 정확할 때가 많으니 염두해 두자.</p>
+
+<p>따라서 직접 구현을 해야 하는 것인데, 이는 다시 돌아와 문자열을 잘 다룰수 있는지 판단하기 위해서 나온 문제가 되는 것이다.</p>
+
+<p>여러가지 방법이 있다. 
+그 중에서 2가지를 제시하고자 하는데 사실, 어쨋든 문자열을 어떻게 다루는 지를 보게 되므로 풀이 방식은 상관이 없다.</p>
+
+<ol>
+  <li>직접 압축된 단어를 만드는 방법</li>
+  <li>압축된 단어와 해당 개수를 가진 Data 클래스를 만들어 배열로 저장하는 방법</li>
+</ol>
+
+<p>직접 압축된 단어를 만드는 방법</p>
+
+<p>min 값을 얻기 위해 초기화를 시킬땐 Int.MAX_VALUE가 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">99999</span>
+        <span class="n">val</span> <span class="n">len</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span>
+        <span class="kt">var</span> <span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+        <span class="kt">var</span> <span class="nl">present:</span> <span class="nc">String</span>
+        <span class="kt">var</span> <span class="nl">count:</span> <span class="nc">Int</span>
+        <span class="kt">var</span> <span class="nl">makeStr:</span><span class="nc">String</span>
+
+        <span class="nf">if</span><span class="o">(</span><span class="n">len</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="mi">1</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span><span class="o">..</span><span class="na">len</span><span class="o">/</span><span class="mi">2</span><span class="o">){</span>
+            <span class="n">present</span> <span class="o">=</span> <span class="s">""</span>
+            <span class="n">makeStr</span> <span class="o">=</span> <span class="s">""</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="kt">var</span> <span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+            <span class="k">while</span><span class="o">(!(</span><span class="n">str</span><span class="o">.</span><span class="na">isNullOrEmpty</span><span class="o">()))</span> <span class="o">{</span>
+                <span class="kt">var</span> <span class="n">now</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">let</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="n">it</span> <span class="k">else</span> <span class="n">it</span><span class="o">.</span><span class="na">slice</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">i</span><span class="o">)</span>
+                <span class="o">}</span>
+                <span class="n">str</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">drop</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+
+                <span class="k">if</span><span class="o">(</span><span class="n">present</span> <span class="o">!=</span> <span class="n">now</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kt">var</span> <span class="n">countString</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="s">""</span> <span class="k">else</span> <span class="n">count</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+                    <span class="n">makeStr</span> <span class="o">+=</span> <span class="n">countString</span> <span class="o">+</span> <span class="n">present</span>
+                    <span class="n">present</span> <span class="o">=</span> <span class="n">now</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">count</span><span class="o">++</span>
+                <span class="o">}</span>
+
+                <span class="k">if</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="n">makeStr</span> <span class="o">+=</span> <span class="k">if</span><span class="o">(</span><span class="n">present</span> <span class="o">!=</span> <span class="n">now</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="kt">var</span> <span class="n">countString</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="s">""</span> <span class="k">else</span> <span class="n">count</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+                        <span class="n">countString</span> <span class="o">+</span> <span class="n">present</span> <span class="o">+</span> <span class="n">now</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="kt">var</span> <span class="n">countString</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="s">""</span> <span class="k">else</span> <span class="n">count</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+                        <span class="n">countString</span> <span class="o">+</span> <span class="n">present</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="na">coerceAtMost</span><span class="o">(</span><span class="n">makeStr</span><span class="o">.</span><span class="na">length</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Data 클래스를 이용하는 방법</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">data</span> <span class="kd">class</span> <span class="nf">Word</span><span class="o">(</span>
+        <span class="n">val</span> <span class="n">word</span> <span class="o">:</span> <span class="nc">String</span><span class="o">,</span>
+        <span class="kt">var</span> <span class="n">count</span> <span class="o">:</span> <span class="nc">Int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="o">)</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="nc">Int</span><span class="o">.</span><span class="na">MAX_VALUE</span>
+        <span class="nf">for</span><span class="o">(</span><span class="n">space</span> <span class="n">in</span> <span class="mi">1</span><span class="o">..</span><span class="na">s</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">compressedWordList</span> <span class="o">=</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="nc">Word</span><span class="o">&gt;()</span>
+            <span class="kt">var</span> <span class="n">startIndex</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="kt">var</span> <span class="n">endIndex</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">endIndex</span> <span class="o">!=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">endIndex</span> <span class="o">=</span> <span class="o">(</span><span class="n">startIndex</span> <span class="o">+</span> <span class="n">space</span><span class="o">).</span><span class="na">let</span> <span class="o">{</span>
+                    <span class="k">if</span><span class="o">(</span><span class="n">it</span> <span class="o">&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span>
+                    <span class="k">else</span> <span class="n">it</span>
+                <span class="o">}</span>
+                <span class="n">val</span> <span class="n">currentWord</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">startIndex</span><span class="o">,</span> <span class="n">endIndex</span><span class="o">)</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">compressedWordList</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">||</span>
+                   <span class="n">compressedWordList</span><span class="o">.</span><span class="na">peekLast</span><span class="o">().</span><span class="na">word</span> <span class="o">!=</span> <span class="n">currentWord</span><span class="o">)</span> <span class="o">{</span> 
+                    <span class="n">compressedWordList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Word</span><span class="o">(</span><span class="n">currentWord</span><span class="o">))</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="n">compressedWordList</span><span class="o">.</span><span class="na">peekLast</span><span class="o">().</span><span class="na">count</span><span class="o">++</span>
+                <span class="n">startIndex</span> <span class="o">=</span> <span class="n">endIndex</span>
+            <span class="o">}</span>
+            <span class="n">val</span> <span class="n">length</span> <span class="o">=</span> <span class="n">compressedWordList</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">acc</span><span class="o">,</span> <span class="n">word</span> <span class="o">-&gt;</span>
+                <span class="n">acc</span> <span class="o">+</span> <span class="n">word</span><span class="o">.</span><span class="na">word</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="k">if</span><span class="o">(</span><span class="n">word</span><span class="o">.</span><span class="na">count</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">word</span><span class="o">.</span><span class="na">count</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">length</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">length</span> <span class="o">&lt;</span> <span class="n">answer</span><span class="o">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

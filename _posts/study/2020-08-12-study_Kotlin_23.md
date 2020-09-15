@@ -93,8 +93,10 @@ fun <T: Number> addLimit(a: T, b: T, op: (T, T) -> T): T {
     return op(a, b)
 }
 ...
-val result = addLimit("abc", "def", {a, b -> a + b}) // 제한된 자료형으로 인해 오류 발생!
+val result = addLimit("abc", "def", {a, b -> a + b}) 
+// 제한된 자료형으로 인해 오류 발생!
 ```
+<br>
 
 
 ### 상ㆍ하위 형식의 가변성
@@ -106,6 +108,7 @@ val result = addLimit("abc", "def", {a, b -> a + b}) // 제한된 자료형으�
 
 
 클래스와 자료형
+
 | 형태 | 클래스인가? | 자료형인가? |
 | --- | --- | --- |
 | String | 네 | 네 |
@@ -119,7 +122,8 @@ val result = addLimit("abc", "def", {a, b -> a + b}) // 제한된 자료형으�
 number <- Int
 ```javascript
 val integer: Int = 1
-val number: Number = integer // 하위 자료형 Int를 Number가 수용함 (캐스팅 되어 할당 된다.)
+val number: Number = integer 
+// 하위 자료형 Int를 Number가 수용함 (캐스팅 되어 할당 된다.)
 ```
 
 Int? <- Int
@@ -127,8 +131,10 @@ Int? <- Int
 val integer: Int = 1;
 val nullableInteger: Int? - integer;
 ```
+<br>
 
 ### 가변성의 3가지 유형
+
 | 용어 | 의미 |
 | --- | --- |
 | 공변성(covariance) | T'가 T의 하위 자료형이면, C<T'>는 C<T>의 하위 자료형이다. 생산자 입장의 out 성질 |
@@ -138,6 +144,7 @@ val nullableInteger: Int? - integer;
 
 ![가변성의3가지유형]({{ site.baseurl }}/assets/images/study/kotlin_oop_variance.jpg)
 
+<br><br>
 
 #### 무변성(invariance)
 - 자료형 사이의 하위 자료형 관계가 성립하지 않음

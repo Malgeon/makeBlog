@@ -1,0 +1,315 @@
+I"�><h3 id="내부-클래스">내부 클래스</h3>
+
+<p>코틀린의 내부 클래스 종류</p>
+<ul>
+  <li>중첩(Nested) 클래스</li>
+  <li>이너(Inner) 클래스</li>
+</ul>
+
+<p>자바의 내부클래스 종류</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>종류</th>
+      <th>역할</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>정적 클래스(static class)</td>
+      <td>static 키워드를 가지며 외부 클래스를 인스턴스화 하지않고 바로 사용가능한 클래스(주로 빌더 클래스에 이용)</td>
+    </tr>
+    <tr>
+      <td>멤버 클래스(member class)</td>
+      <td>인스턴스 클래스로도 불리며 외부 클래스의 필드나 메서드와 연동하는 내부 클래스</td>
+    </tr>
+    <tr>
+      <td>지역 클래스(local class)</td>
+      <td>초기화 불록이나 메서드 내의 블록에서만 유효한 클래스</td>
+    </tr>
+    <tr>
+      <td>익명 클래스(anonymous class)</td>
+      <td>이름이 없고 주로 일회용 객체를 인스턴스화 하면서 오버라이드 메서드를 구현하는 내부 클래스. 가독성이 떨어지는 단점이 있다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>익명클래스는 하위클래스로 만들고 객체 생성하지 않아도 바로 인스턴스를 생성할수 있는데, 이를 코틀린에서는 Object가 할수 있다.</p>
+
+<p>자바와 코틀린의 내부 클래스 비교</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>자바</th>
+      <th>코틀린</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>정적 클래스(static class)</td>
+      <td>중첩 클래스(nested class): 객체 생성 없이 사용 가능</td>
+    </tr>
+    <tr>
+      <td>멤버 클래스(member class)</td>
+      <td>이너 클래스(inner class): 필드나 메서드와 연동하는 내부 클래스로 inner 키워드가 필요하다</td>
+    </tr>
+    <tr>
+      <td>지역 클래스(local class)</td>
+      <td>지역 클래스(local class): 클래스의 선언이 블록에 있다면 지역 클래스이다.</td>
+    </tr>
+    <tr>
+      <td>익명 클래스(anonymous class)</td>
+      <td>익명 객체(ananymous object): 이름이 없고 주로 일회용 객체를 사용하기 위해 object 키워드를 통해 선언된다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="c1">// 자바의 멤버(이너) 클래스</span>
+<span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+        <span class="o">...</span> <span class="c1">// 외부 클래스 A의 필드에 접근 가능</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 자바의 정적 클래스</span>
+<span class="kd">class</span> <span class="nc">C</span> <span class="o">{</span>
+    
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">D</span> <span class="o">{</span> <span class="c1">// 정적 클래스를 위해 static 키워드 사용</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="c1">// 코틀린의 이너 클래스 (자바의 멤버클래스와 동일!)</span>
+<span class="kd">class</span> <span class="nx">A</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">inner</span> <span class="kd">class</span> <span class="nx">B</span><span class="p">{</span> <span class="c1">// 자바와 달리 inner 키워드 필요</span>
+        <span class="p">...</span> <span class="c1">// 외브 클래스 A의 필드에 접근 가능</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 정적 클래스처럼 사용한 코틀린의 중첩 클래스</span>
+<span class="kd">class</span> <span class="nx">C</span><span class="p">{</span>
+    
+    <span class="kd">class</span> <span class="nx">D</span> <span class="p">{</span> <span class="c1">// 코틀린에서는 아무 키워드가 없는 클래스는 중첩 클래스이며</span>
+              <span class="c1">// 정적 클래스처럼 사용한다.</span>
+        <span class="p">...</span>   <span class="c1">// 외부 클래스 A의 프로퍼티, 메서드에 접근 할 수 없다.</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>중첩 클래스(Nested class)는 코틀린에서 기본적으로 정적(static) 클래스 처럼 다뤄진다.
+즉 정적클래스로 접근은 static이므로 가능하지만, 해당 정적클래스에서 외부 클래스로는 접근이 불가능하다!</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Outer</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">ov</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="kd">class</span> <span class="nx">Nested</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="nx">nv</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="nx">fun</span> <span class="nx">greeting</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">[Nested] Hello ! $nv</span><span class="dl">"</span> <span class="c1">// 외부의 ov에는 접근 불가</span>
+    <span class="p">}</span>
+
+    <span class="nx">fun</span> <span class="nx">outside</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">Nested</span><span class="p">().</span><span class="nx">greeting</span><span class="p">()</span> <span class="c1">// Outer 객체 생성 없이 중첩 클래스의 메서드 접근</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">[Outer]: $msg, ${Nested().nv}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 중첩 클래스의 프로퍼티 접근</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//static 처럼 Outer의 객체 생성 없이 Nested객체를 생성 사용할 수 있음</span>
+    <span class="nx">val</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">Outer</span><span class="p">.</span><span class="nx">Nested</span><span class="p">().</span><span class="nx">greeting</span><span class="p">()</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">output</span><span class="p">)</span>
+
+    <span class="c1">// Outer.outside() // 에러! Outer 객체 생성 필요</span>
+    <span class="nx">val</span> <span class="nx">outer</span> <span class="o">=</span> <span class="nx">Outer</span><span class="p">()</span>
+    <span class="nx">outer</span><span class="p">.</span><span class="nx">outside</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>중첩 클래스에서 바깥 클래스로 접근하는 방법</p>
+<ul>
+  <li>Outer클래스가 컴패니언 객체를 가지고 있을 때 접근 가능하다</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Outer</span> <span class="p">{</span>
+    <span class="kd">class</span> <span class="nx">Nested</span> <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="nx">fun</span> <span class="nx">accessOuter</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// 컴패니언 객체는 접근할 수 있음</span>
+            <span class="nx">println</span><span class="p">(</span><span class="nx">country</span><span class="p">)</span>
+            <span class="nx">getSomething</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">companion</span> <span class="nx">object</span> <span class="p">{</span> <span class="c1">// 컴패니언 객체는 static처럼 접근 가능</span>
+        <span class="kd">const</span> <span class="nx">val</span> <span class="nx">country</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Korea</span><span class="dl">"</span>
+        <span class="nx">fun</span> <span class="nx">getSomething</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Get something...</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Outer</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">ov</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="kd">class</span> <span class="nx">Nested</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="nx">nv</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="nx">fun</span> <span class="nx">greeting</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">[Nested] Hello ! $nv</span><span class="dl">"</span> <span class="c1">// 외부의 ov에는 접근 불가</span>
+        <span class="nx">fun</span> <span class="nx">accessOuter</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">println</span><span class="p">(</span><span class="nx">country</span><span class="p">)</span>
+            <span class="nx">getSomething</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">fun</span> <span class="nx">outside</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">Nested</span><span class="p">().</span><span class="nx">greeting</span><span class="p">()</span> <span class="c1">// Outer 객체 생성 없이 중첩 클래스의 메서드 접근</span>
+        <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">[Outer]: $msg, ${Nested().nv}</span><span class="dl">"</span><span class="p">)</span> <span class="c1">// 중첩 클래스의 프로퍼티 접근</span>
+    <span class="p">}</span>
+
+    <span class="nx">companion</span> <span class="nx">object</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">val</span> <span class="nx">country</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Korea</span><span class="dl">"</span>
+        <span class="nx">fun</span> <span class="nx">getSomething</span><span class="p">()</span> <span class="o">=</span> <span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">Get something...</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//static 처럼 Outer의 객체 생성 없이 Nested객체를 생성 사용할 수 있음</span>
+    <span class="nx">val</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">Outer</span><span class="p">.</span><span class="nx">Nested</span><span class="p">().</span><span class="nx">greeting</span><span class="p">()</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">output</span><span class="p">)</span>
+    <span class="nx">Outer</span><span class="p">.</span><span class="nx">Nested</span><span class="p">().</span><span class="nx">accessOuter</span><span class="p">()</span>
+    <span class="c1">// Outer.outside() // 에러! Outer 객체 생성 필요</span>
+    <span class="nx">val</span> <span class="nx">outer</span> <span class="o">=</span> <span class="nx">Outer</span><span class="p">()</span>
+    <span class="nx">outer</span><span class="p">.</span><span class="nx">outside</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>코틀린의 이너 클래스</p>
+<ul>
+  <li>특별한 키워드인 inner를 사용해 선언된 내부 클래스</li>
+  <li>이너 클래스는 바깥 클래스의 멤버들에 접근 가능</li>
+  <li>바깥 클래스의 private 멤버도 접근이 가능</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nx">Smartphone</span><span class="p">(</span><span class="nx">val</span> <span class="nx">model</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kr">private</span> <span class="nx">val</span> <span class="nx">cpu</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Exynos</span><span class="dl">"</span>
+
+    <span class="nx">inner</span> <span class="kd">class</span> <span class="nx">ExternalStorage</span><span class="p">(</span><span class="nx">val</span> <span class="nx">size</span><span class="p">:</span> <span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fun</span> <span class="nx">getInfo</span><span class="p">()</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">${model}: Installed on $cpu with ${size}Gb</span><span class="dl">"</span> <span class="c1">// 바깥 클래스의 프로퍼티 접근</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">fun</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">val</span> <span class="nx">mySdcard</span> <span class="o">=</span> <span class="nx">Smartphone</span><span class="p">(</span><span class="dl">"</span><span class="s2">S7</span><span class="dl">"</span><span class="p">).</span><span class="nx">ExternalStorage</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+    <span class="nx">println</span><span class="p">(</span><span class="nx">mySdcard</span><span class="p">.</span><span class="nx">getInfo</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET
