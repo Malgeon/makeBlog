@@ -1,0 +1,74 @@
+I"<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42860"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">탐욕법(Greedy) : 조이스틱</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>이번 문제를 풀어보고 난 후, Greedy 문제는 코딩테스트에서 쉽게 문제로 제출되기 어렵다는 결론을 내게 되었다.</p>
+
+<p>이 경우에서 해당 알고리즘이 최적해를 보장하지 않기 떄문인데, 어디까지를 정답으로 할지 애매하다.</p>
+
+<p>우선 조이스틱의 위 아래에 소요되는 결과값은 동일한데, 특정 조건에서 죄로 움직일지, 우로 움직일지 구분하고자 할때
+이 문제의 정답은 default로 오른쪽으로 이동하면서 ‘A’란 문자가 등장하면 다음 ‘A’ 나올때 까지의 거리를 잰후 해당 거리가 왼쪽으로 이동할 떄 소요되는 거리와 비교하여 나오는 값중 
+가장 작은 거리를 추가해 주면 된다. (어째서 이게 정답인지는 잘 모르겠지만 일단 정답은 그러하다.)
+그래서 해당 답안에 아래와 같은 사례를 대입해보면 최적해가 아니라는 것은 금방 알 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">name:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="n">updownDiff</span> <span class="o">=</span> <span class="n">intArrayOf</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">13</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="n">name</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">updownDiff</span><span class="o">[</span><span class="n">it</span> <span class="o">-</span> <span class="sc">'A'</span><span class="o">]</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span> <span class="o">+</span> <span class="n">findMinPoint</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">findMinPoint</span><span class="o">(</span><span class="nl">name:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">rowPoint</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">name</span><span class="o">.</span><span class="na">indices</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">name</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="sc">'A'</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">var</span> <span class="n">nextIdx</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+                <span class="kt">var</span> <span class="n">countA</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span><span class="o">(</span><span class="n">nextIdx</span> <span class="o">&lt;</span> <span class="n">name</span><span class="o">.</span><span class="na">length</span> <span class="o">&amp;&amp;</span> <span class="n">name</span><span class="o">[</span><span class="n">nextIdx</span><span class="o">]</span> <span class="o">==</span><span class="sc">'A'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">nextIdx</span><span class="o">++</span>
+                    <span class="n">countA</span><span class="o">++</span>
+                <span class="o">}</span>
+                <span class="n">val</span> <span class="n">left</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">countA</span><span class="o">)</span>
+                <span class="n">rowPoint</span><span class="o">.</span><span class="na">coerceAtMost</span><span class="o">(</span><span class="n">left</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">rowPoint</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>아닌 사례</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

@@ -35,6 +35,7 @@ study: true
 - [배열의 정렬](../study_Kotlin_27)
 
 [배열의 정렬 예제](../study_Kotlin_design_3)
+[배열의 정렬 예제](../study_Kotlin_sort_1)
 
 
 ### 표준 함수
@@ -99,5 +100,9 @@ DFS, BFS에서 주로 사용된다.
 
 ### Greedy
 사고력과 순발력을 요구를 하기 때문에 여러워지기 쉬운것 같다. 
+그런데 해당 알고리즘의 한계점인 100% 최적해를 보장하지 않으므로, 문제를 낼 때 어느정도의 최적해를 정답으로 구분할지 판단하기 어려워진다.
+간단하게 100% 최적해가 만들어 지지 않는 이상 굳이 문제로 내지 않을 것으로 생각이 된다.
 
-- [Greedy 예제1](../study_Kotlin_greedy_1)
+
+- [Greedy 예제1 : 간단하게 최적해 보장](../study_Kotlin_greedy_1)
+- [Greedy 예제2 : 최적해를 보장하기 어려움](../study_Kotlin_greedy_2)
