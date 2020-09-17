@@ -110,6 +110,62 @@ section.recent-posts {
     border-radius: 4px;
 }
 
+.project-table {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.project-table table {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    border-radius: 4px;
+    width: -webkit-fill-available;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.project-table table thead tr th {
+    font-family: Lato-Bold;
+    font-size: 18px;
+    color:  rgba(0, 0, 0, .8);
+    line-height: 1.4;
+    background-color: transparent;
+    border-bottom: 2px solid #f2f2f2;
+    padding: 12px 10px;
+}
+
+.project-title {
+    font-family: Lato-Bold;
+    font-size: 18px;
+    color:  rgba(0, 0, 0, .8);
+    line-height: 1.4;
+    background-color: transparent;
+    padding: 0px 10px;
+    font-weight: bold;
+}
+
+.project-link {
+    font-family: Lato-Bold;
+    font-size: 18px;
+    color:  rgba(0, 0, 0, .8);
+    line-height: 1.4;
+    background-color: transparent;
+    padding: 0px 10px;
+    font-weight: bold;
+}
+
+
+.project-table table tbody tr td {
+    font-family: Lato-Regular;
+    font-size: 15px;
+    color: #615b5b;
+    line-height: 1.4;
+    padding: 10px 18px;
+}
+
+.project-fst-td {
+    width: 35%;
+}
+
 .article-post table tbody tr {
     border-bottom: 1px solid #f2f2f2;
 }
@@ -123,7 +179,7 @@ section.recent-posts {
 }
 
 .article-post center {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 0 0;
 }
 
 pre code table {
@@ -295,6 +351,15 @@ pre code table tbody tr td{
         padding-right: 15px!important;
         padding-left: 15px!important;
     }
+
+    .project-md-table {
+        padding-left: 40px!important;
+        padding-right: 40px!important;
+    }
+
+    .u-md-padding {
+        padding-left: 56px!important;
+    }
 }
 
 .post-container {
@@ -439,6 +504,7 @@ span.post-read-more a:hover {
     margin-top: 3px;
     cursor: pointer;
 }
+
 
 .mediumnavigation .navbar-brand img {
     max-height: 30px;
@@ -1513,6 +1579,10 @@ img.inserturl {
     margin-top: 0!important;
 }
 
+.u-marginTop50 {
+    margin-top: 50px!important;
+}
+
 .u-marginBottom0 {
     margin-bottom: 0!important;
 }
@@ -1622,6 +1692,13 @@ img.inserturl {
     padding-top: 30px!important;
 }
 
+.u-paddingTop50 {
+    padding-top: 50px!important;
+}
+
+.u-paddingTop100 {
+    padding-top: 100px!important;
+}
 
 .u-marginBottom15 {
     margin-bottom: 15px!important;

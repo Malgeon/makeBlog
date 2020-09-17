@@ -6,37 +6,12 @@ permalink: /about
 comments: true
 ---
 
-<div class="row justify-content-between">
-<div class="col-md-8 pr-5">
-<h4> Malg:eon</h4>
- 개발자를 위해 공부중에 있습니다. 대학에서 자료구조와 알고리즘을 C언어를 기반으로 배웠고, 개인적인 필요에 의해 JAVA로 자료구조와 알고리즘을 다시 공부하였습니다. <Br><Br>
+| -- | -- | ---- | 
+| | 2020.01 ~ 02 | 예약 서비스 |
+| | 2020.05 ~ 09 | Malg:eon 블로그 |
 
- 실무형 강의인 부스트 코스의 웹 프로그래밍을 수강 중에 있습니다. (현재 프로젝트 5. 웹 앱개발:예약서비스 3/4 진행중에 있습니다.) <Br>
 
- 3개월간 웹 프로그래밍을 배워오며, Spring에 사용하기 위해 필요한 방대한 이해와 자바스크립트에 대한 이해가 깊어질수록 더 나은 퍼포먼스를 갖춘 웹서비스를 설계할수 있음을 알게 되었으며, 웹 서비스가 전체적으로 어떻게 설계되고 구축되는지 그리고 구축되는 과정에서 Spring 프레임워크가 왜 편리함을 주는지에 대하여 배울수 있었습니다. <Br><Br> 
- 부스트코스 강의를 어느정도 배워나가며 그동안 배운 웹 서비스에 대한 이해를 바탕으로 Jekyll Blog 만들고자 하였고, 무료로 제공되는 Theme를 단순히 fork 하는 것보다 선택한 Theme를 기반으로 원하는 블로그로 다시 디자인하여 만들수 있게 되었습니다. <Br><Br> 
-
- 최근 Kotlin을 배워 연습중에 있습니다. Kotlin을 이용한 앱 서비스를 경험할 수 있는 프로젝트를 찾고 있는 중에 있습니다. <Br><Br><Br>
-
-</div>
-
-<div class="col-md-4">
-<div class="sticky-top sticky-top-80">
-<center><p><img class="about" src="{{site.baseurl}}/assets/images/about/about_main.jpg" alt="malgeon blog about" /></p></center>
-<center><h6>신입 개발자가 되기 위해 <br>공부중에 있습니다.</h6></center>
-</div>
-</div>
-</div>
-
-#### 진행중인 프로젝트
-[웹 프로젝트](https://github.com/Malgeon/reservationpractice)
-
-#### Goal 
-신입 개발자로 취직
-
-##### details
- - Malg:eon 블로그 제작 - 2020년 7월 26일 완료!
- - 프로그래머스 스킬체크의 레벨 3 통과 (최근 레벨3 87.5점 기록 - 100점 통과)
- - 코틀린 공부 - 2020년 8월 25일 완료!
- - Kotlin을 이용해 코딩테스트 연습
- - Kotlin을 이용해 간단한 안드로이드 앱 서비스 운영
+| Web Project |  |
+| -- | ---- | 
+| 2020.01 ~ 02 | 예약 서비스 |
+| 2020.05 ~ 09 | Malg:eon 블로그 |
