@@ -1,0 +1,36 @@
+<!-- begin post -->
+{% assign author = site.authors[post.author] %}
+<div class="col-12">
+    <div class="listfeaturedtag h-100">
+        <div class="row h-100">
+            <div class="col-12 col-md-7 col-lg-7 pr-lg-3">
+                <div class="h-100">
+                    <div class="wrapthumbnail u-height300">
+                        <a href="{{ site.baseurl }}{{ post.url }}">
+                            {% if site.lazyimages == "enabled" %}
+                            <img class="project-box-img-cover lazyimg"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
+                            {% else %}
+                            <img class="project-box-img-cover" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4">
+                <div class="h-100 card-group u-margin-left70">
+                    <div class="card" style="margin:auto">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                <a class="text-dark" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                                </div>
+                            </h2>
+                            <h4 class="card-text">{{ post.description | strip_html | truncatewords:25 }}</h4>
+                            <h4 class="card-text">{{ post.date | date_to_string }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->

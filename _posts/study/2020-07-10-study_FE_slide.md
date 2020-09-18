@@ -4,7 +4,7 @@ author: study
 title:  "슬라이드 효과"
 description: "CSS에서 슬라이드 효과 구현"
 categories: [ study ]
-tags: [c, java]
+tags: [ javascript, web ]
 ---
 
 # 이미지 슬라이드

@@ -139,17 +139,14 @@ ga('send', 'pageview');
 ================================================== -->
 {% if page.menu == "main" %}
 <div class="mainheading">
-    <br>
-    <h1 class="sitetitle">맑은</h1>
-    <p class="lead">프로그래밍, 웹 그리고 앱</p>
-    <br>
+    <div class="my-main-banner">
+        <h2 class="sitetitle">PROGRAMMING</h2>
+        <p class="lead">About App and Web </p>
+    </div>
 </div>
 {% elsif page.menu == "study" or page.menu == "project" or page.menu == "test" %}
 <div class="mainheading">
-    <h1 class="sitetitle u-paddingTop15">{{ page.menu }}</h1>
-    <p class="lead u-marginBottom0">
-        {{ page.subtitle }}
-    </p>
+    <h1 class="sitetitle u-paddingTop40">{{ page.menu }}</h1>
 </div>
 {% elsif page.layout == 'tags' %} 
 {% else %} 
@@ -171,10 +168,10 @@ ga('send', 'pageview');
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left u-noWrap">
                 Copyright © {{ site.time | date: "%Y" }} {{ site.name }} 
             </div>
-            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+            <div class="col-md-6 col-sm-6 text-center text-lg-right u-noWrap">    
                 지나가는 생각과 경험을 잡아두는 공간
             </div>
         </div>

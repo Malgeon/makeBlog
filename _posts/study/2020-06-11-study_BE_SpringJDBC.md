@@ -4,7 +4,7 @@ author: study
 title:  "Spring : JDBC"
 description: "JDBC에 대하여"
 categories: [ study ]
-tags: [c, java]
+tags: [web, java]
 ---
 
 # Spring JDBC

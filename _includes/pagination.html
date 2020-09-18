@@ -2,12 +2,31 @@
 
 
 <nav aria-label="..." class="pg-center">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination justify-content-center u-noWrap">
+
+
+{% if paginator.total_pages <= 10 %}
+      {% assign first = 1 %}
+      {% assign last = paginator.total_pages %}
+{% else %}
+      {% assign pivot = paginator.page | divided_by: 10 %}
+      {% assign mod = paginator.page | modulo: 10 %}
+      {% if mod == 0 %}
+            {% assign first = pivot | minus: 1 | times: 10 | plus: 1 %}
+      {% else %}
+            {% assign first = pivot | times: 10 | plus: 1 %}
+      {% endif %}
+      {% assign last = first | plus: 9 %}
+      {% if last > paginator.total_pages %}
+            {% assign last = paginator.total_pages %}
+      {% endif %}
+{% endif %}
+
 
 {% if paginator.previous_page %}
 
-<li class="page-item prevafter pagination-flex">
-      <a class="page-link" href="{{site.baseurl}}/{{ paginator.previous_page_path }}">이전</a>
+<li class="page-item prevafter pagination-flex u-noWrap">
+      <a class="page-link" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">이전</a>
 </li>
 {% else %}
 <li class="page-item disabled prevafter pagination-flex">
@@ -16,7 +35,7 @@
 {% endif %}
 
 
-{% for page in (1..paginator.total_pages) %}
+{% for page in (first..last) %}
 {% if page == paginator.page %}
       {% if page == 1 %}
       <li class="page-item">
@@ -40,7 +59,7 @@
 
 
 {% if paginator.next_page %}
-<li class="page-item nextbefore pagination-flex">
+<li class="page-item nextbefore pagination-flex u-noWrap">
       <a class="page-link" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">다음</a>
 </li>
 {% else %}

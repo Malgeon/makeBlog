@@ -4,7 +4,7 @@ author: study
 title:  "SPRING : Framework"
 description: "Spring을 시작하면서 "
 categories: [ study ]
-tags: [c, java]
+tags: [web, java]
 ---
 
 # Spring

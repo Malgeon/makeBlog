@@ -10,6 +10,7 @@ thisUrl: project/ios
 permalink: /project/ios
 pagination:
   enabled: true
+  category: project
   tag: ios
 ---
 ios

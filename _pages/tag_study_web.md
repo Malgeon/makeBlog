@@ -9,6 +9,7 @@ thisUrl: study/web
 permalink: /study/web
 pagination:
   enabled: true
+  category: study
   tag: web
 ---
 web

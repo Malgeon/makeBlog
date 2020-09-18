@@ -4,7 +4,7 @@ author: study
 title:  "MySql"
 description: "MySql 관련 Command"
 categories: [ study ]
-tags: [c, java]
+tags: [ db ]
 ---
 
 # MySQL

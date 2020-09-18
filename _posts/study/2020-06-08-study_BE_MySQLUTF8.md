@@ -4,7 +4,7 @@ author: study
 title:  "MySqlUTF8"
 description: "MySql 한글 입력 방법"
 categories: [ study ]
-tags: [c, java]
+tags: [ db ]
 ---
 
 # MySQL

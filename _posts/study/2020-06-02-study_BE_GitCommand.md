@@ -4,7 +4,7 @@ author: study
 title:  "Git"
 description: "그동안 공부하며 알아온 Git Command"
 categories: [ study ]
-tags: [c, java]
+tags: [ git ]
 ---
 
 # Linux Command

@@ -4,7 +4,7 @@ author: study
 title:  "Spring : Filter"
 description: "Spring에 한글 지원이 가능하도록 해보자"
 categories: [ study ]
-tags: [c, java]
+tags: [ web ]
 ---
 
 # Filter

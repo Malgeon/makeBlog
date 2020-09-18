@@ -4,7 +4,7 @@ author: study
 title:  "Spring : Layerd Achitecture"
 description: "Layerd Achitecture에 대하여"
 categories: [ study ]
-tags: [c, java]
+tags: [web, java]
 ---
 
 # Spring - Layered Achitectur

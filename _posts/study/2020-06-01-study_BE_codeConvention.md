@@ -4,7 +4,7 @@ author: study
 title:  "코드 컨벤션"
 description: 코딩 스타일 규약
 categories: [ study ]
-tags: [c, java]
+tags: [ programming ]
 image: assets/images/study/main_study.jpg
 ---
 

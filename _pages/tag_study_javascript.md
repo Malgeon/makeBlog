@@ -9,6 +9,7 @@ thisUrl: study/javascript
 permalink: /study/javascript
 pagination:
   enabled: true
+  category: study
   tag: javascript
 ---
 javascript

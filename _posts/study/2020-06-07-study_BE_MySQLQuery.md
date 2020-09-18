@@ -4,7 +4,7 @@ author: study
 title:  "MySQL Query"
 description: "Database Query문에 대해서 알아보자."
 categories: [ study ]
-tags: [c, java]
+tags: [ db ]
 ---
 
 # MySQL

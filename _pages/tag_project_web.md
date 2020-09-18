@@ -9,6 +9,7 @@ thisUrl: project/web
 permalink: /project/web
 pagination:
   enabled: true
+  category: project
   tag: web
 ---
 web

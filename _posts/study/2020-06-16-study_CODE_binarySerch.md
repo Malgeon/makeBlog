@@ -3,7 +3,7 @@ layout: post
 author: study
 title:  "이진탐색 : Upper Bound, Lower Bound"
 description: "연습 문제"
-categories: [ test ]
+categories: [ study ]
 tags: [standard ]
 image: assets/images/study/algorithm.jpg
 ---

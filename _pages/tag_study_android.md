@@ -9,6 +9,7 @@ thisUrl: study/android
 permalink: /study/android
 pagination:
   enabled: true
+  category: study
   tag: android
 ---
 android

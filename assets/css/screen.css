@@ -50,6 +50,14 @@ pre {
     min-height: 300px;
 }
 
+.my-main-banner {
+    min-height: 300px;
+    text-align: center;
+    padding-top: 110px;
+}
+
+
+
 .site-content {
     min-height: 60vh;
     padding-top: 1.5rem;
@@ -239,6 +247,10 @@ pre code table tbody tr td{
         -moz-column-count: 2;
         column-count: 2;
     }
+
+    .u-margin-left70 {
+        margin-left: 70px
+    }
 }
 
 @media (min-width:992px) {
@@ -322,6 +334,12 @@ pre code table tbody tr td{
     width: 100%;
     height: 100%;
     max-height: 350px;
+}
+
+.project-box-img-cover {
+    object-fit: contain;
+    width: 100%;
+    height: 450px;
 }
 
 @media (max-width:991px) {
@@ -612,7 +630,7 @@ blockquote {
 }
 
 .sticky-top-offset {
-    top: 185px;
+    top: 280px;
 }
 
 @media (min-width:1024px) {
@@ -1388,6 +1406,10 @@ img.inserturl {
     justify-content: flex-start;
 }
 
+.my-margin-auto {
+    margin: auto
+}
+
 .my-navbar-nav {
     flex-direction: row;
     display: -ms-flexbox;
@@ -1692,6 +1714,10 @@ img.inserturl {
     padding-top: 30px!important;
 }
 
+.u-paddingTop40 {
+    padding-top: 40px!important;
+}
+
 .u-paddingTop50 {
     padding-top: 50px!important;
 }
@@ -1737,6 +1763,12 @@ img.inserturl {
     padding-top: 1rem;
     margin-top: 57px;
     transition: all 0.4s;
+}
+
+.my-font {
+    font-family: "Georgia",Times New Roman,Times,serif !important;
+    font-size: 28px;
+    line-height: 30px;
 }
 
 .taggedpadding {

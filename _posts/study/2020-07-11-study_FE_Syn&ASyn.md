@@ -4,7 +4,7 @@ author: study
 title:  "웹 : 동기 그리고 비동기"
 description: "동기와 비동기에 대한 생각"
 categories: [ study ]
-tags: [c, java]
+tags: [ programming, web ]
 ---
 
 # 싱글 스레드

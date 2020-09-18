@@ -9,6 +9,7 @@ thisUrl: study/db
 permalink: /study/db
 pagination:
   enabled: true
+  category: study
   tag: db
 ---
 db

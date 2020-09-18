@@ -4,7 +4,7 @@ author: study
 title:  "SPRING : Mvc"
 description: "Mvc 동작 이해"
 categories: [ study ]
-tags: [c, java]
+tags: [web, java]
 ---
 
 # Spring MVC

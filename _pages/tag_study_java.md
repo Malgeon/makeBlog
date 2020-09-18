@@ -9,6 +9,7 @@ thisUrl: study/java
 permalink: /study/java
 pagination:
   enabled: true
+  category: study
   tag: java
 ---
 java

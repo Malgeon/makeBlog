@@ -9,6 +9,7 @@ thisUrl: project/android
 permalink: /project/android
 pagination:
   enabled: true
+  category: project
   tag: android
 ---
 android
