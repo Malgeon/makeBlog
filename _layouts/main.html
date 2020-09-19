@@ -48,7 +48,7 @@ title: Main
         </div>
         <div class="row listrecent">
         {% for post in site.posts %}
-            {% if post.featured == true and post.project %}
+            {% if post.mainfeatured == true and post.project %}
                 {% include projectbox.html %}
             {% endif %}
         {% endfor %}
@@ -109,6 +109,17 @@ title: Main
 </section>
 {% endif %}
 
+{% if page.menu == "project" %}
+<!-- Posts Index
+================================================== -->
+<section class="recent-posts">
+    <div class="row listrecent post-list">
+        {% for post in paginator.posts %}
+            {% include projectbox.html %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
 
 
 {% if page.menu != "main" %}

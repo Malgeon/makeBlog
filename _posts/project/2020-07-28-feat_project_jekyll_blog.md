@@ -7,7 +7,6 @@ categories: [ project ]
 tags: [ web ]
 image: assets/images/project/jekyll_github.jpg
 featured: true
-hidden: true
 project: true
 ---
 

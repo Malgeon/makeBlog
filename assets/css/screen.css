@@ -1432,6 +1432,10 @@ img.inserturl {
     max-width: 1072px!important;
 }
 
+.u-maxWidth1425 {
+    max-width: 1425px!important;
+}
+
 .u-paddingRight20 {
     padding-right: 20px!important;
 }
@@ -1570,6 +1574,24 @@ img.inserturl {
     clear: both;
 }
 
+.project-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 825px;
+}
+
+.project-content {
+    padding-left : 25px;
+    padding-right : 25px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom : 300px;
+    width: 1350px;
+}
+
+
 .my-col {
     position: relative;
     min-height: 1px;
@@ -1590,6 +1612,11 @@ img.inserturl {
     margin-bottom: 30px;
 }
 
+.marking {
+    box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.15);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.15);
+}
 .heading {
     color: rgba(0,0,0,.84);
     font-size: 18px;
@@ -2024,3 +2051,16 @@ pre {
 .highlight .gi { color: #a6e22e!important; }
 
 
+/* project feature */
+
+.project-explanation {
+    float: left;
+    width: 35%;
+    padding: 10px;
+}
+
+.project-image {
+    float: left;
+    width: 65%;
+    padding: 10px;
+}
