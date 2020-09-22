@@ -1096,6 +1096,13 @@ iframe {
     order: -1;
 }
 
+.u-first {
+    -webkit-box-ordinal-group: 0;
+    -webkit-order: -1;
+    -ms-flex-order: -1;
+    order: -1;
+}
+
 @media (min-width: 768px) {
     .flex-md-unordered {
         -webkit-box-ordinal-group: 1;
@@ -1210,6 +1217,12 @@ img.about {
     fill: rgba(0,0,0,.54)!important;
 }
 
+.u-boxing:hover {
+    box-shadow:0 18px 32px -18px #000;
+    -webkit-transform:translateY(-6px);
+    transform:translateY(-6px)
+}
+
 .insert-img-title {
     margin-bottom: .5rem!important;
 }
@@ -1220,6 +1233,10 @@ img.inserturl {
     padding: 0em;
     opacity: 0.9;
 }
+.project-table-link {
+    color: #615b5b;
+}
+
 
 .insert-img-body {
     padding: 1rem;
@@ -1440,6 +1457,10 @@ img.inserturl {
     padding-right: 20px!important;
 }
 
+.u-paddingRight35 {
+    padding-right: 35px!important;
+}
+
 .u-paddingLeft31 {
     padding-left: 31px!important;
 }
@@ -1477,9 +1498,56 @@ img.inserturl {
     display: flex;
     height: 37px;
 }
+
+.u-marginRight20 {
+    margin-right: 20px;
+}
+
+.u-marginTop40 {
+    margin-top: 40px;
+}
+
+.project-img {
+    box-shadow:0 18px 32px -18px #000;
+    -webkit-transform:translateY(-6px);
+    transform:translateY(-6px)
+}
+
+.u-vertical-center {
+    display: flex;
+    align-items: center;
+}
+
 .u-lineHeight40 {
     line-height: 40px!important;
 }
+
+.u-lineHeight25 {
+    line-height: 25px!important;
+}
+
+.u-paddingBottom10 {
+    padding-bottom: 10px!important;
+}
+
+.project-maindescription {
+    white-space: normal;
+    margin-bottom: 1px!important;
+    color: rgba(0, 0, 0, 0.80);
+}
+
+.u-marginBottom10 {
+    margin-bottom: 10px!important
+}
+
+.u-marginBottom5 {
+    margin-bottom: 5px!important
+}
+
+.u-marginBottom15 {
+    margin-bottom: 15px!important
+}
+
 .u-overflowHiddenY {
     overflow-y: hidden!important;
 }
@@ -1588,7 +1656,7 @@ img.inserturl {
     margin-left: auto;
     margin-right: auto;
     margin-bottom : 300px;
-    width: 1350px;
+    min-width: 900px;
 }
 
 
@@ -1612,11 +1680,19 @@ img.inserturl {
     margin-bottom: 30px;
 }
 
-.marking {
+.marking-1 {
     box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.15);
     height: 100%;
     background-color: rgba(0, 0, 0, 0.15);
 }
+
+
+.marking-2 {
+    box-shadow: 0 0px 10px 0px rgba(163, 214, 163, 0.15);
+    height: 100%;
+    background-color: rgba(219, 66, 66, 0.15);
+}
+
 .heading {
     color: rgba(0,0,0,.84);
     font-size: 18px;

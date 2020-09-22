@@ -134,11 +134,55 @@ ga('send', 'pageview');
 
 <!-- project-description
 ================================================== -->
-<div class="collectionHeader-blockNav btmr">
+<div class="collectionHeader-blockNav btmr u-marginTop40">
     <div class="u-borderBox u-maxWidth1425 u-paddingLeft31 u-paddingRight20 u-marginAuto">
-        <nav class="project-container u-clearfix js-collectionHeaderNav u-lineHeight40 u-overflowHiddenY">
+        <nav class="project-container u-clearfix js-collectionHeaderNav u-lineHeight25 u-overflowHiddenY">
             <div class="buttonSet u-middle u-noWrap u-overflowX u-paddingBottom100">
-                <div class="project-content marking">1</div>
+                <div class="project-content">
+                    <div class="row u-vertical-center">
+                        <div class="col-4 u-paddingRight35">
+                            <section class="featured-posts u-marginBottom24">
+                                <div class="section-title u-marginBottom10">
+                                    <h2 class="u-marginBottom15"><span class="u-paddingBottom10">{{ page.title }}</span></h2>
+                                </div>
+                                <div class="listrecent">
+                                    {% for desc in page.maindescriptions %}
+                                        <p class="project-maindescription u-paddingLeft31">&nbsp;{{ desc }}</p>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                            <section class="featured-posts u-marginBottom24">
+                                <div class="section-title u-marginBottom10">
+                                    <h2 class="u-marginBottom15"><span class="u-paddingBottom10">Spec</span></h2>
+                                </div>
+                                <div class="listrecent">
+                                    {% for spec in page.system %}
+                                        <li class="project-maindescription u-paddingLeft31">{{ spec }}</li>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                            <section class="featured-posts u-marginBottom24">
+                                <div class="section-title u-marginBottom10">
+                                    <h2 class="u-marginBottom15"><span class="u-paddingBottom10">Period</span></h2>
+                                </div>
+                                <div class="listrecent">
+                                    <p class="project-maindescription u-paddingLeft31">{{ page.developperiod }}</p>
+                                </div>
+                            </section>
+                            <section class="featured-posts u-marginBottom24">
+                                <div class="section-title u-marginBottom10">
+                                    <h2 class="u-marginBottom15"><span class="u-paddingBottom10">Source</span></h2>
+                                </div>
+                                <div class="listrecent">
+                                    <a class="project-maindescription u-paddingLeft31" href="{{ page.linkUrl }}">{{ page.link }}</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-8">    
+                            <img class="project-img" src="{{site.baseurl}}/assets/images/project/malgeonblog1.PNG" alt="programmers.co.kr"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
