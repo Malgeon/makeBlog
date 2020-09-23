@@ -21,21 +21,8 @@ image: assets/images/study/kotlin.png
 
 ### 결과값 구하기
 
-nPr => n개의 경우를 r 번 사용할 경우
 nCr -> nPr에서 중복 원소를 제외한 개수
-
-- nPr
-
-```java
-fun permutaion(n: Int, r: Int): Int {
-    var value = 1
-    
-    for(i in 0 until r) {
-        value *= n-i
-    }
-    return top/bottom
-}
-```
+nPr => n개의 경우를 r 번 사용할 경우
 
 - nCr
 
@@ -52,7 +39,153 @@ fun combination(n: Int, r: Int): Int {
 }
 ```
 
-### 조합된 원소 구하기
-
 - nPr
 
+```java
+fun permutaion(n: Int, r: Int): Int {
+    var value = 1
+    
+    for(i in 0 until r) {
+        value *= n-i
+    }
+    return top/bottom
+}
+```
+
+
+
+### nCr 원소 구하기
+
+여러 방법을 제시하고자 한다.
+
+- 입력 String 출력 Array<String>
+
+```java
+
+fun main() {
+    var arrString = "ABCD"
+    println(getCombination1(arrString, 2).contentToString())
+}
+fun getCombination(arrString: String, num: Int): Array<String> {
+    val arr = Array(arrString.length) { it }
+    var visited = Array(arrString.length) { false }
+    var set = arrayListOf<String>()
+
+    fun addArr(picked: Array<Int>, visited: Array<Boolean>, size: Int) {
+        var makeComb = ""
+        for(i in 0 until size) {
+            if(visited[i]) {
+                makeComb += arrString[picked[i]]
+            }
+        }
+        set.add(makeComb)
+    }
+
+    fun find(picked: Array<Int>, visited: Array<Boolean>, start: Int, size:Int, num: Int) {
+        if (num == 0) {
+            addArr(picked, visited, size)
+            return
+        } else {
+            for(i in start until picked.size){
+                visited[i] = true
+                find(picked, visited, i+1, size, num-1)
+                visited[i] = false
+            }
+        }
+    }
+    find(arr, visited, 0, arrString.length, num)
+    return set.toTypedArray()
+}
+```
+
+```
+[AB, AC, AD, BC, BD, CD]
+```
+
+- 입력 : IntArray, 출력 : String
+
+```java
+
+fun main() {
+    var arr = intArrayOf(1, 2, 3, 4)
+    println(getCombination(arr, 2).contentToString())
+}
+
+fun getCombination(arr: IntArray, num: Int): Array<String> {
+    var visited = Array(arr.size) { false }
+    var set = arrayListOf<String>()
+
+    fun addArr(picked: IntArray, visited: Array<Boolean>, size: Int) {
+        var makeComb = ""
+        for(i in 0 until size) {
+            if(visited[i]) {
+                makeComb += arr[i]
+            }
+        }
+        set.add(makeComb)
+    }
+
+    fun find(picked: IntArray, visited: Array<Boolean>, start: Int, size:Int, num: Int) {
+        if (num == 0) {
+            addArr(picked, visited, size)
+            return
+        } else {
+            for(i in start until picked.size){
+                visited[i] = true
+                find(picked, visited, i+1, size, num-1)
+                visited[i] = false
+            }
+        }
+    }
+    find(arr, visited, 0, arr.size, num)
+    return set.toTypedArray()
+}
+```
+
+```
+[12, 13, 14, 23, 24, 34]
+```
+
+
+- 입력 : IntArray, 출력 : Array<IntArray>
+
+```java
+fun main() {
+    var arr = intArrayOf(1, 2, 3, 4)
+    println(getCombination(arr, 2).contentDeepToString())
+}
+
+fun getCombination(arr: IntArray, num: Int): Array<IntArray> {
+    var visited = Array(arr.size) { false }
+    var set = arrayListOf<IntArray>()
+
+    fun addArr(picked: IntArray, visited: Array<Boolean>, size: Int) {
+        var makeComb = arrayListOf<Int>()
+        for (i in 0 until size) {
+            if (visited[i]) {
+                makeComb.add(arr[i])
+            }
+        }
+        set.add(makeComb.toIntArray())
+    }
+
+    fun find(picked: IntArray, visited: Array<Boolean>, start: Int, size: Int, num: Int) {
+        if (num == 0) {
+            addArr(picked, visited, size)
+            return
+        } else {
+            for (i in start until picked.size) {
+                visited[i] = true
+                find(picked, visited, i + 1, size, num - 1)
+                visited[i] = false
+            }
+        }
+    }
+    find(arr, visited, 0, arr.size, num)
+    return set.toTypedArray()
+}
+```
+
+```
+[[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+```

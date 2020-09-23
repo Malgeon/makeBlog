@@ -1,0 +1,71 @@
+I"�<h3 id="순열과-조합">순열과 조합</h3>
+
+<p>순열과 조합은 여러 군데에서 쓰인다.
+쓰이는 방법도 다양한데</p>
+<ul>
+  <li>각각의 배열의 값으로써</li>
+  <li>조합된 원소의 값들로써</li>
+</ul>
+
+<p>하지만 설계하는 것이 즉석에서 곧바로 할 수 있는 일이 아니기 때문에, 미리 이해하는 차원에서 만들어 놓고자 한다.</p>
+
+<h3 id="결과값-구하기">결과값 구하기</h3>
+
+<p>nPr =&gt; n개의 경우를 r 번 사용할 경우
+nCr -&gt; nPr에서 중복 원소를 제외한 개수</p>
+
+<ul>
+  <li>nCr</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">combination</span><span class="o">(</span><span class="nl">n:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">r:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">top</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="kt">var</span> <span class="n">bottom</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">top</span> <span class="o">*=</span> <span class="n">n</span><span class="o">-</span><span class="n">i</span>
+        <span class="n">bottom</span> <span class="o">*=</span> <span class="n">r</span><span class="o">-</span><span class="n">i</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bottom</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>nPr</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">permutaion</span><span class="o">(</span><span class="nl">n:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">r:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">value</span> <span class="o">*=</span> <span class="n">n</span><span class="o">-</span><span class="n">i</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">top</span><span class="o">/</span><span class="n">bottom</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="조합된-원소-구하기">조합된 원소 구하기</h3>
+
+<ul>
+  <li>nPr</li>
+</ul>
+
+:ET
