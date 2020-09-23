@@ -178,8 +178,20 @@ ga('send', 'pageview');
                                 </div>
                             </section>
                         </div>
-                        <div class="col-8">    
-                            <img class="project-img" src="{{site.baseurl}}/assets/images/project/malgeonblog1.PNG" alt="programmers.co.kr"/>
+                        <div class="col-8">
+                            <div class="row">
+                                {% for image in page.images %}
+                                    {% if page.imagenum == 1 %}
+                                <div class="col-12">
+                                    {% elsif page.imagenum == 2 %}
+                                <div class="col-6"></div>
+                                    {% elsif page.imagenum == 3 %}
+                                <div class="col-4">
+                                    {% endif %}
+                                    <img class="project-img" src="{{site.baseurl}}/{{ image }}" alt="programmers.co.kr"/>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
