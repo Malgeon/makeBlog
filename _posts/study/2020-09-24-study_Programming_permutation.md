@@ -45,89 +45,106 @@ fun permutaion(n: Int, r: Int): Int {
 - 입력 String 출력 Array<String>
 
 ```java
-
 fun main() {
     var arrString = "ABCD"
-    println(getCombination1(arrString, 2).contentToString())
+    println(getPermutation(arrString, 3).contentToString())
 }
-fun getCombination(arrString: String, num: Int): Array<String> {
-    val arr = Array(arrString.length) { it }
-    var visited = Array(arrString.length) { false }
+
+fun getPermutation(arrString: String, num: Int): Array<String> {
+    var arr = IntArray(arrString.length) { it }
+    var visited = Array(arr.size) { false }
+    var picked = IntArray(arr.size-1) {0}
     var set = arrayListOf<String>()
 
-    fun addArr(picked: Array<Int>, visited: Array<Boolean>, size: Int) {
+    fun addArr(picked: IntArray) {
         var makeComb = ""
-        for(i in 0 until size) {
-            if(visited[i]) {
-                makeComb += arrString[picked[i]]
-            }
+        for (i in picked) {
+            makeComb += arrString[i]
         }
         set.add(makeComb)
     }
 
-    fun find(picked: Array<Int>, visited: Array<Boolean>, start: Int, size:Int, num: Int) {
-        if (num == 0) {
-            addArr(picked, visited, size)
+    fun find(baseArr: IntArray, picked: IntArray, visited: Array<Boolean>, depth: Int, size: Int, num: Int) {
+        if (depth == num) {
+            addArr(picked)
             return
         } else {
-            for(i in start until picked.size){
-                visited[i] = true
-                find(picked, visited, i+1, size, num-1)
-                visited[i] = false
+            for (i in 0 until size) {
+                if(!visited[i]) {
+                    visited[i] = true
+                    picked[depth] = baseArr[i]
+                    find(baseArr, picked, visited, depth + 1, size, num)
+                    visited[i] = false
+                }
             }
         }
     }
-    find(arr, visited, 0, arrString.length, num)
+    find(arr, picked, visited, 0, arr.size, num)
     return set.toTypedArray()
 }
 ```
 
 ```
-[AB, AC, AD, BC, BD, CD]
+[
+    ABC, ABD, ACB, ACD, 
+    ADB, ADC, BAC, BAD, 
+    BCA, BCD, BDA, BDC, 
+    CAB, CAD, CBA, CBD, 
+    CDA, CDB, DAB, DAC, 
+    DBA, DBC, DCA, DCB
+]
 ```
 
 - 입력 : IntArray, 출력 : String
 
 ```java
-
 fun main() {
     var arr = intArrayOf(1, 2, 3, 4)
-    println(getCombination(arr, 2).contentToString())
+    println(getPermutation(arr, 3).contentToString())
 }
 
-fun getCombination(arr: IntArray, num: Int): Array<String> {
+fun getPermutation(arr: IntArray, num: Int): Array<String> {
     var visited = Array(arr.size) { false }
+    var picked = IntArray(arr.size-1) {0}
     var set = arrayListOf<String>()
 
-    fun addArr(picked: IntArray, visited: Array<Boolean>, size: Int) {
+    fun addArr(picked: IntArray) {
         var makeComb = ""
-        for(i in 0 until size) {
-            if(visited[i]) {
-                makeComb += arr[i]
-            }
+        for (i in picked) {
+            makeComb += i
         }
         set.add(makeComb)
     }
 
-    fun find(picked: IntArray, visited: Array<Boolean>, start: Int, size:Int, num: Int) {
-        if (num == 0) {
-            addArr(picked, visited, size)
+    fun find(baseArr: IntArray, picked: IntArray, visited: Array<Boolean>, depth: Int, size: Int, num: Int) {
+        if (depth == num) {
+            addArr(picked)
             return
         } else {
-            for(i in start until picked.size){
-                visited[i] = true
-                find(picked, visited, i+1, size, num-1)
-                visited[i] = false
+            for (i in 0 until size) {
+                if(!visited[i]) {
+                    visited[i] = true
+                    picked[depth] = baseArr[i]
+                    find(baseArr, picked, visited, depth + 1, size, num)
+                    visited[i] = false
+                }
             }
         }
     }
-    find(arr, visited, 0, arr.size, num)
+    find(arr, picked, visited, 0, arr.size, num)
     return set.toTypedArray()
 }
 ```
 
 ```
-[12, 13, 14, 23, 24, 34]
+[
+    123, 124, 132, 134, 
+    142, 143, 213, 214,
+    231, 234, 241, 243, 
+    312, 314, 321, 324, 
+    341, 342, 412, 413, 
+    421, 423, 431, 432
+]
 ```
 
 
@@ -136,40 +153,49 @@ fun getCombination(arr: IntArray, num: Int): Array<String> {
 ```java
 fun main() {
     var arr = intArrayOf(1, 2, 3, 4)
-    println(getCombination(arr, 2).contentDeepToString())
+    println(getPermutation(arr, 3).contentDeepToString())
 }
 
-fun getCombination(arr: IntArray, num: Int): Array<IntArray> {
+fun getPermutation(arr: IntArray, num: Int): Array<IntArray> {
     var visited = Array(arr.size) { false }
+    var picked = IntArray(arr.size-1) {0}
     var set = arrayListOf<IntArray>()
 
-    fun addArr(picked: IntArray, visited: Array<Boolean>, size: Int) {
+    fun addArr(picked: IntArray) {
         var makeComb = arrayListOf<Int>()
-        for (i in 0 until size) {
-            if (visited[i]) {
-                makeComb.add(arr[i])
-            }
+        for (i in picked) {
+            makeComb.add(i)
         }
         set.add(makeComb.toIntArray())
     }
 
-    fun find(picked: IntArray, visited: Array<Boolean>, start: Int, size: Int, num: Int) {
-        if (num == 0) {
-            addArr(picked, visited, size)
+    fun find(baseArr: IntArray, picked: IntArray, visited: Array<Boolean>, depth: Int, size: Int, num: Int) {
+        if (depth == num) {
+            addArr(picked)
             return
         } else {
-            for (i in start until picked.size) {
-                visited[i] = true
-                find(picked, visited, i + 1, size, num - 1)
-                visited[i] = false
+            for (i in 0 until size) {
+                if(!visited[i]) {
+                    visited[i] = true
+                    picked[depth] = baseArr[i]
+                    find(baseArr, picked, visited, depth + 1, size, num)
+                    visited[i] = false
+                }
             }
         }
     }
-    find(arr, visited, 0, arr.size, num)
+    find(arr, picked, visited, 0, arr.size, num)
     return set.toTypedArray()
 }
 ```
 
 ```
-[[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+[
+    [1, 2, 3], [1, 2, 4], [1, 3, 2], [1, 3, 4], 
+    [1, 4, 2], [1, 4, 3], [2, 1, 3], [2, 1, 4], 
+    [2, 3, 1], [2, 3, 4], [2, 4, 1], [2, 4, 3], 
+    [3, 1, 2], [3, 1, 4], [3, 2, 1], [3, 2, 4], 
+    [3, 4, 1], [3, 4, 2], [4, 1, 2], [4, 1, 3], 
+    [4, 2, 1], [4, 2, 3], [4, 3, 1], [4, 3, 2]
+]
 ```

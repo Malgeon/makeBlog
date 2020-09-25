@@ -67,6 +67,11 @@ Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 
 
 [Collection 관련 예제](../study_Kotlin_standardfunction_1)
 
+### 조합, 순열. 멱집합
+- [조합](../study_Programming_combination)
+- [순열](../study_Programming_permutation)
+- [멱집합](../study_Programming_powerset)
+
 ### 그래프
 DFS, BFS에서 주로 사용된다. 
 방향, 가중치를 이용한 문제도 출시 된적이 있으니 잘 숙지해두자.

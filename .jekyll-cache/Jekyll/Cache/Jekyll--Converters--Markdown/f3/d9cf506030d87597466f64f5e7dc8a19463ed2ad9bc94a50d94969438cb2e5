@@ -1,0 +1,60 @@
+I"&<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42578"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">해시 : 위장</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>독립된 2개의 집합간 조합의 수를 나타낸다.
+이 때, 해다 집합의 경우에서 하나를 추가해줘야 하는데 그것은 바로 안 입는 경우이다.
+또한 모두 안 입는 경우는 제외하므로 결과값에서 1을 빼줘야 한다.</p>
+
+<p>따라서 경우의 수를 단순히 숫자로서 계산을 하면 (집합의 원소 개수 + 1) * (집합의 원소 개수 + 1) - 1 이 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">clothes:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">clothesMap</span> <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Int</span><span class="o">&gt;()</span>
+        <span class="n">clothes</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(!</span><span class="n">clothesMap</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]))</span> <span class="n">clothesMap</span><span class="o">[</span><span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="n">clothesMap</span><span class="o">[</span><span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]]?.</span><span class="na">let</span> <span class="o">{</span> <span class="n">value</span> <span class="o">-&gt;</span>
+                    <span class="n">clothesMap</span><span class="o">[</span><span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">clothesMap</span><span class="o">.</span><span class="na">values</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="n">total</span><span class="o">,</span> <span class="n">next</span> <span class="o">-&gt;</span>
+            <span class="n">total</span> <span class="o">*</span> <span class="o">(</span><span class="n">next</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">-</span><span class="mi">1</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>코틀린은 groupBy를 지원하는데 이를 사용하면 위의 풀이를 단 한줄에 해결할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="n">lass</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">clothes:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">clothes</span><span class="o">.</span><span class="na">groupBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">}.</span><span class="na">values</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="n">acc</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">*</span> <span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">}</span>  <span class="o">-</span> <span class="mi">1</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

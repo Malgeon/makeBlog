@@ -1,0 +1,100 @@
+I"�<h1 id="멱집합">멱집합</h1>
+
+<p>탐색 문제에서 멱집합을 이용해야 하는 경우가 종종 있다.
+이해하고 사용하자.</p>
+
+<h2 id="부분집합">부분집합</h2>
+
+<p>부분집합을 구성하는 방법은 2가지가 있다.</p>
+
+<ol>
+  <li>
+    <p>재귀 :
+ 우선 원소를 사용여부(O/X)로 구분된다.</p>
+
+    <p>이는 이진트리로 구현할수 있는데.
+ 단계를 구성하고 각 이진트리에 들어갈때마다 flag에 O,X를 기록한다.
+ 마지막 단계에 들어가게 되면 해당 flag를 바탕으로 해당하는 set을 Array에서 찾고 powerSet에 push한다.</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">arrString</span> <span class="o">=</span> <span class="s">"ABCD"</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">getCombination</span><span class="o">(</span><span class="n">arrString</span><span class="o">).</span><span class="na">contentToString</span><span class="o">())</span>
+<span class="o">}</span>
+
+<span class="n">fun</span> <span class="nf">getCombination</span><span class="o">(</span><span class="nl">arrString:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">arr</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">(</span><span class="n">arrString</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+    <span class="kt">var</span> <span class="n">visited</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">(</span><span class="n">arrString</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+    <span class="kt">var</span> <span class="n">set</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+
+    <span class="n">fun</span> <span class="nf">addArr</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">makeComb</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">makeComb</span> <span class="o">+=</span> <span class="n">arrString</span><span class="o">[</span><span class="n">baseArr</span><span class="o">[</span><span class="n">i</span><span class="o">]]</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">makeComb</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">find</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span><span class="nc">Int</span><span class="o">,</span> <span class="nl">idx:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">idx</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">addArr</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">)</span>
+            <span class="k">return</span>
+        <span class="o">}</span>
+
+        <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+
+        <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">find</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">arrString</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ol>
+  <li>비트를 이용한 구현
+ 1번 방법에서 사용여부로 이진을 구성하게 되는데, 이는 결국 비트로 나타낼수 있게 된다.
+ 예) OXOO -&gt; 0100 
+ 따라서 집합의 개수를 비트값으로 바꾼 뒤, 0부터 해당 비트까지의 1의 값을 대응해서 구성하면 멱집합이 된다.</li>
+</ol>
+
+:ET

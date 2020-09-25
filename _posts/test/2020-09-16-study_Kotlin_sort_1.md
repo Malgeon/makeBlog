@@ -4,7 +4,7 @@ author: test
 title:  "정렬 : 가장 큰 수"
 description: "연습 문제"
 categories: [ test ]
-tags: [ greedy ]
+tags: [ sort ]
 postImgOn: false
 image: assets/images/test/programmers.png
 insertUrlImg: assets/images/study/programmers.png
@@ -71,7 +71,7 @@ class Solution {
 }
 ```
 
-- compareTo 이용ㄴ
+- compareTo 이용
 
 ```java
 class Solution {

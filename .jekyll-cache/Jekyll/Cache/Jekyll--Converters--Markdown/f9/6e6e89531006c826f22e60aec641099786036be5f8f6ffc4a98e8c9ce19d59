@@ -1,0 +1,32 @@
+I"�<h1 id="멱집합">멱집합</h1>
+
+<p>탐색 문제에서 멱집합을 이용해야 하는 경우가 종종 있다.
+이해하고 사용하자.</p>
+
+<h2 id="부분집합">부분집합</h2>
+
+<p>부분집합을 구성하는 방법은 2가지가 있다.</p>
+
+<ol>
+  <li>
+    <p>재귀 :
+ 우선 원소를 사용여부(O/X)로 구분된다.</p>
+
+    <p>이는 이진트리로 구현할수 있는데.
+ 단계를 구성하고 각 이진트리에 들어갈때마다 flag에 O,X를 기록한다.
+ 마지막 단계에 들어가게 되면 해당 flag를 바탕으로 해당하는 set을 Array에서 찾고 powerSet에 push한다.</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ol>
+  <li>비트를 이용한 구현
+ 1번 방법에서 사용여부로 이진을 구성하게 되는데, 이는 결국 비트로 나타낼수 있게 된다.
+ 예) OXOO -&gt; 0100 
+ 따라서 집합의 개수를 비트값으로 바꾼 뒤, 0부터 해당 비트까지의 1의 값을 대응해서 구성하면 멱집합이 된다.</li>
+</ol>
+
+:ET

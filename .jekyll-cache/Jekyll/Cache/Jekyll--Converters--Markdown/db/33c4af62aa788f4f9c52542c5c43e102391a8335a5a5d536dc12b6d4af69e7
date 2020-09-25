@@ -1,0 +1,36 @@
+I"s
+<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42578"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">해시 : 위장</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>문제 설명에 따르면 논문 n편 중, h편 이상 인용된 논문이 h편 이상인 h의 최대값이므로
+h값은 0 부터 n 사이에 존재한다.</p>
+
+<p>따라서 0편 부터 n편까지 순서대로 올라가면서 해당 조건에 맞는 값을 찾으면 된다.</p>
+
+<p>여기선 정확도만을 측정해서 굳이 이분탐색으로 해결하지는 않았다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">citations:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span><span class="o">(</span> <span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">citations</span><span class="o">.</span><span class="na">size</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">citations</span><span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">it</span> <span class="o">&gt;=</span> <span class="n">i</span> <span class="o">}.</span><span class="na">count</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+                <span class="k">break</span>
+            <span class="o">}</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET
