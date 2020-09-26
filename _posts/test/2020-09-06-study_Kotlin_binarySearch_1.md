@@ -8,6 +8,8 @@ tags: [ binary ]
 postImgOn: false
 image: assets/images/test/programmers.png
 insertUrlImg: assets/images/study/programmers.png
+testFeatured: true
+hidden: true
 ---
 
 <div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64062"><div class=""><img class="inserturl" src="{{site.baseurl}}/{{ page.insertUrlImg}}" alt="programmers.co.kr"/></div><div class="insert-img-body"><h4 class="insert-img-title">2019 카카오 개발자 겨울 인턴십 : 징검다리 건너기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>

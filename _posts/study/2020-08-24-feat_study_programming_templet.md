@@ -42,6 +42,7 @@ study: true
 함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.
 
 - [closure, let, also, apply](../study_Kotlin_9)
+    - [let을 이용한 Null 검사](../study_Kotlin_hash_2)
 - [run, with, use, takeIf, takeUnless](../study_Kotlin_10)
 
 [표준 함수의 이용 예제](../study_Kotlin_standardfunction_1)
@@ -53,7 +54,7 @@ study: true
 - [map, groupBy, sequence](../study_Kotlin_34)
 
 
-### Collection
+### Collection & 해시
 Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 때문에 자주 쓰인다.
 해당 기능 수행 후 toIntArray() 와 같이 원하는 자료형 형태로 return이 가능하게 해준다. 
 
@@ -66,6 +67,10 @@ Collection은 Data의 입력, 출력에서 강력한 기능을 가지고 있기 
     - [Collection Map](../study_Kotlin_32)
 
 [Collection 관련 예제](../study_Kotlin_standardfunction_1)
+
+해당 Collection - Set, Map를 이용해 해시문제를 풀수 있다.
+[해시 관련 예제](../study_Kotlin_hash_1)
+[해시 관련 예제](../study_Kotlin_hash_2)
 
 ### 조합, 순열. 멱집합
 - [조합](../study_Programming_combination)
@@ -102,12 +107,10 @@ DFS, BFS에서 주로 사용된다.
 - [이분 탐색 예제 - upper/lower bound hard](../study_Kotlin_binarySearch_2)
 
 
-
 ### Greedy
 사고력과 순발력을 요구를 하기 때문에 여러워지기 쉬운것 같다. 
 그런데 해당 알고리즘의 한계점인 100% 최적해를 보장하지 않으므로, 문제를 낼 때 어느정도의 최적해를 정답으로 구분할지 판단하기 어려워진다.
 간단하게 100% 최적해가 만들어 지지 않는 이상 굳이 문제로 내지 않을 것으로 생각이 된다.
-
 
 - [Greedy 예제1 : 간단하게 최적해 보장](../study_Kotlin_greedy_1)
 - [Greedy 예제2 : 최적해를 보장하기 어려움](../study_Kotlin_greedy_2)

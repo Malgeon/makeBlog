@@ -58,7 +58,6 @@ function solution(k, room_number) {
     let used = new Array(k+1).fill(false);
 
     function searchRoom(idx) {
-        debugger;
         if(idx === used.length){
             return;
         }

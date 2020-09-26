@@ -5,8 +5,6 @@ title: "BFS : 블록 이동하기"
 description: "2020 KAKAO BLIND RECRUITMENT"
 categories: [ test ]
 tags: [standard ]
-testFeatured: true
-hidden: true
 ---
 
 # 문제 설명
