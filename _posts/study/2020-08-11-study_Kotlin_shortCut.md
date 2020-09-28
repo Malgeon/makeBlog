@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Kotlin"
-description: "Kotlin 단축키"
+title:  "IntelliJ 단축키"
+description: "프로그램을 사용할 때 도움이 되는 정보"
 categories: [ study ]
 postImgOn: true
 tags: [ kotlin ]
