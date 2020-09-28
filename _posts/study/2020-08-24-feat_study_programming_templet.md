@@ -22,6 +22,8 @@ study: true
 - [재귀 예제](../study_Kotlin_recursive_1)
 - [논리 연산자 예제](../study_Kotlin_logicaloperator_1)
 
+- [find와 first 예제](../study_Kotlin_bf_1)
+
 ### 배열
 배열 선언과 출력하는 부분을 잘 숙지해 두자
 - [배열](../study_Kotlin_25)
@@ -51,6 +53,7 @@ study: true
 함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.
 
 - [forEach, reduce, fold](../study_Kotlin_33)
+    - [reduce, fold 응용](../study_Kotlin_dfs_1)
 - [map, groupBy, sequence](../study_Kotlin_34)
 
 

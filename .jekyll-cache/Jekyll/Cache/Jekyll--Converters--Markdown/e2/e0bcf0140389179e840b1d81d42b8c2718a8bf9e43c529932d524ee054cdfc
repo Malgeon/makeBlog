@@ -1,4 +1,4 @@
-I":<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64063"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">해시 : 호텔 방 배정</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+I"R<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64063"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">해시 : 호텔 방 배정</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
 
 <p>해시 충돌 문제 처리를 얼마나 효율적으로 할 수 있도록 만드는 문제이다.
 문제가 BFS나 이분탐색과 같은 전형적인 문제가 아니었기 때문에 생각보다 많이 어려웠다.
@@ -6,7 +6,7 @@
 
 <ul>
   <li>완전 탐색 방법 
-  당연히 정확도는 100%, 효율성은 14%(7개중 1개 통과)</li>
+  당연히 정확성은 100%, 효율성은 14%(7개중 1개 통과)</li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -49,6 +49,16 @@
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
+<p>효율적으로 하기 위한 방법은</p>
+<ol>
+  <li>원하는 방이 이미 차있다면 다음 비어있는 번호에 대한 정보를 가지고 있어야한다.</li>
+  <li>해당 방에 대한 정보를 가지는 방법은 해시를 이용항 방법과 재귀를 이용한 방법이 있다.</li>
+</ol>
+
+<ul>
+  <li>재귀를 이용한 방법</li>
+</ul>
+
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -83,5 +93,15 @@
         <span class="o">}</span>
     <span class="o">}</span>
 <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>해시를 이용한 방법</li>
+</ul>
+
+<p>null처리를 명확히 해줘야 해서, 조금 복잡하게 코딩처리가 되었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>
 </pre></td></tr></tbody></table></code></pre></div></div>
 :ET

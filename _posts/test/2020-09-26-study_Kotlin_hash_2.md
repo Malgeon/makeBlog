@@ -70,3 +70,45 @@ class Solution {
 ```
 
 - 해시를 이용한 방법
+
+null처리를 명확히 해줘야 해서, 조금 복잡하게 코딩처리가 되었다.
+
+```java
+class Solution {
+    fun solution(k: Long, room_number: LongArray): LongArray {
+        var answer = arrayListOf<Long>()
+        val used = mutableMapOf<Long, Long>()
+
+        fun findRoom(idx: Long) {
+            used[idx]?.let {
+                var item = it
+                while(item <= k) {
+                    used[item]?.let { target ->
+                        used[target]?.let { nextTarget ->
+                            used[target] = nextTarget+1
+                            item = nextTarget
+                        } ?: run {
+                            used[target] = target+1
+                            used[idx] = target+1
+                            answer.add(target)
+                            return
+                        }
+                    } ?: run {
+                        used[item] = item+1
+                        used[idx] = item+1
+                        answer.add(item)
+                        return
+                    }
+                }
+            } ?: run {
+                used[idx] = idx+1
+                answer.add(idx)
+            }
+        }
+        room_number.forEach {
+            findRoom(it)
+        }
+        return answer.toLongArray()
+    }
+}
+```
