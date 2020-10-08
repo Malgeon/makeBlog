@@ -201,7 +201,6 @@ fun makeDIr(path: String) = path.let { File(it) }.also{ it.mkdirs() }
 also() 함수와 동일하게 호출하는 객체 T를 이어지는 block으로 전달하고 객체 자체인 this를 반환.
 also는 block에서 람다식으로 처리하지만 apply는 확장 함수로 처리한다. (it을 사용하지 않고, this를 사용)
 
-
 ```javascript
 fun main() {
     data class Person(var name: String, var skills: String)
@@ -221,6 +220,7 @@ fun main() {
 ```
 
 apply 활용
+
 ```javascript
 // 기존 코드
 val param = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -238,7 +238,9 @@ val param = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
     bottomMargin = 100
 }
 ```
+
 디렉토리 생성
+
 ```javascript
 // 기존 함수
 fun makeDIr(path: String): FIle {
@@ -250,3 +252,4 @@ fun makeDIr(path: String): FIle {
 ```javascript
 File(path).apply { mkdirs() }
 ```
+

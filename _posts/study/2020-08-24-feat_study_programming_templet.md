@@ -44,8 +44,9 @@ study: true
 함수형 프로그래밍을 하도록 코틀린에서 지원하는 여러 함수 들을 잘 숙지하고 이용하자.
 
 - [closure, let, also, apply](../study_Kotlin_9)
-    - [let을 이용한 Null 검사](../study_Kotlin_hash_2)
 - [run, with, use, takeIf, takeUnless](../study_Kotlin_10)
+
+- [let과 run을 이용한 Null 검사](../study_Kotlin_hash_2)
 
 [표준 함수의 이용 예제](../study_Kotlin_standardfunction_1)
 
@@ -55,6 +56,8 @@ study: true
 - [forEach, reduce, fold](../study_Kotlin_33)
     - [reduce, fold 응용](../study_Kotlin_dfs_1)
 - [map, groupBy, sequence](../study_Kotlin_34)
+
+- [apply, fold, asSequence 사용 예 + Set](../study_Kotlin_design_5)
 
 
 ### Collection & 해시

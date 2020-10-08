@@ -131,3 +131,34 @@ linkedSetOf() 함수
 - 자바의 LinkedHashSet 자료형을 반환하는 헬퍼 함수
 - 자료구조 중 하나인 링크드 리스트(Linked-list)를 사용해 구현된 해시 테이블에 요소를 저장
 - HashSet, TreeSet보다 느리지만 데이터 구조상 다음 데이터를 가리키는 포인터 연결을 통해 메모리 저장 공간을 조금 더 효율적으로 사용한다.
+
+
+### Set Specific Operations
+Collection Set에서 제공하는 Operation
+
+- union : 합집합
+- intersection : 교집합
+- substract : 차집합
+
+함수로 사용이 가능하며, infix form으로도 사용이 가능하다.
+
+```java
+val numbers = setOf("one", "two", "three")
+
+println(numbers.union(setOf("four", "five")))
+println(numbers union setOf("four", "five"))
+
+println(setOf("four", "five") union numbers)
+
+println(numbers intersect setOf("two", "one"))
+println(numbers subtract setOf("three", "four"))
+println(numbers subtract setOf("four", "three"))
+```
+```
+[one, two, three, four, five]
+[one, two, three, four, five]
+[four, five, one, two, three]
+[one, two]
+[one, two]
+[one, two]
+```

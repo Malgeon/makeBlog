@@ -1,0 +1,255 @@
+I"�9<h3 id="set">Set</h3>
+
+<p>개념</p>
+<ul>
+  <li>정해진 순서가 없는 요소들의 집합(set)</li>
+  <li>집합의 개념이기 때문에 동일한 요소를 중복해서 가질 수 없다.</li>
+</ul>
+
+<p>생성 헬퍼 함수</p>
+<ul>
+  <li>불변형 Set : setOf()</li>
+  <li>가변형 Set : mutableSetOf()</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>함수</th>
+      <th>기능</th>
+      <th>불변형</th>
+      <th>가변형</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>contains</td>
+      <td>값이 있는지 확인</td>
+      <td>O</td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>값의 개수</td>
+      <td>O</td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>add</td>
+      <td>값 추가</td>
+      <td> </td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>remove</td>
+      <td>값 제거</td>
+      <td> </td>
+      <td>O</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>예시 - 불변형</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="n">mixedTypesSet</span> <span class="o">=</span> <span class="n">setOf</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="s">"world"</span><span class="o">,</span> <span class="mf">3.14</span><span class="o">,</span> <span class="sc">'c'</span><span class="o">)</span> <span class="c1">// 자료형 혼합 초기화</span>
+    <span class="kt">var</span> <span class="nl">intSet:</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">setOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="c1">// 정수형만 초기화</span>
+
+    <span class="n">println</span><span class="o">(</span><span class="n">mixedTypeSet</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">intSet</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>[Hello, 5, world, 3.14, c]
+[1, 5]
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>intSet에서는 중복된 요소인 5가 결과에서 하나만 나타남</li>
+</ul>
+
+<p>예시 - 가변형</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 가변형 Set 정의하기</span>
+    <span class="n">val</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">(</span><span class="s">"Lion"</span><span class="o">,</span> <span class="s">"Dog"</span><span class="o">,</span> <span class="s">"Cat"</span><span class="o">,</span> <span class="s">"Python"</span><span class="o">,</span> <span class="s">"Hippo"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">animals</span><span class="o">)</span>
+    <span class="c1">// 요소의 추가</span>
+    <span class="n">animals</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"Dog"</span><span class="o">)</span> <span class="c1">// 이미 존재하므로 변화 없음</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">animals</span><span class="o">)</span>
+    <span class="c1">// 요소의 삭제</span>
+    <span class="n">animals</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">"Phthon"</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">animals</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>[Lion, Dog, Cat, Python, Hippo]
+[Lion, Dog, Cat, Python, Hippo]
+[Lion, Dog, Cat, Hippo]
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>add : 값 추가</li>
+  <li>remove : 값 제거</li>
+</ul>
+
+<h3 id="set의-여러-가지-자료구조">Set의 여러 가지 자료구조</h3>
+
+<p>hashSetOf()</p>
+<ul>
+  <li>이 헬퍼 함수를 통해 생성하면 해시 테이블에 요소를 저장할 수 있는 자바의 HashSet컬렉션을 만든다.</li>
+  <li>HashSet은 불변성 선언이 없기 때문에 추가 및 삭제 등의 기능을 수행할 수 있다.</li>
+</ul>
+
+<p>해시 테이블(Hash Table)</p>
+<ul>
+  <li>해시 테이블이란 내부적으로 키와 인덱스를 이용해 검색과 변경 등을 매우 빠르게 처리할 수 있는 자료구조</li>
+</ul>
+
+<p>HashSet의 생성</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">val</span> <span class="nl">intsHashSet:</span> <span class="nc">HashSet</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">hashSetOf</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">7</span><span class="o">)</span> <span class="c1">// 불변성 기능이 없음</span>
+    <span class="n">intsHashSet</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// 추가</span>
+    <span class="n">intsHashSet</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span> <span class="c1">// 삭제</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">intsHashSet</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>[3, 4, 5, 7]
+</pre></td></tr></tbody></table></code></pre></div></div>
+<ul>
+  <li>HashSet은 결과와 같이 입력 순서와 중복된 요소는 무시된다.</li>
+  <li>정렬 기능은 없지만 해시값을 통해 요소를 찾아내므로 검색 속도는 O(1)의 상수 시간
+    <ul>
+      <li>필요한 값을 요청과 즉시 바로 찾아냄</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="자바의-treeset-컬렉션">자바의 TreeSet 컬렉션</h3>
+
+<p>sortedSetOf()</p>
+<ul>
+  <li>자바의 TreeSet 컬렉션을 정렬된 상태로 반환</li>
+  <li>java.util.* 패키지를 import 해야 한다.</li>
+  <li>TreeSet은 저장된 데이터의 값에 따라 정렬
+    <ul>
+      <li>이진 탐색 트리(binary-search tree)인 RB(red-black) 트리 알고리즘을 사용</li>
+    </ul>
+  </li>
+  <li>HashSet보다 성능이 조금 떨어지고 데이터를 추가하거나 삭제하는 데 시간이 걸리지만 검색과 정렬이 뛰어나다는 장점이 있다.</li>
+</ul>
+
+<p>이진 탐색 트리와 RB 트리</p>
+<ul>
+  <li>이진 탐색 트리가 한쪽으로 치우친 트리 구조를 가지게 되는 경우 트리 높이만큼 시간이 걸리게 되는 최악의 경우 시간이 만들어 질 수 있다.</li>
+  <li>RB 트리는 이 단점을 Red와 Black의 색상으로 치우친 결과 없이 구분되도록 해서 최악의 경우에도 검색 등의 처리에서 일정 시간을 보장하는 자료구조</li>
+</ul>
+
+<p>sortedSetOf()를 사용한 Set의 생성</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">java.util.*</span>
+
+<span class="n">fun</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 자바의 java.util.TreeSet 선언 즉, 자바는 불변형이 없으므로 모두 가변형!</span>
+    <span class="n">val</span> <span class="nl">intsSortedSet:</span> <span class="nc">TreeSet</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">sortedSetOf</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+    <span class="n">intsSortedSet</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+    <span class="n">intsSortedSet</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"intsSortedSet = ${intsSortedSet}"</span><span class="o">)</span>
+    <span class="n">intsSortedSet</span><span class="o">.</span><span class="na">clear</span><span class="o">()</span> <span class="c1">// 모든 요소 삭제</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"intsSortedSet = ${intsSortedSet}"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>intsSortedSet = [2, 4, 6, 7]
+intsSortedSet = []
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="자바의-linkedhashset">자바의 LinkedHashSet</h3>
+<p>linkedSetOf() 함수</p>
+<ul>
+  <li>자바의 LinkedHashSet 자료형을 반환하는 헬퍼 함수</li>
+  <li>자료구조 중 하나인 링크드 리스트(Linked-list)를 사용해 구현된 해시 테이블에 요소를 저장</li>
+  <li>HashSet, TreeSet보다 느리지만 데이터 구조상 다음 데이터를 가리키는 포인터 연결을 통해 메모리 저장 공간을 조금 더 효율적으로 사용한다.</li>
+</ul>
+
+<h3 id="set-specific-operations">Set Specific Operations</h3>
+<p>Collection Set에서 제공하는 Operation</p>
+
+<ul>
+  <li>union : 합집합</li>
+  <li>intersection : 교집합</li>
+  <li>substract : 차집합</li>
+</ul>
+
+<p>함수로 사용이 가능하며, infix form으로도 사용이 가능하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="n">val</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">setOf</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">)</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">union</span><span class="o">(</span><span class="n">setOf</span><span class="o">(</span><span class="s">"four"</span><span class="o">,</span> <span class="s">"five"</span><span class="o">)))</span>
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span> <span class="n">union</span> <span class="nf">setOf</span><span class="o">(</span><span class="s">"four"</span><span class="o">,</span> <span class="s">"five"</span><span class="o">))</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">setOf</span><span class="o">(</span><span class="s">"four"</span><span class="o">,</span> <span class="s">"five"</span><span class="o">)</span> <span class="n">union</span> <span class="n">numbers</span><span class="o">)</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span> <span class="n">intersect</span> <span class="nf">setOf</span><span class="o">(</span><span class="s">"two"</span><span class="o">,</span> <span class="s">"one"</span><span class="o">))</span>
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span> <span class="n">subtract</span> <span class="nf">setOf</span><span class="o">(</span><span class="s">"three"</span><span class="o">,</span> <span class="s">"four"</span><span class="o">))</span>
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span> <span class="n">subtract</span> <span class="nf">setOf</span><span class="o">(</span><span class="s">"four"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">))</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>[one, two, three, four, five]
+[one, two, three, four, five]
+[four, five, one, two, three]
+[one, two]
+[one, two]
+[one, two]
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

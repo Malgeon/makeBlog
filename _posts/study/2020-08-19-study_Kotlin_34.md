@@ -49,6 +49,7 @@ println(result)
 
 groupBy()
 - 주어진 식에 따라 요소를 그룹화 하고 이것을 다시 Map으로 반환
+    - 이때, 해당 값은 Pair<String, List<-->> 이 된다.
 
 ```java
 // groupBy: 주어진 함수의 결과에 따라 그룹하 하여 map으로 반환
@@ -107,7 +108,8 @@ sequence
 
 
 generateSequence
-- 시드(seed) 인수에 의해 시작 요소의 ㄱ밧이 결정
+- 시드(seed) 인수에 의해 시작 요소의 값이 결정
+
 ```java
 fun main() {
     // 시드값 1을 시작으로 1씩 증가하는 시퀀스 정의
@@ -125,6 +127,7 @@ fun main() {
 
 
 map이나 fold같은 연산을 같이 이용
+
 ```java
 val squares = generateSequence(1) {it + 1}.map {it * it}
 println(squares.take(10).toList())
@@ -143,6 +146,7 @@ println(oddSquares.take(5).toList())
 asSequence()
 - 중간 연산 결과 없이 한 번에 끝까지 연산한 후 결과를 반환
     - filter나 map을 메서드 체이닝해서 사용할 경우 순차적 연산이기 때문에 시간이 많이 걸릴 수 있지만 asSequence()를 사용하면 병렬 처리되기 떄문에 처리 성능이 좋아짐
+
 ```java
 fun main() {
     // 단순 메서드 체이닝을 사용할 때
@@ -184,5 +188,5 @@ map(5) filter(25)
 [4, 16]
 ```
 
-- 3번 과정에 의해 최종 결과를 List 목록으로 변환할 때, 모든 연산이 수행되고 결과물이 새로운 리스트인 listSeq에 지정
+- 3번 과정에 의해 TransformingSequence의 형태인 최종 결과를 List 목록으로 변환할 때, 모든 연산이 수행되고 결과물이 새로운 리스트인 listSeq에 지정
 - 요소의 개수가 많을 때 속도나 메모리 측면에서 훨씬 좋은 성능을 낼 수 있다

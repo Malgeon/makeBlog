@@ -1,0 +1,79 @@
+I"<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64065"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">DFS/BFS : 타겟 넘버</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>DFS라기 보다는 재귀를 이용한 완전탐색이라고 할수 있겠다.
+그렇다는 말은 반복문으로도 풀수 있다는 말이다.</p>
+
+<ul>
+  <li>재귀를 이용한 풀이</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">numbers:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">target:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">findNum</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">target</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">findNum</span><span class="o">(</span><span class="nl">numbers:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">target:</span> <span class="nc">Int</span><span class="o">):</span><span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">fun</span> <span class="nf">dfs</span><span class="o">(</span><span class="nl">numbers:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">target:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">value:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">idx:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">len</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">size</span>
+            <span class="nf">if</span> <span class="o">(</span><span class="n">len</span> <span class="o">==</span> <span class="n">idx</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">num</span><span class="o">++</span>
+                <span class="o">}</span>
+                <span class="k">return</span>
+            <span class="o">}</span>
+            <span class="n">dfs</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">value</span> <span class="o">+</span> <span class="n">numbers</span><span class="o">[</span><span class="n">idx</span><span class="o">],</span> <span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
+            <span class="n">dfs</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">value</span> <span class="o">-</span> <span class="n">numbers</span><span class="o">[</span><span class="n">idx</span><span class="o">],</span> <span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="n">dfs</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">num</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>반복문을 이용한 풀이</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">numbers:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">target:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">numbers</span><span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="n">listOf</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span> <span class="o">{</span> <span class="n">list</span><span class="o">,</span> <span class="n">i</span> <span class="o">-&gt;</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">run</span> <span class="o">{</span>
+                <span class="n">map</span> <span class="o">{</span> <span class="n">it</span> <span class="o">+</span> <span class="n">i</span> <span class="o">}</span> <span class="o">+</span> <span class="n">map</span> <span class="o">{</span> <span class="n">it</span> <span class="o">-</span> <span class="n">i</span> <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}.</span><span class="na">count</span> <span class="o">{</span> <span class="n">it</span> <span class="o">==</span> <span class="n">target</span> <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

@@ -1,0 +1,85 @@
+I"�<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64065"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2019 카카오 개발자 겨울 인턴십 : 튜플</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>2가지 방법이 존재한다.</p>
+
+<ol>
+  <li>요소를 List로 저장을 한 뒤, 크기 순으로 정렬하여 튜플 출력</li>
+  <li>요소의 원소를 groubBy하여 List로 저장을 한 뒤, 개수가 많은 순서대로 정렬하여 튜플 출력</li>
+</ol>
+
+<p>방법 자체는 간단한데, 이것을 구현하기 위한 과정을 잘 기억해야 한다.</p>
+
+<ul>
+  <li>첫번째 방법
+    <ul>
+      <li>요소를 저장하기 위한 기준으로 <code class="language-plaintext highlighter-rouge">},{</code>을 잡아 각각의 값 을 저장하되 Int형으로 저장하기 위해 한번더 map처리를 한다.</li>
+      <li>이 때, 연산속도를 높이기 위해 asSequence를 이용해 병렬적으로 처리를 해준다.</li>
+      <li>asSequence의 결과값인 TransformingSequence를 .toList()를 통해 List로 바꾼뒤 size로 정렬을 해준다.</li>
+      <li>튜플은 크기순으로 정렬된 요소들의 합집합이므로 Set의 operation인 union을 이용하여 구해준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">2</span> <span class="n">until</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"},{"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">asSequence</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">map</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">).</span><span class="na">map</span> <span class="o">{</span> <span class="n">num</span> <span class="o">-&gt;</span> <span class="n">num</span><span class="o">.</span><span class="na">toInt</span><span class="o">()</span> <span class="o">}</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">sortedBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">size</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">fold</span><span class="o">(</span><span class="n">setOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;())</span> <span class="o">{</span> <span class="n">acc</span><span class="o">,</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="n">acc</span><span class="o">.</span><span class="na">union</span><span class="o">(</span><span class="n">list</span><span class="o">)</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">toIntArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>두번째 방법
+    <ul>
+      <li>숫자 String이 아닌 값을 기준으로 모두 나눈 뒤 groupBy를 이용해 저장한다.</li>
+      <li>이 떄, 해당 값은 List&lt;Pair&lt;String, List<String>&gt;&gt; 이므로 second의 크기를 기준으로 정렬을 해준다.</String></li>
+      <li>위에서 저장한 값은 자연스레 “” 값이 존재 하기 때문에</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">IntArray</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;().</span><span class="na">apply</span> <span class="o">{</span>
+        <span class="n">s</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"{"</span><span class="o">,</span> <span class="s">"}"</span><span class="o">,</span> <span class="s">","</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">groupBy</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">sortedByDescending</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">second</span><span class="o">.</span><span class="na">count</span><span class="o">()</span> <span class="o">}</span>
+            <span class="o">.</span><span class="na">also</span> <span class="o">{</span>
+                <span class="n">it</span><span class="o">.</span><span class="na">takeLast</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">add</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">first</span><span class="o">.</span><span class="na">toInt</span><span class="o">())</span> <span class="o">}</span>
+            <span class="o">}</span>
+    <span class="o">}.</span><span class="na">toIntArray</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

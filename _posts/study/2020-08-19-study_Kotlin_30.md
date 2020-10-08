@@ -40,17 +40,20 @@ fun main() {
 가변형 mutableListOf() 함수
 - 요소의 추가, 삭제 또는 교체를 위해 mutablelistOf()를 통해 생성
 - MutableList 형으로 반환
+
 ```
 public fun <T> mutableListOf(varage elements: T): MutableList<T>
 ```
 
 add()와 removeAt() 메서드를 통해 추가/삭제가 가능하다
+
 ```java
 fun main() {
-    // 가변형 List의 생성 및 추가, 삭제, 변ㄱㅇ
+    // 가변형 List의 생성 및 추가, 삭제, 변경
     val mutableList: MutableList<String> = mutableListOf<String>("Kildong", "Dooly", "Chelsu")
     mutableList.add("Ben") // 추가
     mutableList.removeAt(1) // 인덱스 1 삭제
+    mutableList.removeAt(mutableList.size-1) // 인덱스 마지막 값 삭제
     mutableList[0] = "Sean" // 인덱스 0을 변경, set(index: Int, element E)과 같은 역할
     println(mutableList)
 
@@ -64,6 +67,7 @@ fun main() {
 ```
 
 toMutableList()
+
 ```java
 fun main{
     val name: List<String> = listOf("one", "two", "three") // 불변형 List 초기화
@@ -82,10 +86,45 @@ fun main{
 - Array 클래스에 의해 생성되는 배열 객체는 내부 구조상 고정된 크기를 가진다.
 - 코틀린의 List<T>와 MutableList<T>는 인터페이스로 설계되어 있고 이것을 하위에서 특정한 자료구조로 구현
     - LinkedList<T>, ArrayList<T>
+    - 고정된 크기의 메모리가 아니기 때문에 자료구조에 따라 늘리거나 줄이는 것이 가능
+
 ```java
 val list1: List<Int> = LinkedList<Int>()
 val list2: List<Int> = ArrayList<Int>()
 ```
-    - 고정된 크기의 메모리가 아니기 때문에 자료구조에 따라 늘리거나 줄이는 것이 가능
+
 - Array<T>는 제네릭 관점에서 상/하위 자료형 관계가 성립하지 않는 무변성이다.
 - List<T>는 공변성이기 때문에 하위인 List<Int>가 List<Number>에
+
+
+### List Specific Operations
+Collection List에서 제공하는 Operation
+
+- Retrieving elements by index : index가 list의 크기를 넘어가는 경우를 대처하는데 도움을 준다.
+    - getOrElse() 
+    - getOrNull()
+
+```java
+val numbers = listOf(1, 2, 3, 4) println(numbers.get(0))
+println(numbers[0]) 
+//numbers.get(5) // exception
+println(numbers.getOrNull(5)) 
+println(numbers.getOrElse(5, {it}))
+```
+```
+1
+1
+null
+5
+```
+
+- Retrieving list parts : List의 부분을 가지고 와준다.
+    - subList
+
+```java
+val numbers = (0..13).toList() 
+println(numbers.subList(3, 6))
+```
+```
+[3, 4, 5]
+```
