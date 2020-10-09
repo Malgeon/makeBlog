@@ -1,8 +1,0 @@
-I"l<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/64065"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2019 카카오 개발자 겨울 인턴십 : 튜플</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
-
-<p>2가지 방법이 존재한다.</p>
-
-<ol>
-  <li>튜플의 집합을 List로 저장을 한 뒤, 크기 순으로 정렬하여 튜플 출력</li>
-</ol>
-:ET
