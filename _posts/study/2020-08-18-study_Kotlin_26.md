@@ -17,7 +17,7 @@ image: assets/images/study/kotlin.png
 val|var 변수명 = Array(요소 개수, 초기값)
 ```
 
-- 초기값으로 람다식 함수 init: (Int) -> T와 같이 정의
+- 초기값으로 람다식 함수 init: (Int) -> T와 같이 정의 : 이때 (Int)는 index의 값을 가지고 있다.
 - 예시) 2씩 곱해지는 정수의 짝수 5개(0, 2, 4, 6, 8)의 요소
 
 ```java

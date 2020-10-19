@@ -1,0 +1,153 @@
+I"�1<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/67257"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2020 카카오 인턴십 : 수식 최대화</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>아마도, 대학 전공 과목에서 계산기 예제를 많이 다루기 때문에 문제 분류가 2 Level로 구분되어 있다고 생각한다.</p>
+
+<p>여러문제 풀이방법이 있겠지만, 여기서는 주어진 문자열을 그대로 숫자와 연산자로 나뉘어 배열로 저장한 뒤
+연산자 우선순위에 따라 연산을 병렬적으로 진행하도록 하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">val</span> <span class="n">order</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'+'</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">)</span>
+    <span class="n">val</span> <span class="n">orderList</span> <span class="o">=</span> <span class="n">listOf</span><span class="o">(</span><span class="n">listOf</span><span class="o">(</span><span class="sc">'+'</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">),</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'+'</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">),</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'-'</span><span class="o">,</span> <span class="sc">'+'</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">),</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'-'</span><span class="o">,</span> <span class="sc">'*'</span><span class="o">,</span> <span class="sc">'+'</span><span class="o">),</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'*'</span><span class="o">,</span> <span class="sc">'+'</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">),</span> <span class="n">listOf</span><span class="o">(</span><span class="sc">'*'</span><span class="o">,</span> <span class="sc">'-'</span><span class="o">,</span> <span class="sc">'+'</span><span class="o">))</span>
+
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">expression:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Long</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="nl">answer:</span> <span class="nc">Long</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">val</span> <span class="n">strList</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+        <span class="kt">var</span> <span class="n">temp</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="n">expression</span><span class="o">.</span><span class="na">forEachIndexed</span> <span class="o">{</span> <span class="n">idx</span><span class="o">,</span> <span class="n">c</span> <span class="o">-&gt;</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">isDigit</span><span class="o">())</span> <span class="n">temp</span><span class="o">+=</span><span class="n">c</span>
+            <span class="k">else</span><span class="o">{</span>
+                <span class="n">strList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">temp</span><span class="o">)</span>
+                <span class="n">strList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
+                <span class="n">temp</span><span class="o">=</span><span class="s">""</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">strList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">temp</span><span class="o">)</span>
+        <span class="n">orderList</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="o">(</span><span class="n">answer</span><span class="o">,</span> <span class="n">abs</span><span class="o">(</span><span class="n">execute</span><span class="o">(</span><span class="n">strList</span><span class="o">,</span><span class="n">it</span><span class="o">)))</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">operatorDef</span><span class="o">(</span><span class="nl">a:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">b:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">op:</span> <span class="nc">Char</span><span class="o">):</span> <span class="nc">Long</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">when</span> <span class="o">(</span><span class="n">op</span><span class="o">)</span> <span class="o">{</span>
+            <span class="sc">'+'</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="n">a</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+            <span class="o">}</span>
+            <span class="sc">'-'</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="n">a</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+            <span class="o">}</span>
+            <span class="sc">'*'</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="n">a</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="na">toLong</span><span class="o">()</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="o">-&gt;</span> <span class="k">return</span> <span class="mi">0L</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">execute</span><span class="o">(</span><span class="nl">str:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">opList:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Char</span><span class="o">&gt;):</span><span class="nc">Long</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">str</span>
+        <span class="n">opList</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">calc</span><span class="o">(</span><span class="n">tmp</span><span class="o">,</span> <span class="n">it</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">tmp</span><span class="o">.</span><span class="na">joinToString</span> <span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="na">toLong</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">calc</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">op:</span> <span class="nc">Char</span><span class="o">):</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">rtn</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+        <span class="kt">var</span> <span class="n">flag</span> <span class="o">=</span> <span class="kc">false</span>
+
+        <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">s</span><span class="o">.</span><span class="na">indices</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">flag</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">false</span>
+                <span class="k">continue</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(!</span><span class="n">order</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">s</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">first</span><span class="o">()))</span> <span class="o">{</span>
+                <span class="n">rtn</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">s</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">s</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">first</span><span class="o">()</span> <span class="o">==</span> <span class="n">op</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">flag</span> <span class="o">=</span> <span class="kc">true</span>
+                    <span class="n">val</span> <span class="n">before</span> <span class="o">=</span> <span class="n">rtn</span><span class="o">.</span><span class="na">last</span><span class="o">()</span>
+                    <span class="n">rtn</span><span class="o">.</span><span class="na">removeAt</span><span class="o">(</span><span class="n">rtn</span><span class="o">.</span><span class="na">size</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                    <span class="n">rtn</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">operatorDef</span><span class="o">(</span><span class="n">before</span><span class="o">,</span> <span class="n">s</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">],</span> <span class="n">op</span><span class="o">).</span><span class="na">toString</span><span class="o">())</span>
+                <span class="o">}</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">rtn</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">s</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">rtn</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET
