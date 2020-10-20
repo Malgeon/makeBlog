@@ -17,8 +17,8 @@ study: true
 
 - [배열 예제](../study_Kotlin_array_1)
 - [문자열 예제](../study_Kotlin_string_1)
-- [반복문 예제](../study_Kotlin_loop_1)
-- [수식 예제](../study_Kotlin_math_1)
+- [반복문 예제](../study_Kotlin_loop_1), &nbsp; [예제 2](../study_Kotlin_practice_5)
+- [수식 예제](../study_Kotlin_math_1), &nbsp; [예제 2](../study_Kotlin_practice_6)
 - [재귀 예제](../study_Kotlin_recursive_1)
 - [논리 연산자 예제](../study_Kotlin_logicaloperator_1)
 
