@@ -95,3 +95,12 @@ class Solution {
     fun solution(arr: IntArray) = arr.average()
 }
 ```
+
+
+### 소수 찾기
+
+```java
+fun isPrimeNumber(num: Int): Boolean {
+    return (2..num / 2).filter { num % it == 0 }.count() == 0
+  }
+```
