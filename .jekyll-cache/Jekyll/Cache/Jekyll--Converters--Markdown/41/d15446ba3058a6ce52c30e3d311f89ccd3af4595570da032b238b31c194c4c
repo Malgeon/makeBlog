@@ -1,4 +1,4 @@
-I"�+<h3 id="math">Math</h3>
+I"0<h3 id="math">Math</h3>
 
 <div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12934"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : 정수 제곱근 판별</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
 
@@ -113,5 +113,15 @@ a와 b의 크기에 따른 순서는 상관이 없다. 유클리드 호제법을
 </pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
     <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">)</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">average</span><span class="o">()</span>
 <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="소수-찾기">소수 찾기</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">fun</span> <span class="nf">isPrimeNumber</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="mi">2</span><span class="o">..</span><span class="na">num</span> <span class="o">/</span> <span class="mi">2</span><span class="o">).</span><span class="na">filter</span> <span class="o">{</span> <span class="n">num</span> <span class="o">%</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">}.</span><span class="na">count</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 :ET

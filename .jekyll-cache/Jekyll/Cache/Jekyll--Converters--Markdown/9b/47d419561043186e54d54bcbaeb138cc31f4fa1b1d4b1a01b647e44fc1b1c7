@@ -1,0 +1,65 @@
+I"k<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12951"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">연습문제 : JadenCase 문자열 만들기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>단순하게 주어진 s를 공백으로 나눈 다음 joinToString으로 다시 합치면서 각각의 문자에 대하여 람다식을 적용하는데, 첫글자를 숫자가 아니면 대문자를 하도록 적용하는 방식으로 문제 해결을 하였다.
+그런데 s는 알파벳과 공백문자(“ “)로 이루어져 있기 때문에, 만약 s에서 “a “로 주어질 경우 까지 생각해서 문제해결을 해야 했는데…</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">joinToString</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">rtn</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">it</span> <span class="o">!=</span> <span class="s">""</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">first</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">0</span><span class="o">)</span>
+            <span class="n">first</span><span class="o">.</span><span class="na">toIntOrNull</span><span class="o">()?.</span><span class="na">let</span> <span class="o">{</span> <span class="n">number</span> <span class="o">-&gt;</span>
+                <span class="n">rtn</span> <span class="o">+=</span> <span class="n">number</span>
+            <span class="o">}</span> <span class="o">?:</span> <span class="n">run</span> <span class="o">{</span>
+                <span class="n">rtn</span> <span class="o">+=</span> <span class="n">first</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span>
+            <span class="o">}</span>
+            <span class="n">rtn</span> <span class="o">+=</span> <span class="n">it</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">it</span><span class="o">.</span><span class="na">length</span><span class="o">).</span><span class="na">toLowerCase</span><span class="o">()</span>
+        <span class="o">}</span>
+        <span class="n">rtn</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>코틀린에서는 capitalize를 지원한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">joinToString</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">it</span><span class="o">.</span><span class="na">capitalize</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>참고로, joinToString은 map의 기능도 같이 할수 있는데 위의 답안을 map을 이용할 경우 아래와 같다</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">s:</span> <span class="nc">String</span><span class="o">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">).</span><span class="na">map</span> <span class="o">{</span>
+            <span class="n">it</span><span class="o">.</span><span class="na">capitalize</span><span class="o">()</span>
+        <span class="o">}.</span><span class="na">joinToString</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

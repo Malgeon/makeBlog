@@ -1,0 +1,352 @@
+I"�s<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42890"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2019 KAKAO BLIND RECRUITMENT : 후보키</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>이 경우 brute force로 하나씩 검사를 하며, 중복여부 판단가지 겸해서 같이 해줘야 한다.
+문제를 처음 보고 판단할 때, 다른 여타 방법이 생각나지 않는다면 보자마자 생각난 brute force 방법이 맞다.
+다만 해당 문제는 설계를 효율적으로 해야 하는데, 그러기 위해서는 멱집합에 대한 이해가 필요하다.
+또 조건에 맞는 튜플이 Unique한지 여부를 판단할 떄, 튜플의 각 값을 하나의 String으로 만들어 Set에서 관리를 해주면 간단하게 해결이 가능한줄 알았는데..</p>
+
+<p>unique 집합 중 최소성의 조건에 맞춘 값을 찾아내는 것 또한 쉽지 않았다.</p>
+
+<p>추가할 값이 min에 맞는지 확인 하는 작업이 필요하며, “012”는 “02”로 인해 최소성에 조건에 맞지 않아야 하기에 “012”contains(“02”)는 사용하지 못한다.</p>
+
+<p>이러한 문제를 해결하기 위해, 먼저 최소값이기 때문에 멱집합을 크기가 적은 순서대로 정렬을 한 뒤 조건에 부합한지 들어오는 값을 직접 찾아보는 방법으로 해결을 하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">relation:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">arr</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;(</span><span class="n">relation</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">uniquePivot</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="na">size</span>
+        <span class="n">val</span> <span class="n">arrPowerSet</span> <span class="o">=</span> <span class="n">getPowerSet</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
+        <span class="kt">var</span> <span class="n">uniqueSet</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+
+        <span class="n">arrPowerSet</span><span class="o">.</span><span class="na">sortedBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">size</span> <span class="o">}.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">set</span> <span class="o">-&gt;</span>
+            <span class="kt">var</span> <span class="n">checkUnique</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+            <span class="n">relation</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">item</span> <span class="o">-&gt;</span>
+                <span class="kt">var</span> <span class="n">value</span> <span class="o">=</span> <span class="s">""</span>
+                <span class="n">set</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+                    <span class="n">value</span> <span class="o">+=</span> <span class="n">item</span><span class="o">[</span><span class="n">it</span><span class="o">]</span>
+                <span class="o">}</span>
+                <span class="n">checkUnique</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">checkUnique</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="n">uniquePivot</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">var</span> <span class="n">stringSet</span> <span class="o">=</span> <span class="n">set</span><span class="o">.</span><span class="na">joinToString</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">isMin</span><span class="o">(</span><span class="n">uniqueSet</span><span class="o">,</span> <span class="n">stringSet</span><span class="o">))</span> <span class="n">uniqueSet</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">stringSet</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">uniqueSet</span><span class="o">.</span><span class="na">size</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">isMin</span><span class="o">(</span><span class="nl">uniqueSet:</span> <span class="nc">MutableSet</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nl">stringSet:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="n">uniqueSet</span><span class="o">.</span><span class="na">forEach</span><span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">isContains</span><span class="o">(</span><span class="n">it</span><span class="o">,</span> <span class="n">stringSet</span><span class="o">))</span> <span class="k">return</span> <span class="kc">false</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">isContains</span><span class="o">(</span><span class="nl">it:</span> <span class="nc">String</span><span class="o">,</span> <span class="nl">stringSet:</span> <span class="nc">String</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="n">it</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(!</span><span class="n">stringSet</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">it</span><span class="o">))</span> <span class="k">return</span> <span class="kc">false</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="o">}</span>
+
+
+    <span class="n">fun</span> <span class="nf">getPowerSet</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">visited</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">set</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;()</span>
+
+        <span class="n">fun</span> <span class="nf">addArr</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">makeComb</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+            <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">makeComb</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">baseArr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">makeComb</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
+        <span class="o">}</span>
+
+        <span class="n">fun</span> <span class="nf">find</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span><span class="nc">Int</span><span class="o">,</span> <span class="nl">idx:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">idx</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">addArr</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">)</span>
+                <span class="k">return</span>
+            <span class="o">}</span>
+
+            <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+
+            <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="n">find</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그리고 “012”이 “02”으로 인해 최소성에 조건에 맞지 않도록 하는 방법으로 containsAll이 있음을 알게 되었다.
+다만 이는 collection 힘수이므로 해당 값을 List로 바꿔서 비교하니 동일한 결과를 얻을 수 있었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">relation:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">arr</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;(</span><span class="n">relation</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="n">it</span> <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">uniquePivot</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="na">size</span>
+        <span class="n">val</span> <span class="n">arrPowerSet</span> <span class="o">=</span> <span class="n">getPowerSet</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
+        <span class="kt">var</span> <span class="n">uniqueSet</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;&gt;()</span>
+
+        <span class="n">arrPowerSet</span><span class="o">.</span><span class="na">sortedBy</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">size</span> <span class="o">}.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">set</span> <span class="o">-&gt;</span>
+            <span class="kt">var</span> <span class="n">checkUnique</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+            <span class="n">relation</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span> <span class="n">item</span> <span class="o">-&gt;</span>
+                <span class="kt">var</span> <span class="n">value</span> <span class="o">=</span> <span class="s">""</span>
+                <span class="n">set</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+                    <span class="n">value</span> <span class="o">+=</span> <span class="n">item</span><span class="o">[</span><span class="n">it</span><span class="o">]</span>
+                <span class="o">}</span>
+                <span class="n">checkUnique</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">checkUnique</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="n">uniquePivot</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">val</span> <span class="n">listSet</span> <span class="o">=</span> <span class="n">set</span><span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">isMin</span><span class="o">(</span><span class="n">uniqueSet</span><span class="o">,</span> <span class="n">listSet</span><span class="o">))</span> <span class="n">uniqueSet</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">listSet</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">uniqueSet</span><span class="o">.</span><span class="na">size</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">isMin</span><span class="o">(</span><span class="nl">uniqueSet:</span> <span class="nc">MutableSet</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;&gt;,</span> <span class="nl">set:</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="n">uniqueSet</span><span class="o">.</span><span class="na">forEach</span><span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">containsAll</span><span class="o">(</span><span class="n">it</span><span class="o">))</span> <span class="k">return</span> <span class="kc">false</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">getPowerSet</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">visited</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">set</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;()</span>
+
+        <span class="n">fun</span> <span class="nf">addArr</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">makeComb</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+            <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">makeComb</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">baseArr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">makeComb</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
+        <span class="o">}</span>
+
+        <span class="n">fun</span> <span class="nf">find</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span><span class="nc">Int</span><span class="o">,</span> <span class="nl">idx:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">idx</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">addArr</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">)</span>
+                <span class="k">return</span>
+            <span class="o">}</span>
+
+            <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+
+            <span class="n">visited</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="n">find</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그런데 배열 내 멱집합을 bit계산으로 가능하다. 그렇게 되면 동일하게 bit 계산을 통하여 해당 값의 min에 대한 부합 여부를 쉽게 검사 할 수 있다! 
+또한, 코드량도 현저히 줄어든다…!!</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">relation:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">pivot</span> <span class="o">=</span> <span class="n">relation</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">size</span>
+        <span class="n">val</span> <span class="n">tupleSize</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="na">size</span>
+        <span class="n">val</span> <span class="n">powerSet</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">shl</span> <span class="n">pivot</span>
+
+        <span class="kt">var</span> <span class="n">set</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span> <span class="n">until</span> <span class="n">powerSet</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">checkUnique</span> <span class="o">=</span> <span class="n">mutableSetOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">row</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">tupleSize</span><span class="o">){</span>
+                <span class="kt">var</span> <span class="n">value</span> <span class="o">=</span> <span class="s">""</span>
+                <span class="k">for</span><span class="o">(</span><span class="n">item</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">pivot</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">((</span><span class="n">i</span> <span class="nf">and</span> <span class="o">(</span><span class="mi">1</span> <span class="n">shl</span> <span class="n">item</span><span class="o">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">value</span> <span class="o">+=</span> <span class="n">relation</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">item</span><span class="o">]</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="n">checkUnique</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">checkUnique</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="n">tupleSize</span> <span class="o">&amp;&amp;</span> <span class="n">findMinSet</span><span class="o">(</span><span class="n">set</span><span class="o">,</span><span class="n">i</span><span class="o">))</span> <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">size</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="nf">findMinSet</span><span class="o">(</span><span class="nl">set:</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;,</span> <span class="nl">item:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">((</span><span class="n">it</span> <span class="n">and</span> <span class="n">item</span><span class="o">)</span> <span class="o">==</span> <span class="n">it</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

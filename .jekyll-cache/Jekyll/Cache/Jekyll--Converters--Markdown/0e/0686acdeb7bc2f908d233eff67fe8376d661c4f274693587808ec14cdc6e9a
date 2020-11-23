@@ -1,0 +1,93 @@
+I"B!<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/12977"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">Summer/Winter Coding(~2018) : 소수 만들기</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>배열에서 3개의 조합을 구성하여 조합의 합이 소수인지를 판단하는 문제이다.
+조합을 구성하는 것을 단순히 for문으로 구성할 수 있지만, 여기서는 직접 조합 함수를 이용하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">nums:</span> <span class="nc">IntArray</span><span class="o">):</span> <span class="nc">Int</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">getCombination</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="mi">3</span><span class="o">).</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">isPrimeNumber</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">sum</span><span class="o">()))</span> <span class="n">answer</span><span class="o">++</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">getCombination</span><span class="o">(</span><span class="nl">arr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">visited</span> <span class="o">=</span> <span class="nc">Array</span><span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+        <span class="kt">var</span> <span class="n">set</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">IntArray</span><span class="o">&gt;()</span>
+
+        <span class="n">fun</span> <span class="nf">addArr</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">size:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">makeComb</span> <span class="o">=</span> <span class="n">arrayListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">makeComb</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">baseArr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">makeComb</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
+        <span class="o">}</span>
+
+        <span class="n">fun</span> <span class="nf">find</span><span class="o">(</span><span class="nl">baseArr:</span> <span class="nc">IntArray</span><span class="o">,</span> <span class="nl">visited:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">Boolean</span><span class="o">&gt;,</span> <span class="nl">start:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">size:</span> <span class="nc">Int</span><span class="o">,</span> <span class="nl">num:</span> <span class="nc">Int</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">addArr</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">size</span><span class="o">)</span>
+                <span class="k">return</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">start</span> <span class="n">until</span> <span class="n">baseArr</span><span class="o">.</span><span class="na">size</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
+                    <span class="nf">find</span><span class="o">(</span><span class="n">baseArr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+                    <span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">find</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">visited</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">,</span> <span class="n">num</span><span class="o">)</span>
+        <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="nf">isPrimeNumber</span><span class="o">(</span><span class="nl">num:</span> <span class="nc">Int</span><span class="o">):</span> <span class="nc">Boolean</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="mi">2</span><span class="o">..</span><span class="na">num</span> <span class="o">/</span> <span class="mi">2</span><span class="o">).</span><span class="na">filter</span> <span class="o">{</span> <span class="n">num</span> <span class="o">%</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">}.</span><span class="na">count</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

@@ -156,8 +156,13 @@ ga('send', 'pageview');
                                     <h2 class="u-marginBottom15"><span class="u-paddingBottom10">Spec</span></h2>
                                 </div>
                                 <div class="listrecent">
-                                    {% for spec in page.system %}
-                                        <li class="project-maindescription u-paddingLeft31">{{ spec }}</li>
+                                    {% for system in page.system %}
+                                        {% assign spec = system | split: ":" %}
+                                        <li class="project-maindescription u-paddingLeft31">
+                                            <span class="subject"> {{ spec | first }} : </span> <br>
+                                            <span style="color: rgba(0, 0, 0, 0.6);
+                                            font-weight: 500;"> {{ spec | last }}</span>
+                                        </li>
                                     {% endfor %}
                                 </div>
                             </section>

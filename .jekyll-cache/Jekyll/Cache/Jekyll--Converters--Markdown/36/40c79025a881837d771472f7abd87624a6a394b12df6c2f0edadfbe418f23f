@@ -1,0 +1,54 @@
+I"<div class="card h-100 my-u-padding"><div class="insertcover"><a target="_blank" class="text-dark" href="https://programmers.co.kr/learn/courses/30/lessons/42888"><div class=""><img class="inserturl" src="/assets/images/study/programmers.png" alt="programmers.co.kr" /></div><div class="insert-img-body"><h4 class="insert-img-title">2019 KAKAO BLIND RECRUITMENT : 오픈채팅방</h4><p class="insert-img-description">programmers.co.kr</p></div></a></div></div>
+
+<p>여타 문제가 다들 그렇지만 역시 풀이 과정에서는 문제 해결 방향 설정하는 것이 어렵다.
+이번 문제 또한 그러했다.</p>
+
+<p>풀이 과정에서 가장 핵심적인 단서는</p>
+
+<ol>
+  <li>닉네임은 유저아이디와 연결이 된다.</li>
+  <li>닉네임이 바뀌는 순간은 Enter와 Change의 명령어가 있을 경우이다.</li>
+</ol>
+
+<p>이 두 가지인데, 이 단서를 가지고 바뀌는 마지막 닉네임을 map을 이용하여 저장하도록 한 뒤, return 문을 작성하도록 하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="nf">solution</span><span class="o">(</span><span class="nl">record:</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;):</span> <span class="nc">Array</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span>
+        <span class="kt">var</span> <span class="n">rtnAnswer</span> <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;()</span>
+        <span class="n">val</span> <span class="n">recordList</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">map</span> <span class="o">{</span>
+            <span class="n">it</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span>
+        <span class="o">}</span>
+
+        <span class="n">recordList</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span> <span class="n">rtnAnswer</span><span class="o">[</span><span class="n">it</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span> <span class="o">=</span> <span class="n">it</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+        <span class="o">}</span>
+
+        <span class="n">recordList</span><span class="o">.</span><span class="na">forEach</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">it</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="s">"Enter"</span><span class="o">)</span> <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"${rtnAnswer[it[1]]}님이 들어왔습니다."</span><span class="o">)</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">it</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="s">"Leave"</span><span class="o">)</span> <span class="n">answer</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"${rtnAnswer[it[1]]}님이 나갔습니다."</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">answer</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

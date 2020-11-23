@@ -21,6 +21,11 @@ a:hover {
     text-decoration: none;
 }
 
+li .subject {
+   font-weight: bold; 
+}
+
+
 /*
 pre {
     -moz-box-sizing: border-box;

@@ -1,11 +1,11 @@
-I"�<h3 id="코틀린-기본">코틀린 기본</h3>
+I"Z<h3 id="코틀린-기본">코틀린 기본</h3>
 <p>코틀린에서 기본적인 동작을 예제에서 확인해보자.</p>
 
 <ul>
   <li><a href="../study_Kotlin_array_1">배열 예제</a></li>
   <li><a href="../study_Kotlin_string_1">문자열 예제</a></li>
-  <li><a href="../study_Kotlin_loop_1">반복문 예제</a></li>
-  <li><a href="../study_Kotlin_math_1">수식 예제</a></li>
+  <li><a href="../study_Kotlin_loop_1">반복문 예제</a>,   <a href="../study_Kotlin_practice_5">예제 2</a></li>
+  <li><a href="../study_Kotlin_math_1">수식 예제</a>,   <a href="../study_Kotlin_practice_6">예제 2</a></li>
   <li><a href="../study_Kotlin_recursive_1">재귀 예제</a></li>
   <li>
     <p><a href="../study_Kotlin_logicaloperator_1">논리 연산자 예제</a></p>
