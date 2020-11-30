@@ -22,3 +22,13 @@ images: [ assets/images/project/malgeonblog1.JPG ]
 
 주어진 API 상세 : 
 
+
+### 앱 아키텍처
+
+
+![final-architecture]({{ site.baseurl }}/assets/images/project/android/final-architecture.png)
+
+
+
+
+
