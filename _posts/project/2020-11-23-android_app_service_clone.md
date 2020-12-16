@@ -52,7 +52,7 @@ API통신 방법은 volley보단 retrofit이 표준인 것 같다.
 
 ### UI
 
-- Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업
+- Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)
 (현재까지 방법을 찾기로는 react native나 flutter는 편하게 하는것 같은데.. kotlin은 어려워 보인다. 아직 못찾은 것일수도)
 
 - 리스트 뷰를 동적으로 추가해주는 함수 작업
