@@ -1,4 +1,4 @@
-I",<h3 id="api">API</h3>
+I"\<h3 id="api">API</h3>
 
 <p>주어진 API 상세 :</p>
 
@@ -30,7 +30,7 @@
 
 <ul>
   <li>
-    <p>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업
+    <p>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)
 (현재까지 방법을 찾기로는 react native나 flutter는 편하게 하는것 같은데.. kotlin은 어려워 보인다. 아직 못찾은 것일수도)</p>
   </li>
   <li>
