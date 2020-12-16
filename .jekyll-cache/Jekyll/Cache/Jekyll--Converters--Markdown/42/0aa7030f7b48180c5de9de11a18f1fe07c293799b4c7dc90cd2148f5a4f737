@@ -1,0 +1,43 @@
+I":<h3 id="api">API</h3>
+
+<p>주어진 API 상세 :</p>
+
+<h3 id="앱-아키텍처">앱 아키텍처</h3>
+
+<p>아래와 같이 안드로이드 개발자 페이지에서 추천하는 아키텍쳐로 구성하였다.</p>
+
+<p><img src="/assets/images/project/android/final-architecture.png" alt="final-architecture" /></p>
+
+<h3 id="mvvm">MVVM</h3>
+
+<p>디자인 아키텍쳐는 MVVM로 만들고자 했다.</p>
+
+<h3 id="di---koin">DI - Koin</h3>
+
+<p>다음 프로젝트에서는 Dagger-Hilt를 사용할 예정이다.</p>
+
+<h3 id="network---rxjava-retrofit">NetWork - rxJava, retrofit</h3>
+
+<p>현재까지 이해하기로, API를 통해 Data를 받고자 할 때 비동기로 처리하기 위한 방법으로 rxJava를 사용하고 있으며 위 프로젝트에서는 API 데이터가 많지 않아 단순히 Single로 발행하고 있다.</p>
+
+<p>조금 찾아보니 Observable로 구성하여 rxBus를 만들수 있어서 확장성 측면에서 Observable로 구성하는 것이 연습하는 목적에선 더 좋을것 같긴한데(물론 이것도 현재 잘못 이해하고 있는 것일수도..), 우선 하나 프로젝트를 끝내고 싶은 마음에 시간 관계상 다음 프로젝트에서 rxJava를 본격적으로 공부를 할 예정이다.</p>
+
+<p>API통신 방법은 volley보단 retrofit이 표준인 것 같다.</p>
+
+<p><img src="/assets/images/project/android/android.jpg" alt="android!" /></p>
+
+<h1 id="현재-작업중">현재 작업중</h1>
+
+<h3 id="ui">UI</h3>
+
+<ul>
+  <li>
+    <p>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업
+(현재까지 방법을 찾기로는 react native나 flutter는 편하게 하는것 같은데.. kotlin은 어려워 보인다. 아직 못찾은 것일수도)</p>
+  </li>
+  <li>
+    <p>리스트 뷰를 동적으로 추가해주는 함수 작업</p>
+  </li>
+</ul>
+
+:ET
