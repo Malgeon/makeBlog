@@ -76,7 +76,7 @@ exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
 # for Travis CI. 
 
 
-destination: ./output
+destination: ./output/
 
 production_url: https://Malgeon.github.io/
 source_url: https://github.com/Malgeon/makeBlog/
