@@ -1,4 +1,4 @@
-I"u<h1 id="spec">SPEC</h1>
+I"2<h1 id="spec">SPEC</h1>
 
 <h3 id="api">API</h3>
 
@@ -25,19 +25,21 @@
 <h3 id="ui">UI</h3>
 
 <ul>
-  <li>
-    <p>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)
-(현재까지 방법을 찾기로는 react native나 flutter는 편하게 하는것 같은데.. kotlin은 어려워 보인다. 아직 못찾은 것일수도)</p>
-  </li>
-  <li>
-    <p>리스트 뷰를 동적으로 추가해주는 함수 작업</p>
-  </li>
+  <li>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)</li>
+</ul>
+
+<h1 id="추가-작업-예정-목록">추가 작업 예정 목록</h1>
+
+<h3 id="ui-1">UI</h3>
+
+<ul>
+  <li>리스트 뷰를 동적으로 추가해주는 함수 작업</li>
 </ul>
 
 <h1 id="리팩토링">리팩토링</h1>
 
 <h3 id="linearlayout---constraintlayout">LinearLayout -&gt; ConstraintLayout</h3>
 
-<p><a href="https://academy.realm.io/kr/posts/constraintlayout-it-can-do-what-now/">ConstraintLatout</a></p>
+<p><a href="https://academy.realm.io/kr/posts/constraintlayout-it-can-do-what-now/">ConstraintLatout</a>에 대한 글.</p>
 
 :ET
