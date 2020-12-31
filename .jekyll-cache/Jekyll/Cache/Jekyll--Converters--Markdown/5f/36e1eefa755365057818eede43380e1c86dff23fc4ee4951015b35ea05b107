@@ -1,11 +1,12 @@
-I"^<h3 id="di">DI</h3>
+I"<^<h3 id="di">DI</h3>
 
-<p><a href="https://developer.android.com/training/dependency-injection?hl=ko">Android Devloper에서 설명하는 DI</a>에서 설명이 잘 되어 있지만, 해당 예시에 Dagger를 적용해서 보여주진 않는다.</p>
+<p> <a href="https://developer.android.com/training/dependency-injection?hl=ko">Android Devloper에서 설명하는 DI</a>에서 설명이 잘 되어 있지만, 해당 예시에 Dagger를 적용해서 보여주진 않는다.</p>
 
-<p> 그래서 여기서는 커피를 내리는 동작을 하는 예시 프로그램을 수동 종속 삽입(Without DI), 간단한 Injection을 작성하여 자동 종속 삽입(With DI), 그리고 Dagger를 이용하여 종속 삽입(With Dagger) 경우를 살펴보면서 DI의 필요성을, 그리고 편이성을 이해해 보고자 한다.</p>
+<p> 그래서 여기서는 커피를 내리는 동작을 하는 예시 프로그램을 수동 종속 삽입(Without DI), 간단한 Injection을 작성하여 자동 종속 삽입(With DI), 그리고 Dagger를 이용하여 종속 삽입(With Dagger) 경우를 살펴보면서 DI의 필요성을, 그리고 편의성을 이해해 보고자 한다.</p>
 
 <h4 id="기본-동작">기본 동작</h4>
 
+<h5 id="coffeemaker">CoffeeMaker</h5>
 <p>우선 Coffee를 내리도록 Maker를 셋팅하고, 동작을 구현해 보자.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1

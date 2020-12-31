@@ -14,10 +14,11 @@ image: assets/images/study/android/android.jpg
 
 &nbsp;[Android Devloper에서 설명하는 DI](https://developer.android.com/training/dependency-injection?hl=ko)에서 설명이 잘 되어 있지만, 해당 예시에 Dagger를 적용해서 보여주진 않는다.
 
-&nbsp;그래서 여기서는 커피를 내리는 동작을 하는 예시 프로그램을 수동 종속 삽입(Without DI), 간단한 Injection을 작성하여 자동 종속 삽입(With DI), 그리고 Dagger를 이용하여 종속 삽입(With Dagger) 경우를 살펴보면서 DI의 필요성을, 그리고 편이성을 이해해 보고자 한다. 
+&nbsp;그래서 여기서는 커피를 내리는 동작을 하는 예시 프로그램을 수동 종속 삽입(Without DI), 간단한 Injection을 작성하여 자동 종속 삽입(With DI), 그리고 Dagger를 이용하여 종속 삽입(With Dagger) 경우를 살펴보면서 DI의 필요성을, 그리고 편의성을 이해해 보고자 한다. 
 
-#### 기본 동작
+#### Setting
 
+##### CoffeeMaker class
 우선 Coffee를 내리도록 Maker를 셋팅하고, 동작을 구현해 보자.
 
 ```java
@@ -39,6 +40,7 @@ public class CoffeeMaker {
 }
 ```
 
+##### Heater, Pump interface
 해당 Maker에는 Heater와 Pump가 필요하다. 이때 이 둘은 어떤 종류가 오더라도 상관이 없다. 
 
 ```java
@@ -57,6 +59,7 @@ public interface Pump {
 }
 ```
 
+##### A_Heater, A_Pump class
 그리고 A 상품을 사용하려고 한다.
 
 ```java
@@ -98,9 +101,13 @@ public class A_Pump implements Pump {
 }
 ```
 
-이제 동작을 시켜보자.
+#### 동작
 
-- 우선 직접 종속 항목을 삽입해 보자. : Without DI
+이제 동작을 시켜보자
+
+##### Without DI
+
+우선 직접 종속 항목을 삽입해 보자.
 
 ```java
 public static void main(String[] args) {
@@ -113,10 +120,11 @@ public static void main(String[] args) {
 
 Main Phase에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.
 
+##### With DI
 
-- 간단한 Injection을 만들어 자동 종속 항목 삽입을 해보자. : With DI
+간단한 Injection을 만들어 자동 종속 항목 삽입을 해보자.
 
-Injection를 만들자.
+- Injection Class
 
 ```java
 public class Injection {
@@ -156,8 +164,9 @@ public static void main(String[] args) {
 
 Main Phase에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다. 
 
+##### With Dagger
 
-- 그렇다면 Dagger를 사용해보자.
+그렇다면 Dagger를 사용해보자.
 
 [Android Devloper에서 설명하는 Dagger](https://developer.android.com/training/dependency-injection/dagger-basics?hl=ko)에서 Dagger에 필요한 annotation을 이해하도록 하자.
 
