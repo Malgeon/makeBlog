@@ -1,0 +1,421 @@
+I"^<h3 id="di">DI</h3>
+
+<p><a href="https://developer.android.com/training/dependency-injection?hl=ko">Android Devloper에서 설명하는 DI</a>에서 설명이 잘 되어 있지만, 해당 예시에 Dagger를 적용해서 보여주진 않는다.</p>
+
+<p> 그래서 여기서는 커피를 내리는 동작을 하는 예시 프로그램을 수동 종속 삽입(Without DI), 간단한 Injection을 작성하여 자동 종속 삽입(With DI), 그리고 Dagger를 이용하여 종속 삽입(With Dagger) 경우를 살펴보면서 DI의 필요성을, 그리고 편이성을 이해해 보고자 한다.</p>
+
+<h4 id="기본-동작">기본 동작</h4>
+
+<p>우선 Coffee를 내리도록 Maker를 셋팅하고, 동작을 구현해 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMaker</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">,</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pump</span> <span class="o">=</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">(){</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">pump</span><span class="o">.</span><span class="na">pump</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">" [_]P coffee! [_]P "</span><span class="o">);</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>해당 Maker에는 Heater와 Pump가 필요하다. 이때 이 둘은 어떤 종류가 오더라도 상관이 없다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="c1">// Heater</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Heater</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">on</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">off</span><span class="o">();</span>
+    <span class="kt">boolean</span> <span class="nf">isHot</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="c1">// Pump</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Pump</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">pump</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그리고 A 상품을 사용하려고 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="c1">// A Heater</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A_Heater</span> <span class="kd">implements</span> <span class="nc">Heater</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">heating</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">A_Heater</span><span class="o">(){</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"A_Heater : ~ ~ ~ heating ~ ~ ~"</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heating</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heating</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isHot</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">heating</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="c1">// A Pump</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A_Pump</span> <span class="kd">implements</span> <span class="nc">Pump</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">A_Pump</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pump</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">heater</span><span class="o">.</span><span class="na">isHot</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"A_Pump =&gt; =&gt; pumping =&gt; =&gt;"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이제 동작을 시켜보자.</p>
+
+<ul>
+  <li>우선 직접 종속 항목을 삽입해 보자. : Without DI</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Heater</span> <span class="n">heater</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A_Heater</span><span class="o">();</span> <span class="c1">// A_heater 를 사용해야한다는 것을 알아야 한다.</span>
+    <span class="nc">Pump</span> <span class="n">pump</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A_Pump</span><span class="o">(</span><span class="n">heater</span><span class="o">);</span> <span class="c1">// A_pump 를 사용해야 한다는 것을 알아야 한다.</span>
+    <span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CoffeeMaker</span><span class="o">(</span><span class="n">heater</span><span class="o">,</span><span class="n">pump</span><span class="o">);</span>
+    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">brew</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Main Phase에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.</p>
+
+<ul>
+  <li>간단한 Injection을 만들어 자동 종속 항목 삽입을 해보자. : With DI</li>
+</ul>
+
+<p>Injection를 만들자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Injection</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Heater</span> <span class="nf">provideHeater</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">A_Heater</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Pump</span> <span class="nf">providePump</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">A_Pump</span><span class="o">(</span><span class="n">provideHeater</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">CoffeeMaker</span> <span class="nf">provideCoffeeMaker</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="n">provideHeater</span><span class="o">(),</span><span class="n">providePump</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Pump</span> <span class="nf">providePump</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">A_Pump</span><span class="o">(</span><span class="n">heater</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>만든 Injection을 이용하여 커피를 내려보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="c1">//어떤 heater와 pump가 필요한지 몰라도 된다. Injection class에 모두 정의 되어 있다.</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Heater</span> <span class="n">heater</span> <span class="o">=</span> <span class="nc">Injection</span><span class="o">.</span><span class="na">provideHeater</span><span class="o">();</span> <span class="c1">// A heater 가 필요한지 B heater 가 필요한지 몰라도 된다.</span>
+    <span class="nc">Pump</span> <span class="n">pump</span> <span class="o">=</span> <span class="nc">Injection</span><span class="o">.</span><span class="na">providePump</span><span class="o">(</span><span class="n">heater</span><span class="o">);</span> <span class="c1">// A pump가 필요한지 B pump가 필요한지 몰라도 된다.</span>
+    
+    <span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CoffeeMaker</span><span class="o">(</span><span class="nc">Injection</span><span class="o">.</span><span class="na">provideHeater</span><span class="o">(),</span><span class="nc">Injection</span><span class="o">.</span><span class="na">providePump</span><span class="o">());</span>
+    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">brew</span><span class="o">();</span>
+
+    <span class="c1">// 또는 coffeemaker 자체를 injection class 에서 di를 해줄수도 있다.</span>
+    <span class="nc">Injection</span><span class="o">.</span><span class="na">provideCoffeeMaker</span><span class="o">().</span><span class="na">brew</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Main Phase에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다.</p>
+
+<ul>
+  <li>그렇다면 Dagger를 사용해보자.</li>
+</ul>
+
+<p><a href="https://developer.android.com/training/dependency-injection/dagger-basics?hl=ko">Android Devloper에서 설명하는 Dagger</a>에서 Dagger에 필요한 annotation을 이해하도록 하자.</p>
+
+<p>Module 클래스를 만들어 의존성 관계를 설정해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="nd">@Module</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMakerModule</span> <span class="o">{</span>
+    <span class="nd">@Provides</span>
+    <span class="nc">Heater</span> <span class="nf">provideHeater</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">A_Heater</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Provides</span>
+    <span class="nc">Pump</span> <span class="nf">providePump</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">A_Pump</span><span class="o">(</span><span class="n">heater</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그리고 해당 Module을 통해 직접 주입해주는 Component 클래스를 만들자.</p>
+
+<p>이때 Component는 두가지 방법으로 주입을 해줄수 있는데</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="nc">CoffeeMakerModule</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CoffeeComponent</span> <span class="o">{</span>
+
+    <span class="c1">//provision method </span>
+    <span class="nc">CoffeeMaker</span> <span class="nf">make</span><span class="o">();</span>
+
+    <span class="c1">//member-injection method</span>
+    <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이제 주입을 해줘야 하는 항목들을 찾아 @Inject 해주도록 하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="c1">// CoffeeMaker</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMaker</span> <span class="o">{</span>
+    <span class="nd">@Inject</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="nd">@Inject</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(){}</span>
+
+    <span class="nd">@Inject</span>
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">,</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pump</span> <span class="o">=</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">(){</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">pump</span><span class="o">.</span><span class="na">pump</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">" [_]P coffee! [_]P "</span><span class="o">);</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Heater</span> <span class="nf">getHeater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Pump</span> <span class="nf">getPump</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="c1">// Pump</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A_Pump</span> <span class="kd">implements</span> <span class="nc">Pump</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+
+    <span class="nd">@Inject</span>
+    <span class="kd">public</span> <span class="nf">A_Pump</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Heater</span> <span class="nf">getHeater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pump</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">heater</span><span class="o">.</span><span class="na">isHot</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"A_Pump =&gt; =&gt; pumping =&gt; =&gt;"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이제 모든 준비를 마쳤으니 실행하도록 하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//provision method</span>
+    <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">make</span><span class="o">().</span><span class="na">brew</span><span class="o">();</span>
+
+    <span class="c1">//member-injection method</span>
+    <span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CoffeeMaker</span><span class="o">();</span>
+    <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">inject</span><span class="o">(</span><span class="n">coffeeMaker</span><span class="o">);</span>
+    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">brew</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>간단한 Dagger 사용이다.</p>
+
+<p>다음은 더욱 발전시켜 Dagger2를 적용하도록 해보자.</p>
+
+<p><a href="../study_Android_Dagger2">Dagger2 적용</a></p>
+
+:ET
