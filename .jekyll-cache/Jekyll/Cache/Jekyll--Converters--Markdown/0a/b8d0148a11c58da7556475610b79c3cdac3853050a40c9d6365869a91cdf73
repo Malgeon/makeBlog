@@ -1,0 +1,150 @@
+I"�<p><a href="../study_Android_DI">이전 DI 적용</a></p>
+
+<h3 id="dagger">Dagger</h3>
+
+<p>지난 포스트에서 다뤘던 CoffeeMaker에서 더욱 발전시켜 CoffeeMaker와 CafeInfo로 구성된 CafeApp을 만들어 보고자 한다. (CafeInfo는 단순히 카페 정보를 다루는 클래스이다.)</p>
+
+<p>그리고 Dagger를 적용하는 이유에 중점을 두었던 지난 포스트와는 다르게 Dagger가 동작하는 원리를 이해보고자 한다.</p>
+
+<p>또한 프로그램을 발전시킴에 따라 필요해진 기능을 적용해보고자 한다.
+<br /><br /></p>
+
+<h4 id="이전-setting과-동일하게">이전 Setting과 동일하게</h4>
+
+<h5 id="coffeebean">CoffeeBean</h5>
+
+<p>CoffeeMaker의 brew 기능을 추가하여 CoffeeBean을 받도록 하겠다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeBean</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">name</span><span class="o">(){</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"CoffeeBean"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="coffeemaker">CoffeeMaker</h5>
+
+<p>편의상 이전에 만든 CoffeeMaker에서 brew에 CoffeeBean을 받도록 하는 대신 Pumb는 제외하겠다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMaker</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+
+    <span class="nd">@Inject</span>
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">(</span><span class="nc">CoffeeBean</span> <span class="n">coffeeBean</span><span class="o">){</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"CoffeeBeen("</span><span class="o">+</span><span class="n">coffeeBean</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">") [_]P coffee! [_]P "</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="cafeinfo">CafeInfo</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CafeInfo</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CafeInfo</span><span class="o">(){}</span>
+
+    <span class="kd">public</span> <span class="nf">CafeInfo</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">){</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">welcome</span><span class="o">(){</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Welcome "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">==</span> <span class="kc">null</span><span class="o">?</span> <span class="s">""</span><span class="o">:</span><span class="n">name</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="cafemodule">CafeModule</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre><span class="nd">@Module</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CafeModule</span> <span class="o">{</span>
+    <span class="nd">@Provides</span>
+    <span class="nc">CafeInfo</span> <span class="nf">provideCafeInfo</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CafeInfo</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Provides</span>
+    <span class="nc">CoffeeMaker</span> <span class="nf">provideCoffeeMaker</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="n">heater</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Provides</span>
+    <span class="nc">Heater</span> <span class="nf">provideHeater</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Heater</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="cafecomponent">CafeComponent</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nc">CafeModule</span><span class="o">.</span><span class="na">class</span>
+<span class="o">})</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CafeComponent</span> <span class="o">{</span>
+    <span class="nc">CafeInfo</span> <span class="nf">cafeInfo</span><span class="o">();</span>
+    <span class="nc">CoffeeMaker</span> <span class="nf">coffeeMaker</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그러니까 이제 프로젝트를 빌드하면 Dagger는 자동으로 프로젝트 내의 Inject 항목을 구현하는 Factory를 만든다.그리고 Component의 interface를 구현하는 Dagger__Component Class를 만들고 종속 항목 그래프를 구성해 놓는다.</p>
+
+<h3 id="공부-중--아-진짜-러닝커브-높다">공부 중 … 아 진짜 러닝커브 높다..</h3>
+
+<p><a href="https://cmcmcmcm.blog/2017/08/02/didependency-injection-%ec%99%80-dagger2-2/">위 글은 이 포스트에서 참고하였습니다.</a></p>
+
+:ET

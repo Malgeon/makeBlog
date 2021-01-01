@@ -280,4 +280,7 @@ public static void main(String[] args) {
 다음은 더욱 발전시켜 Dagger2를 적용하도록 해보자.
 
 [Dagger2 적용](../study_Android_Dagger2)
+
+
+[위 글은 이 포스트에서 참고하였습니다.](https://cmcmcmcm.blog/2017/07/27/didependency-injection-%ec%99%80-dagger2/)
  
