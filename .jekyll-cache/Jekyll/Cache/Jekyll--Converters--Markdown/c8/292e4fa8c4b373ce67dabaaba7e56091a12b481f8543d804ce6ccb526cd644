@@ -1,4 +1,4 @@
-I"�_<h3 id="di">DI</h3>
+I"��<h3 id="di">DI</h3>
 
 <p> <a href="https://developer.android.com/training/dependency-injection?hl=ko">Android Devloper에서 설명하는 DI</a>에서 설명이 잘 되어 있지만, 해당 예시에 Dagger를 적용해서 보여주진 않는다.</p>
 
@@ -165,7 +165,7 @@
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>Main Phase에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.</p>
+<p>Main에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.</p>
 
 <h5 id="with-di">With DI</h5>
 
@@ -237,11 +237,17 @@
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>Main Phase에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다.</p>
+<p>Main에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다.</p>
+
+<h3 id="결론">결론</h3>
+
+<p>구성 단계에서 관계도만 잘 구성해 놓는다면 Injection에서 실제로 할당에 필요한 작업을 자동으로 프로세스 해준다.</p>
+
+<p>이게 DI를 사용하는 큰 이유중 하나이다.</p>
 
 <h5 id="with-dagger">With Dagger</h5>
 
-<p>그렇다면 Dagger를 사용해보자.</p>
+<p>그래서 이제 Dagger를 사용해보자.</p>
 
 <p><a href="https://developer.android.com/training/dependency-injection/dagger-basics?hl=ko">Android Devloper에서 설명하는 Dagger</a>에서 Dagger에 필요한 annotation을 이해하도록 하자.</p>
 
@@ -408,22 +414,202 @@
 7
 8
 9
+10
+11
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">CoffeeComponent</span> <span class="n">coffeeComponent</span> <span class="o">=</span> <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+
     <span class="c1">//provision method</span>
-    <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">make</span><span class="o">().</span><span class="na">brew</span><span class="o">();</span>
+    <span class="n">coffeeComponent</span><span class="o">.</span><span class="na">make</span><span class="o">().</span><span class="na">brew</span><span class="o">();</span>
 
     <span class="c1">//member-injection method</span>
     <span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CoffeeMaker</span><span class="o">();</span>
-    <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">inject</span><span class="o">(</span><span class="n">coffeeMaker</span><span class="o">);</span>
+    <span class="n">coffeeComponent</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="n">coffeeMaker</span><span class="o">);</span>
     <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">brew</span><span class="o">();</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>간단한 Dagger 사용이다.</p>
+<h4 id="dagger-동작-이해">Dagger 동작 이해</h4>
 
-<p>다음은 더욱 발전시켜 Dagger2를 적용하도록 해보자.</p>
+<p>이제 Dagger가 어떻게 동작하는지를 살펴보고자 한다.</p>
 
-<p><a href="../study_Android_Dagger2">Dagger2 적용</a></p>
+<p>프로젝트를 빌드하면 Dagger는 자동으로 프로젝트 내의 Inject와 Provide로 구성해 놓은 종속 항목 그래프를 그린다. 이때 @Component로 구성된 interface에서 dagger가 그래프를 그리도록 해준다. 해당 인터페이스는 Dagger__Component로 구현된다.</p>
+
+<p>또한 @Inject로 선언된 항목을 찾아 Factory 내지는 MembersInjector를 구현하고, @Provide로 선언된 항목을 찾아 Factory를 구현한다.</p>
+
+<p>여기서 주입하기 위한 방법으로 2가지를 확인 할수 있다.
+한꺼번에 보여주기 위해 겹처진 두개의 방법을 하나씩 각각 쪼개보면 다음과 같다.</p>
+
+<ul>
+  <li>provision method : 파라미터가 없고 return type은 Module로부터 제공되거나 주입되는 메소드이다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMaker</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(){}</span>
+
+    <span class="nd">@Inject</span>
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(</span><span class="nc">Heater</span> <span class="n">heater</span><span class="o">,</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heater</span> <span class="o">=</span> <span class="n">heater</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pump</span> <span class="o">=</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">(){</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">pump</span><span class="o">.</span><span class="na">pump</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">" [_]P coffee! [_]P "</span><span class="o">);</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Heater</span> <span class="nf">getHeater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Pump</span> <span class="nf">getPump</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="nc">CoffeeMakerModule</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CoffeeComponent</span> <span class="o">{</span>
+    <span class="c1">//provision method </span>
+    <span class="nc">CoffeeMaker</span> <span class="nf">make</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">CoffeeComponent</span> <span class="n">coffeeComponent</span> <span class="o">=</span> <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+    <span class="n">coffeeComponent</span><span class="o">.</span><span class="na">make</span><span class="o">().</span><span class="na">brew</span><span class="o">();</span>
+    <span class="cm">/* 사실 정확히는 아래와 같다.
+    CoffeeMaker coffeeMaker = coffeeComponent.make();
+    coffeeMaker.brew();
+    */</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>Member-Injection method</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoffeeMaker</span> <span class="o">{</span>
+    <span class="nd">@Inject</span> <span class="nc">Heater</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="nd">@Inject</span> <span class="nc">Pump</span> <span class="n">pump</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CoffeeMaker</span><span class="o">(){}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">(){</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">pump</span><span class="o">.</span><span class="na">pump</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">" [_]P coffee! [_]P "</span><span class="o">);</span>
+        <span class="n">heater</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Heater</span> <span class="nf">getHeater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">heater</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Pump</span> <span class="nf">getPump</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">pump</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="nd">@Component</span><span class="o">(</span><span class="n">modules</span> <span class="o">=</span> <span class="nc">CoffeeMakerModule</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CoffeeComponent</span> <span class="o">{</span>
+    <span class="c1">//member-injection method</span>
+    <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">CoffeeComponent</span> <span class="n">coffeeComponent</span> <span class="o">=</span> <span class="nc">DaggerCoffeeComponent</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+
+    <span class="nc">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CoffeeMaker</span><span class="o">();</span>
+    <span class="n">coffeeComponent</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="n">coffeeMaker</span><span class="o">);</span>
+    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">brew</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이렇게 기본적인 Dagger 동작을 살펴 보았다. 
+다음은 더욱 프로그램을 발전시키고 그에따라 필요해진 기능을 적용하도록 해보려고 한다.</p>
+
+<p><a href="../study_Android_Dagger">Dagger - @Singleton, SubComponent, @Binds….</a></p>
 
 <p><a href="https://cmcmcmcm.blog/2017/07/27/didependency-injection-%ec%99%80-dagger2/">위 글은 이 포스트에서 참고하였습니다.</a></p>
 

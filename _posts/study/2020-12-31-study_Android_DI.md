@@ -118,7 +118,7 @@ public static void main(String[] args) {
 }
 ```
 
-Main Phase에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.
+Main에서 우리는 Heter를 A Heater로 Pump를 A Pump셋팅을 해줘야하고, 커피를 셋팅해 주는 다음 커피를 내려주는 것을 알 수 있다.
 
 ##### With DI
 
@@ -162,11 +162,17 @@ public static void main(String[] args) {
 }
 ```
 
-Main Phase에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다. 
+Main에서 우리는 Heter와 Pump가 A인지, B인지 알 필요가 없다. 그것은 Injection에서 알아서 해준다.
+
+### 결론
+
+구성 단계에서 관계도만 잘 구성해 놓는다면 Injection에서 실제로 할당에 필요한 작업을 자동으로 프로세스 해준다.
+
+이게 DI를 사용하는 큰 이유중 하나이다.
 
 ##### With Dagger
 
-그렇다면 Dagger를 사용해보자.
+그래서 이제 Dagger를 사용해보자.
 
 [Android Devloper에서 설명하는 Dagger](https://developer.android.com/training/dependency-injection/dagger-basics?hl=ko)에서 Dagger에 필요한 annotation을 이해하도록 하자.
 
@@ -264,22 +270,129 @@ public class A_Pump implements Pump {
 
 ```java
 public static void main(String[] args) {
+    CoffeeComponent coffeeComponent = DaggerCoffeeComponent.create()
+
     //provision method
-    DaggerCoffeeComponent.create().make().brew();
+    coffeeComponent.make().brew();
 
     //member-injection method
     CoffeeMaker coffeeMaker = new CoffeeMaker();
-    DaggerCoffeeComponent.create().inject(coffeeMaker);
+    coffeeComponent.inject(coffeeMaker);
     coffeeMaker.brew();
 }
 ```
 
 
-간단한 Dagger 사용이다.
+#### Dagger 동작 이해
 
-다음은 더욱 발전시켜 Dagger2를 적용하도록 해보자.
+이제 Dagger가 어떻게 동작하는지를 살펴보고자 한다.
 
-[Dagger2 적용](../study_Android_Dagger2)
+프로젝트를 빌드하면 Dagger는 자동으로 프로젝트 내의 Inject와 Provide로 구성해 놓은 종속 항목 그래프를 그린다. 이때 @Component로 구성된 interface에서 dagger가 그래프를 그리도록 해준다. 해당 인터페이스는 Dagger__Component로 구현된다.
+
+또한 @Inject로 선언된 항목을 찾아 Factory 내지는 MembersInjector를 구현하고, @Provide로 선언된 항목을 찾아 Factory를 구현한다. 
+
+여기서 주입하기 위한 방법으로 2가지를 확인 할수 있다.
+한꺼번에 보여주기 위해 겹처진 두개의 방법을 하나씩 각각 쪼개보면 다음과 같다.
+
+- provision method : 파라미터가 없고 return type은 Module로부터 제공되거나 주입되는 메소드이다.
+
+```java
+public class CoffeeMaker {
+    private Heater heater;
+    private Pump pump;
+
+    public CoffeeMaker(){}
+
+    @Inject
+    public CoffeeMaker(Heater heater, Pump pump){
+        this.heater = heater;
+        this.pump = pump;
+    }
+
+    public void brew(){
+        heater.on();
+        pump.pump();
+        System.out.println(" [_]P coffee! [_]P ");
+        heater.off();
+    }
+
+    public Heater getHeater() {
+        return heater;
+    }
+
+    public Pump getPump() {
+        return pump;
+    }
+}
+```
+
+```java
+@Component(modules = CoffeeMakerModule.class)
+public interface CoffeeComponent {
+    //provision method 
+    CoffeeMaker make();
+}
+```
+
+```java
+public static void main(String[] args) {
+    CoffeeComponent coffeeComponent = DaggerCoffeeComponent.create()
+    coffeeComponent.make().brew();
+    /* 사실 정확히는 아래와 같다.
+    CoffeeMaker coffeeMaker = coffeeComponent.make();
+    coffeeMaker.brew();
+    */
+}
+```
+
+- Member-Injection method
+
+```java
+public class CoffeeMaker {
+    @Inject Heater heater;
+    @Inject Pump pump;
+
+    public CoffeeMaker(){}
+
+    public void brew(){
+        heater.on();
+        pump.pump();
+        System.out.println(" [_]P coffee! [_]P ");
+        heater.off();
+    }
+
+    public Heater getHeater() {
+        return heater;
+    }
+
+    public Pump getPump() {
+        return pump;
+    }
+}
+```
+
+```java
+@Component(modules = CoffeeMakerModule.class)
+public interface CoffeeComponent {
+    //member-injection method
+    void inject(CoffeeMaker coffeeMaker);
+}
+```
+
+```java
+public static void main(String[] args) {
+    CoffeeComponent coffeeComponent = DaggerCoffeeComponent.create()
+
+    CoffeeMaker coffeeMaker = new CoffeeMaker();
+    coffeeComponent.inject(coffeeMaker);
+    coffeeMaker.brew();
+}
+```
+
+이렇게 기본적인 Dagger 동작을 살펴 보았다. 
+다음은 더욱 프로그램을 발전시키고 그에따라 필요해진 기능을 적용하도록 해보려고 한다.
+
+[Dagger - @Singleton, SubComponent, @Binds....](../study_Android_Dagger)
 
 
 [위 글은 이 포스트에서 참고하였습니다.](https://cmcmcmcm.blog/2017/07/27/didependency-injection-%ec%99%80-dagger2/)
