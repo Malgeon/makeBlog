@@ -289,7 +289,7 @@ public static void main(String[] args) {
 
 프로젝트를 빌드하면 Dagger는 자동으로 프로젝트 내의 Inject와 Provide로 구성해 놓은 종속 항목 그래프를 그린다. 이때 @Component로 구성된 interface에서 dagger가 그래프를 그리도록 해준다. 해당 인터페이스는 Dagger__Component로 구현된다.
 
-또한 @Inject로 선언된 항목을 찾아 Factory 내지는 MembersInjector를 구현하고, @Provide로 선언된 항목을 찾아 Factory를 구현한다. 
+또한 인터페이스에서 모듈로 연결된 class의 @Provide로 선언된 항목을 찾아 Provide__Factory를 구현한다. 그리고 @Inject로 선언된 항목을 찾아 Factory 내지는 MembersInjector를 구현한다.
 
 여기서 주입하기 위한 방법으로 2가지를 확인 할수 있다.
 한꺼번에 보여주기 위해 겹처진 두개의 방법을 하나씩 각각 쪼개보면 다음과 같다.
