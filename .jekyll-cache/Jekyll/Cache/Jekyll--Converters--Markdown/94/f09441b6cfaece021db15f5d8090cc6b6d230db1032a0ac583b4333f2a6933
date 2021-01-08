@@ -1,0 +1,187 @@
+I"�0<h3 id="개요">개요</h3>
+
+<p>안드로이드를 공부하다 보면, viewModel을 할당하는 부분에서 by가 쓰이는 것을 볼수 있다.
+여기선 왜 by가 쓰이는지, <a href="../study_Kotlin_15">단순히 by를 소개했던 지난 포스팅</a>보다 자세히 다루려고 한다.</p>
+
+<h3 id="by-delegation">by Delegation</h3>
+
+<p><a href="https://kotlinlang.org/docs/reference/delegation.html">kotlin에서 설명하는 by Delegation</a>의 예시 프로그램을 이용하여 by Delegation을 이해해보자.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="n">b</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">b</span> <span class="p">=</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>10
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>우선 레퍼런스는 위의 예시에 대해 아래와 같이 설명한다.
+<code class="language-plaintext highlighter-rouge">상속을 표현하는 슈퍼타입 리스트 내의 by 절은 b(에 대한 참조)가 상속 오브젝트의 내부에 저장되고 컴파일러가 b가 가지는 Base 인터페이스의 모든 메소드를 생성함을 나타냅니다</code></p>
+
+<p>그렇다면 여기서</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="n">b</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이 부분을 디컴파일 해보면 다음과 같다. (그 윗부분은 알고있는 상속 인터페이스)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">implements</span> <span class="nc">Base</span> <span class="o">{</span>
+   <span class="c1">// $FF: synthetic field</span>
+   <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Base</span> <span class="err">$</span><span class="n">$delegate_0</span><span class="o">;</span>
+
+   <span class="kd">public</span> <span class="nf">Derived</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">Base</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Intrinsics</span><span class="o">.</span><span class="na">checkParameterIsNotNull</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="s">"b"</span><span class="o">);</span>
+      <span class="kd">super</span><span class="o">();</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printX</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span><span class="o">.</span><span class="na">printX</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>\(delegate_0가 Base 타입의 본래 인스턴스를 참조할 수 있도록 생성되며, printX()도 정적 메소드로 생성되어\)delegate_0의 printX()를 호출할 수 있도록 생성된다.</p>
+
+<p>그렇기 때문에, Derived를 사용할 때 Base에 대한 명시적 참조를 생략하고, printX() 메소드를 호출하는 것이 가능하다.</p>
+
+<p>그렇다면 오버라이딩 한 멤버를 위임할 경우는 어떻게 될까?</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">printMessage</span><span class="p">()</span>
+    <span class="k">fun</span> <span class="nf">printMessageLine</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">printMessage</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">printMessageLine</span><span class="p">()</span> <span class="p">{</span> <span class="nf">println</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="nf">b</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">printMessage</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"abc"</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">b</span> <span class="p">=</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="nf">printMessage</span><span class="p">()</span>
+    <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="nf">printMessageLine</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>abc10
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>다시 디컴파일을 해보자</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">implements</span> <span class="nc">Base</span> <span class="o">{</span>
+   <span class="c1">// $FF: synthetic field</span>
+   <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Base</span> <span class="err">$</span><span class="n">$delegate_0</span><span class="o">;</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nc">String</span> <span class="n">var1</span> <span class="o">=</span> <span class="s">"abc"</span><span class="o">;</span>
+      <span class="kt">boolean</span> <span class="n">var2</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">var1</span><span class="o">);</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="nf">Derived</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">Base</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Intrinsics</span><span class="o">.</span><span class="na">checkParameterIsNotNull</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="s">"b"</span><span class="o">);</span>
+      <span class="kd">super</span><span class="o">();</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessageLine</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span><span class="o">.</span><span class="na">printMessageLine</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>상속과 동일하다!?</p>
+
+<p>base를 impl한 b와 base를 impl한 derived는 상속 관계가 된다.</p>
+
+<p>사실 코틀린에서 상속을 하려면 open 키워드를 사용해야 한다. 그런데 위임을 사용한다면 레퍼런스에서 소개한대로 상속에 대안이 될수가 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">The Delegation pattern has proven to be a good alternative to implementation inheritance, and Kotlin supports it natively requiring zero boilerplate code</code></p>
+
+:ET

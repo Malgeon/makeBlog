@@ -45,6 +45,11 @@ images: [ assets/images/project/android/main.JPG, assets/images/project/android/
 
 # 현재 작업중
 
+### MVVM 디자인 패턴에 맞게 다시 구축
+
+MVVM이 아니었다...!!!
+
+
 ### UI
 
 - Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)

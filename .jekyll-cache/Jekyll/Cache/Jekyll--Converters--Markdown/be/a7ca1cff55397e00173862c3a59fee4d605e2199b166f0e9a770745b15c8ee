@@ -1,0 +1,40 @@
+I"t	<h3 id="개요">개요</h3>
+
+<p>안드로이드를 공부하다 보면, viewModel을 할당하는 부분에서 by가 쓰이는 것을 볼수 있다.
+여기선 왜 by가 쓰이는지, <a href="../study_Kotlin_15">단순히 by를 소개했던 지난 포스팅</a>보다 자세히 다루려고 한다.</p>
+
+<h3 id="by-delegation">by Delegation</h3>
+
+<p><a href="https://kotlinlang.org/docs/reference/delegation.html">kotlin에서 설명하는 by Delegation</a>의 예시 프로그램을 이용하여 by Delegation을 이해해보자.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="n">b</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">b</span> <span class="p">=</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

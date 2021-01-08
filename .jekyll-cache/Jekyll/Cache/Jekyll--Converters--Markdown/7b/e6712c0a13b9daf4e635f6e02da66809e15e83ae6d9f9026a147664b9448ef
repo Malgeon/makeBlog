@@ -1,4 +1,4 @@
-I"2<h1 id="spec">SPEC</h1>
+I"�<h1 id="spec">SPEC</h1>
 
 <h3 id="api">API</h3>
 
@@ -21,6 +21,10 @@
 <p><img src="/assets/images/project/android/android.jpg" alt="android!" /></p>
 
 <h1 id="현재-작업중">현재 작업중</h1>
+
+<h3 id="mvvm-디자인-패턴에-맞게-다시-구축">MVVM 디자인 패턴에 맞게 다시 구축</h3>
+
+<p>MVVM이 아니었다…!!!</p>
 
 <h3 id="ui">UI</h3>
 

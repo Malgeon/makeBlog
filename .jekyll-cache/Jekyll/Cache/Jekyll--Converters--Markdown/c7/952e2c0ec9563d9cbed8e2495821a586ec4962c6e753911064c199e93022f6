@@ -1,0 +1,16 @@
+I"�<h3 id="개요">개요</h3>
+
+<p>안드로이드를 공부하다 보면, viewModel을 할당하는 부분에서 by가 쓰이는 것을 볼수 있다.
+여기선 왜 by가 쓰이는지, <a href="../study_Kotlin_15">단순히 by를 소개했던 지난 포스팅</a>보다 자세히 다루려고 한다.</p>
+
+<p>코틀린에서는 두 가지의 Delegation을 소개한다.
+<a href="https://kotlinlang.org/docs/reference/delegated-properties.html">Property Delegation</a>과 <a href="https://kotlinlang.org/docs/reference/delegation.html">Implementation by Delegation</a></p>
+
+<p>두가지 모두 by를 사용하지만, 기능이 다르므로 나눠서 설명하겠다.</p>
+
+<p><a href="https://medium.com/til-kotlin-ko/kotlin-delegated-property-by-lazy%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%98%EB%8A%94%EA%B0%80-74912d3e9c56">참고자료 1</a></p>
+
+<p><br /><br /></p>
+
+<p><a href="http://blog.naver.com/PostView.nhn?blogId=yuyyulee&amp;logNo=221380919035&amp;categoryNo=22&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=search&amp;userTopListOpen=true&amp;userTopListCount=5&amp;userTopListManageOpen=false&amp;userTopListCurrentPage=1">참고자료 2</a></p>
+:ET

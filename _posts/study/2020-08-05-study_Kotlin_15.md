@@ -51,6 +51,7 @@ fun main() {
 ```
 
 객체 지연 초기화
+
 ```javascript
 data class Person(var name:String, var age: Int) 
 
@@ -94,6 +95,7 @@ fun main() {
 ```
 
 lazy 객체 지연 초기화
+
 ```javascript
 class Person(val name: String, val age: Int)
 
@@ -135,6 +137,7 @@ private val model by lazy (mode = LazyThreadSafetyMode.NONE) {
 위임(delegation)
 - 하나의 클래스가 다른 클래스에 위임하도록 선언
 - 위임된 클래스가 가지는 멤버를 참조없이 호출
+
 ```
 < val|var|class > 프로퍼티 혹은 클래스 이름: 자료형 by 위임자
 ```

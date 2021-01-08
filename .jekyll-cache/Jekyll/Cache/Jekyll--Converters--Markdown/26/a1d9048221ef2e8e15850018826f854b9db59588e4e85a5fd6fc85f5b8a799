@@ -1,4 +1,4 @@
-I"�q<h3 id="지연-초기화">지연 초기화</h3>
+I"�q<h3 id="지연-초기화">지연 초기화</h3>
 <p>변수나 객체의 값은 생성시 초기화가 필요하다. 생성 할때 초기화를 진행하기 보다 해당 정보가 나중에 정해지는 경우가 있으므로 프로그램의 성능측면에서 나중에 초기화를 진행하게 되는데 이때 해당 변수나 객체의 값은 null을 가리키게 된다. 그러나 코틀린에서는 이러한 null 값을 용납하지 못한다. 그래서 lateinit과 lazy를 이용하여 null 값을 가지지 않도록 객체의 정보가 나중에 나타나는 때에 초기화 할수 있도록 도와준다.</p>
 
 <h3 id="lateinit">lateinit</h3>
@@ -63,6 +63,7 @@
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>객체 지연 초기화</p>
+
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -135,6 +136,7 @@
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>lazy 객체 지연 초기화</p>
+
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -200,12 +202,12 @@
 <p>위임(delegation)</p>
 <ul>
   <li>하나의 클래스가 다른 클래스에 위임하도록 선언</li>
-  <li>위임된 클래스가 가지는 멤버를 참조없이 호출
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre>&lt; val|var|class &gt; 프로퍼티 혹은 클래스 이름: 자료형 by 위임자
-</pre></td></tr></tbody></table></code></pre></div>    </div>
-  </li>
+  <li>위임된 클래스가 가지는 멤버를 참조없이 호출</li>
 </ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>&lt; val|var|class &gt; 프로퍼티 혹은 클래스 이름: 자료형 by 위임자
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2

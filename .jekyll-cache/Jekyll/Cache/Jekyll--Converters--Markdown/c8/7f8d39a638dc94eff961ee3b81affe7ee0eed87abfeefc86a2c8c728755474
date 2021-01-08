@@ -1,0 +1,85 @@
+I"R<h3 id="개요">개요</h3>
+
+<p>안드로이드를 공부하다 보면, viewModel을 할당하는 부분에서 by가 쓰이는 것을 볼수 있다.
+여기선 왜 by가 쓰이는지, <a href="../study_Kotlin_15">단순히 by를 소개했던 지난 포스팅</a>보다 자세히 다루려고 한다.</p>
+
+<h3 id="by-delegation">by Delegation</h3>
+
+<p><a href="https://kotlinlang.org/docs/reference/delegation.html">kotlin에서 설명하는 by Delegation</a>의 예시 프로그램을 이용하여 by Delegation을 이해해보자.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">print</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="n">b</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">b</span> <span class="p">=</span> <span class="nc">BaseImpl</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="nf">print</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>10
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>우선 레퍼런스는 위의 예시에 대해 아래와 같이 설명한다.
+<code class="language-plaintext highlighter-rouge">상속을 표현하는 슈퍼타입 리스트 내의 by 절은 b(에 대한 참조)가 상속 오브젝트의 내부에 저장되고 컴파일러가 b가 가지는 Base 인터페이스의 모든 메소드를 생성함을 나타냅니다</code></p>
+
+<p>그렇다면 여기서</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="nc">Base</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Base</span> <span class="k">by</span> <span class="n">b</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이 부분을 디컴파일 해보면 다음과 같다. (그 윗부분은 알고있는 상속 인터페이스)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">implements</span> <span class="nc">Base</span> <span class="o">{</span>
+   <span class="c1">// $FF: synthetic field</span>
+   <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Base</span> <span class="err">$</span><span class="n">$delegate_0</span><span class="o">;</span>
+
+   <span class="kd">public</span> <span class="nf">Derived</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">Base</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Intrinsics</span><span class="o">.</span><span class="na">checkParameterIsNotNull</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="s">"b"</span><span class="o">);</span>
+      <span class="kd">super</span><span class="o">();</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printX</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="err">$</span><span class="n">$delegate_0</span><span class="o">.</span><span class="na">printX</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET
