@@ -1,0 +1,311 @@
+I"�N<h3 id="delegation">Delegation</h3>
+
+<p>코틀린에서는 두 가지의 Delegation을 소개한다.</p>
+
+<p><a href="https://kotlinlang.org/docs/reference/delegated-properties.html">Property Delegation</a>과 <a href="https://kotlinlang.org/docs/reference/delegation.html">Implementation by Delegation</a>.</p>
+
+<p>이 둘은 각기 다른 기능을 가지고 있는데, 2개의 포스트로 각각의 기능을 이해해보려 한다.</p>
+
+<h3 id="property-delegation">Property Delegation</h3>
+
+<p>프로퍼티 위임(Property Delegation)은 프로퍼티에 대한 getter/setter를 위임하여 위임받은 객체로 하여금 값을 읽고 쓸 때 어떠한 중간 동작을 수행하는 기능이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>val/var &lt;property name&gt;: &lt;Type&gt; by &lt;delegate&gt;
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이제 이름과 나이 그리고 연봉을 저장하는 프로그램에서 위임을 적용하는 과정을 보여주려고 한다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">_age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="kd">val</span> <span class="py">_salary</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="py">age</span> <span class="p">=</span> <span class="n">_age</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"age get: $field"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">field</span>
+        <span class="p">}</span>
+        <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"age set: $value"</span><span class="p">)</span>
+            <span class="n">field</span> <span class="p">=</span> <span class="n">value</span>
+        <span class="p">}</span>
+    <span class="kd">var</span> <span class="py">salary</span> <span class="p">=</span> <span class="n">_salary</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"salary get: $field"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">field</span>
+        <span class="p">}</span>
+        <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"salary set: $value"</span><span class="p">)</span>
+            <span class="n">field</span> <span class="p">=</span> <span class="n">value</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">p</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"K"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">salary</span> <span class="p">=</span> <span class="mi">2100</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"${p.name} - age: ${p.age}, salary: ${p.salary}"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>age set: 21
+salary set: 2100
+age get: 21
+salary get: 2100
+K - age: 21, salary: 2100 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>간단한 프로그램임에도 코드가 많다. 여기서 코드를 줄이기 위해 중복되는 동작인 get과 set을 분리하여 호출하도록 만들었다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Delegator</span><span class="p">(</span><span class="kd">val</span> <span class="py">fname</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="py">value</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">=</span><span class="mi">0</span>
+    <span class="k">fun</span> <span class="nf">getMethod</span><span class="p">():</span> <span class="nc">Int</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$fname get: $value"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+    <span class="k">fun</span> <span class="nf">setMethod</span><span class="p">(</span><span class="n">newValue</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$fname set: $newValue"</span><span class="p">)</span>
+        <span class="n">value</span> <span class="p">=</span> <span class="n">newValue</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">ageDelegator</span> <span class="p">=</span> <span class="nc">Delegator</span><span class="p">(</span><span class="s">"age"</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="py">salaryDelegator</span> <span class="p">=</span> <span class="nc">Delegator</span><span class="p">(</span><span class="s">"salary"</span><span class="p">)</span>
+
+    <span class="kd">var</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="n">ageDelegator</span><span class="p">.</span><span class="nf">getMethod</span><span class="p">()</span>
+        <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">=</span> <span class="n">ageDelegator</span><span class="p">.</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="py">salary</span><span class="p">:</span> <span class="nc">Int</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="n">salaryDelegator</span><span class="p">.</span><span class="nf">getMethod</span><span class="p">()</span>
+        <span class="k">set</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">=</span> <span class="n">salaryDelegator</span><span class="p">.</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">p</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"K"</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">salary</span> <span class="p">=</span> <span class="mi">2100</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"${p.name} - age: ${p.age}, salary: ${p.salary}"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>age set: 21
+salary set: 2100
+age get: 21
+salary get: 2100
+K - age: 21, salary: 2100 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>여기에 더하여 코틀린은 by를 지원하여 프로퍼티의 get과 set을 이어주도록 만들어준다.
+실제 Property Delegation에서 제공하는 Delegator가 아래와 같이 만들어져 있다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">salary</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span> <span class="k">by</span> <span class="nc">Delegator</span><span class="p">(</span><span class="n">age</span>
+    <span class="kd">var</span> <span class="py">salary</span><span class="p">:</span> <span class="nc">Int</span> <span class="k">by</span> <span class="nc">Delegator</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Delegator</span><span class="p">(</span><span class="kd">var</span> <span class="py">value</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">getValue</span><span class="p">(</span><span class="k">this</span><span class="nc">Ref</span><span class="p">:</span> <span class="nc">Person</span><span class="p">,</span> <span class="n">property</span><span class="p">:</span> <span class="nc">KProperty</span><span class="p">&lt;</span><span class="err">*</span><span class="p">&gt;):</span> <span class="nc">Int</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"${property.name} get: $value"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">setValue</span><span class="p">(</span><span class="k">this</span><span class="nc">Ref</span><span class="p">:</span> <span class="nc">Person</span><span class="p">,</span> <span class="n">property</span><span class="p">:</span> <span class="nc">KProperty</span><span class="p">&lt;</span><span class="err">*</span><span class="p">&gt;,</span> <span class="n">newValue</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"${property.name} set: $newValue"</span><span class="p">)</span>
+        <span class="n">value</span> <span class="p">=</span> <span class="n">newValue</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">p</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"K"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">salary</span> <span class="p">=</span> <span class="mi">2100</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"${p.name} - age: ${p.age}, salary: ${p.salary} "</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>age set: 21
+salary set: 2100
+age get: 21
+salary get: 2100
+K - age: 21, salary: 2100 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>여기서 끝나지 않는다!</p>
+
+<p>해당 Delegater에서는 더 많은 기능 부여 할 수 있다.
+아래는 실제 코틀린에서 제공하는 Delegator를 이용해 더 많은 기능을 부여해 보았다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">makeDelegator</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">=</span> <span class="nc">Delegator</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="kd">class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="n">salary</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">thisName</span> <span class="p">=</span> <span class="s">"Person 객체"</span>
+
+    <span class="kd">var</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span> <span class="k">by</span> <span class="nf">makeDelegator</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="py">salary</span><span class="p">:</span> <span class="nc">Int</span> <span class="k">by</span> <span class="nf">makeDelegator</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Delegator</span><span class="p">(</span><span class="kd">var</span> <span class="py">person</span><span class="p">:</span> <span class="nc">Person</span><span class="p">,</span> <span class="kd">var</span> <span class="py">value</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nf">init</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"Delegator 실행!! 여긴 ${person.thisName}"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">getValue</span><span class="p">(</span><span class="k">this</span><span class="nc">Ref</span><span class="p">:</span> <span class="nc">Person</span><span class="p">,</span> <span class="n">property</span><span class="p">:</span> <span class="nc">KProperty</span><span class="p">&lt;</span><span class="err">*</span><span class="p">&gt;):</span> <span class="nc">Int</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"${property.name} get: $value"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+
+    <span class="k">operator</span> <span class="k">fun</span> <span class="nf">setValue</span><span class="p">(</span><span class="k">this</span><span class="nc">Ref</span><span class="p">:</span> <span class="nc">Person</span><span class="p">,</span> <span class="n">property</span><span class="p">:</span> <span class="nc">KProperty</span><span class="p">&lt;</span><span class="err">*</span><span class="p">&gt;,</span> <span class="n">newValue</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"${property.name} set: $newValue"</span><span class="p">)</span>
+        <span class="n">value</span> <span class="p">=</span> <span class="n">newValue</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">p</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"K"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">salary</span> <span class="p">=</span> <span class="mi">2100</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"${p.name} - age: ${p.age}, salary: ${p.salary} "</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>Delegator 실행!! 여긴 Person 객체
+Delegator 실행!! 여긴 Person 객체
+age set: 21
+salary set: 2100
+age get: 21
+salary get: 2100
+K - age: 21, salary: 2100 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

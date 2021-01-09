@@ -1,0 +1,132 @@
+I"�)<h3 id="개요">개요</h3>
+
+<p>코틀린이 지원하는 Property 접근 방법을 알아보려고 한다.</p>
+
+<p><a href="https://medium.com/til-kotlin-ko/kotlin-delegated-property-by-lazy%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%98%EB%8A%94%EA%B0%80-74912d3e9c56">이 글은 이 포스트를 기반으로 작성되었다.</a></p>
+
+<h3 id="kotlin">kotlin</h3>
+
+<p>코틀린은 null을 싫어한다. (개인적인 생각이다.)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MainActivity</span> <span class="o">:</span> <span class="nc">AppCompatActivity</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">var</span> <span class="n">helloMessage</span> <span class="o">:</span> <span class="nc">String</span> <span class="o">=</span> <span class="s">"Hello"</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그러나 아래와 같이 프로그램의 라이프사이클에서 초기화 이후 Property의 참조를 생성해야 하는 경우가 많다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="nc">AppCompatActivity</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">TextView</span> <span class="n">mWelcomeTextView</span><span class="o">;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+        <span class="n">mWelcomeTextView</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">msgView</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>물론 똑같이 만들수는 있다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MainActivity</span> <span class="p">:</span> <span class="nc">AppCompatActivity</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="kd">var</span> <span class="py">mWelcomeTextView</span><span class="p">:</span> <span class="nc">TextView</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+        <span class="nf">setContentView</span><span class="p">(</span><span class="nc">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_main</span><span class="p">)</span>
+        <span class="n">mWelcomeTextView</span> <span class="p">=</span> <span class="nf">findViewById</span><span class="p">(</span><span class="nc">R</span><span class="p">.</span><span class="n">id</span><span class="p">.</span><span class="n">msgView</span><span class="p">)</span> <span class="k">as</span> <span class="nc">TextView</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>그렇지만 앞서 말했듯 kotlin은 null을 싫어한다. 그래서 하나의 방법으로 lateinit을 지원한다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MainActivity</span> <span class="p">:</span> <span class="nc">AppCompatActivity</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">mWelcomeTextView</span><span class="p">:</span> <span class="nc">TextView</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+        <span class="nf">setContentView</span><span class="p">(</span><span class="nc">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_main</span><span class="p">)</span>
+        <span class="n">mWelcomeTextView</span> <span class="p">=</span> <span class="nf">findViewById</span><span class="p">(</span><span class="nc">R</span><span class="p">.</span><span class="n">id</span><span class="p">.</span><span class="n">msgView</span><span class="p">)</span> <span class="k">as</span> <span class="nc">TextView</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>lateinit은 생성자 단계에서 값이 저장되지 않은 상태를 컴파일러가 인정하도록 한다.
+따라서 컴파일 단계에서의 값과 처음 값에 접근할 때의 값이 다르므로 해당 프로퍼티는 var만이 사용할 수 있다.</p>
+
+<p>그렇지만 위의 프로그램을 살펴보면 MainActivity의 라이프사이클동안 해당 참조는 동일하기 떄문에 read-only로 주어야 하지 않을까?</p>
+
+<p>이를 위해 kotlin에서는 by lazy를 이용한 초기화 지연을 제공한다.</p>
+
+<h3 id="by-lazy">by lazy</h3>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MainActivity</span> <span class="p">:</span> <span class="nc">AppCompatActivity</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">messageView</span> <span class="p">:</span> <span class="nc">TextView</span> <span class="k">by</span> <span class="nf">lazy</span> <span class="p">{</span>
+        <span class="c1">// messageView의 첫 액세스에서 실행됩니다</span>
+        <span class="nf">findViewById</span><span class="p">(</span><span class="nc">R</span><span class="p">.</span><span class="n">id</span><span class="p">.</span><span class="n">message_view</span><span class="p">)</span> <span class="k">as</span> <span class="nc">TextView</span>
+    <span class="p">}</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">fun</span> <span class="nf">onSayHello</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">messageView</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">"Hello"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>이제 by lazy의 동작을 살펴보고 이해해보자.</p>
+
+<div class="card h-100 my-u-padding"><div class="insertcover"><div class=""><img class="inserturl" src="/assets/images/study/kotlin/kotlin_bylazy.png" alt="by lazy" /></div></div></div>
+
+<p><a href="https://medium.com/til-kotlin-ko/kotlin-delegated-property-by-lazy%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%98%EB%8A%94%EA%B0%80-74912d3e9c56">공부 자료</a></p>
+
+<p>코틀린에서는 두 가지의 Delegation을 소개한다.
+<a href="https://kotlinlang.org/docs/reference/delegated-properties.html">Property Delegation</a>과 <a href="https://kotlinlang.org/docs/reference/delegation.html">Implementation by Delegation</a></p>
+
+<p>두가지 모두 by를 사용하지만, 기능이 다르므로 나눠서 설명하겠다.</p>
+
+<h3 id="작성중-작성날짜는-편의상-작성하기-시작한-날입니다-완료한-날이-아니에요-ㅎㅎ">작성중 (작성날짜는 편의상 작성하기 시작한 날입니다.. 완료한 날이 아니에요 ㅎㅎ)</h3>
+
+<p><br /><br /></p>
+
+<p><a href="http://blog.naver.com/PostView.nhn?blogId=yuyyulee&amp;logNo=221380919035&amp;categoryNo=22&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=search&amp;userTopListOpen=true&amp;userTopListCount=5&amp;userTopListManageOpen=false&amp;userTopListCurrentPage=1">참고자료 2</a></p>
+:ET
