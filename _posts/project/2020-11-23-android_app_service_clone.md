@@ -46,30 +46,43 @@ images: [ assets/images/project/android/main.JPG, assets/images/project/android/
 # 현재 작업중
 
 ### MVVM 디자인 패턴에 맞게 다시 구축
-
 MVVM이 아니었다...!!!
 
+MVVM의 ViewModel 기능에 맞도록 databinding과 viewbinding을 적용하자.
+
+### LiveData 활용도
+(MVVM의 dataBinding과 연결되어) 단순히 API의 response값만 받는 형태가 아닌, 프래그먼트 primary Key 처리 등
+활용도를 높이자.
+
+MediatorLiveData의 메커니즘을 이해하여 사용하자.
+
+### Livecycle에 대한 이해
+특정 시점에서 fragment lifecycle이 destroy되지 않는 현상에 대한 대안으로 viewLifecycleOwner를 사용하며, background에서 observing을 필요로 하는 작업에 대하여 observeForever을 사용하는 등 여러 작업을 통해 lifecycle을 이해하며 사용하도록 하자.
+
 
 ### UI
-
 - Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)
 
+<br><br><br><br>
 
-# 추가 작업 예정 목록
-
-### UI
-
-- 리스트 뷰를 동적으로 추가해주는 함수 작업
-
-
-# 리팩토링
+# 리팩토링 관련 자료
 
 ### LinearLayout -> ConstraintLayout
 
-[ConstraintLatout](https://academy.realm.io/kr/posts/constraintlayout-it-can-do-what-now/)에 대한 글.
+[ConstraintLatout](https://academy.realm.io/kr/posts/constraintlayout-it-can-do-what-now/)에 관한 글.
 
+### ListAdapter
 
+[ListAdapter](https://zion830.tistory.com/86)에 관한 글.
 
+### Lifecycle
+
+[Lifecycle](http://pluu.github.io/blog/android/2020/01/25/android-fragment-lifecycle/)에 관한 글.
+[ViewLifecycleOwner](https://uchun.dev/caution-when-using-a-fragment-viewLifecycleOwner/)에 관한 글.
+
+### LiveData
+
+[LiveData](https://hckim999.tistory.com/26)에 관한 글.
 
 
 
