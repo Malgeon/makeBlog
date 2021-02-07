@@ -1,4 +1,4 @@
-I"�)<h3 id="job">Job()</h3>
+I"�+<h3 id="job">Job()</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
@@ -195,14 +195,55 @@ job: false, true
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h3 id="job의-상태">Job의 상태</h3>
-<p>| 상태 | isActive | isCompleted | isCancelled |
-| — | — | — | — |
-| New | false | false | false |
-| Active(기본값 상태) | true | false | false |
-| Completing | true | false | false |
-| Cancelling | false | false | true |
-| Cancelled(최종 상태) | false | true | true |
-| Completed(최종 상태) | false | true | false |</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>상태</th>
+      <th>isActive</th>
+      <th>isCompleted</th>
+      <th>isCancelled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>New</td>
+      <td>false</td>
+      <td>false</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Active(기본값 상태)</td>
+      <td>true</td>
+      <td>false</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Completing</td>
+      <td>true</td>
+      <td>false</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Cancelling</td>
+      <td>false</td>
+      <td>false</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Cancelled(최종 상태)</td>
+      <td>false</td>
+      <td>true</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Completed(최종 상태)</td>
+      <td>false</td>
+      <td>true</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><img src="/assets/images/study/kotlin/kotlin_oop_job_status.JPG" alt="Job-Status" /></p>
 

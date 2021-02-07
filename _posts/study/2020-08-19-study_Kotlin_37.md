@@ -127,6 +127,7 @@ job: false, true
 
 
 ### Job의 상태
+
 | 상태 | isActive | isCompleted | isCancelled |
 | --- | --- | --- | --- |
 | New | false | false | false |

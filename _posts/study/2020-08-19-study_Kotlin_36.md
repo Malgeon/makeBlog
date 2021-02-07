@@ -19,6 +19,7 @@ image: assets/images/study/kotlin.png
 ### 코루틴의 주요 패키지
 
 - kotlinx.coroutines의 common 패키지
+
 | 기능 | 설명 |
 | --- | --- |
 | launch / async | 코루틴 빌더 |
@@ -30,6 +31,7 @@ image: assets/images/study/kotlin.png
 | select | 표현식 지원 |
 
 - core 패키지
+
 | 기능 | 설명 |
 | --- | --- |
 | CommonPool | 코루틴 컨텍스트 |
