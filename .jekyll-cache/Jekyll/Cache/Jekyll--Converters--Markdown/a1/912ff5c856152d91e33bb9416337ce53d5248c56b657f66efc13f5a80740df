@@ -1,5 +1,4 @@
-I"8
-<h1 id="spec">SPEC</h1>
+I"4<h1 id="spec">SPEC</h1>
 
 <h3 id="api">API</h3>
 
@@ -41,6 +40,9 @@
 <ul>
   <li>Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)</li>
 </ul>
+
+<h3 id="test">Test</h3>
+<p>resource LiveData(또는 call, observable, single 등등), background 동작을 위한 thread 환경 등에 필요한 환경을 구축하고 목적에 맞는 값이 들어오는지 확인하는 Test를 만들어 보자.</p>
 
 <p><br /><br /><br /><br /></p>
 

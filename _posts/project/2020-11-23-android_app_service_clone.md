@@ -59,9 +59,12 @@ MediatorLiveData의 메커니즘을 이해하여 사용하자.
 ### Livecycle에 대한 이해
 특정 시점에서 fragment lifecycle이 destroy되지 않는 현상에 대한 대안으로 viewLifecycleOwner를 사용하며, background에서 observing을 필요로 하는 작업에 대하여 observeForever을 사용하는 등 여러 작업을 통해 lifecycle을 이해하며 사용하도록 하자.
 
-
 ### UI
 - Statusbar와 Toolbar가 스크롤에 따라 투명도가 같이 변하는 함수 작업(이미지를 화면 전체로 채우기 위함)
+
+### Test
+resource LiveData(또는 call, observable, single 등등), background 동작을 위한 thread 환경 등에 필요한 환경을 구축하고 목적에 맞는 값이 들어오는지 확인하는 Test를 만들어 보자. 
+
 
 <br><br><br><br>
 
