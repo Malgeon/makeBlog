@@ -1,8 +1,8 @@
 ---
 layout: post
 author: study
-title:  "Design Pattern - Observer Pattern"
-description: "옵저버 패턴에 대해 알아보자"
+title:  "Design Pattern - Observer Pattern 1"
+description: "옵저버 패턴에 대해 알아보자 (feat. LiveData.observe())"
 categories: [ study ]
 postImgOn: true
 tags: [ android ]
@@ -142,9 +142,7 @@ public class AnnualSubscriber implements Observer {
     private void display() { 
         System.out.println("\n\n오늘의 뉴스\n============================\n\n" + newsString); 
     }
-
 }
-
 ```
 
 ```java
@@ -153,14 +151,19 @@ public class EventSubscriber implements Observer {
     private Publisher publisher; 
     
     public EventSubscriber(Publisher publisher) {
-        this.publisher = publisher; publisher.add(this); 
+        this.publisher = publisher;
+        publisher.add(this); 
     } 
     
     @Override public void update(String title, String news) { 
         newsString = title + "\n------------------------------------\n" + news;
         display();
     }
-    
+
+    public void withdraw() { 
+        publisher.delete(this); // 구독 해지!
+    }
+
     public void display() { 
         System.out.println("\n\n=== 이벤트 유저 ===");
         System.out.println("\n\n" + newsString);
@@ -177,8 +180,11 @@ public class MainClass {
         AnnualSubscriber as = new AnnualSubscriber(newsMachine); 
         EventSubscriber es = new EventSubscriber(newsMachine); 
         
-        newsMachine.setNewsInfo("오늘 한파", "전국 영하 18도 입니다."); 
-        newsMachine.setNewsInfo("벛꽃 축제합니다", "다같이 벚꽃보러~"); 
+        newsMachine.setNewsInfo("오늘 한파", "전국 영하 18도 입니다.");
+
+        es.withdraw();
+
+        newsMachine.setNewsInfo("벚꽃 축제합니다", "다같이 벚꽃보러 갑시다."); 
     } 
 }
 ```
@@ -203,17 +209,9 @@ public class MainClass {
 오늘의 뉴스
 ============================
 
-벛꽃 축제합니다
+벚꽃 축제합니다
  -------- 
-다같이 벚꽃보러~
-
-
-=== 이벤트 유저 ===
-
-
-벛꽃 축제합니다
-------------------------------------
-다같이 벚꽃보러~
+다같이 벚꽃보러 갑시다.
 ```
 
 
@@ -224,22 +222,130 @@ public class MainClass {
 
 앞서 공부한 예시를 안드로이드에서 동작하는 방식으로 바꿔보자.
 
-안드로이드에선 값.observe(lifecycle, onChange) 형식으로 동작을 한다.
+안드로이드에선 `관찰하고자 하는 값`.observe(`lifecycle`, `변경 시 동작 함수`)방식으로 동작을 한다. 이때, lifecycle은 activity나 fragment을 의미한다.
 
+여기선 편의상 lifecycle을 제외하고 만들어 보자.
 
+안드로이드의 java observe를 살펴보면 데이터 안정성 및 lifecycle 관리를 위한 처리가 추가로 되어있지만 컨셉은 동일함을 알수 있다.
 
+```kotlin
+interface MyObserver {
+    fun update(title: String, news: String)
+}
+```
 
+```kotlin
+interface Publisher {
+    fun add(observer: MyObserver)
+    fun delete(observer: MyObserver)
+    fun notifyObserver()
+}
 
+```
 
+```kotlin
+class NewsMachine(var title: String, var news: String) : Publisher {
+    private val observers = mutableListOf<MyObserver>()
 
+    override fun add(observer: MyObserver) {
+        observers.add(observer)
+    }
 
+    override fun delete(observer: MyObserver) {
+        observers.remove(observer)
+    }
 
+    override fun notifyObserver() {
+        for (item in observers) {
+            item.update(title, news)
+        }
+    }
 
+    fun setNewsInfo(title: String, news: String) {
+        this.title = title
+        this.news = news
+        notifyObserver()
+    }
+}
+```
 
+다만 구독을 하는 객체를 따로 만들어 할당하지 않고 익명객체로서 처리를 하여 바로 등록을 한다. observe에 등록된 lifecycle에서 특정 상태가 되면, 자동으로 해제되기 때문에 구독자에게 접근할 객체를 할당해 가지고 있지 않아도 된다.
 
+```kotlin
+fun main() {
 
+    val newsMachine = NewsMachine("초기값", "초기값")
 
+    newsMachine.add(object: MyObserver {
+        override fun update(title: String, news: String) {
+            println("이벤트유저")
+            println("$title")
+            println("==============================")
+            println("$news")
+        }
+    })
+    newsMachine.add(object: MyObserver {
+        override fun update(title: String, news: String) {
+            println("오늘의뉴스")
+            println("$title")
+            println("==============================")
+            println("$news")
+        }
+    })
 
+    newsMachine.setNewsInfo("오늘 한파", "전국 영하 18도 입니다.")
+    newsMachine.setNewsInfo("벚꽃 축제합니다.", "다같이 벚꽃보러 갑시다.")
+}
+```
 
+코틀린에서는 이를 더욱 간단하게 함수형으로 만들어 사용한다.
 
+```kotlin
+fun NewsMachine.add(update: (title:String , news: String) -> Unit ): MyObserver {
+    // val writeProperty = MyObserver { title, news -> update.invoke(title, news) }  
+    // 위의 방법이 왜 컴파일에러인지는 공부 중이다.
+    val wrappedObserver = object : MyObserver {
+        override fun update(title: String, news: String) {
+            update.invoke(title, news)
+        }
+    }
+    add(wrappedObserver)
+    return wrappedObserver
+}
+```
 
+observe와 비슷함을 확인할 수 있다.
+
+```kotlin
+fun main() {
+    val newsMachine = NewsMachine("초기값", "초기값")
+
+    newsMachine.add{title, news ->
+        println("이벤트유저")
+        println("$title")
+        println("==============================")
+        println("$news")
+    }
+
+    newsMachine.add{title, news ->
+        println("오늘의뉴스")
+        println("$title")
+        println("==============================")
+        println("$news")
+    }
+
+    newsMachine.setNewsInfo("오늘 한파", "전국 영하 18도 입니다.")
+    newsMachine.setNewsInfo("벚꽃 축제합니다.", "다같이 벚꽃보러 갑시다.")
+}
+```
+
+### 결론
+
+이렇게 안드로이드에서 Observer Pattern인 LiveData를 보았다.
+이를 통해 LiveData안에서 구독자를 관리하고 있으며, 이 구독자는 익명객체를 동해서 집어 넣더라도 미리 설정한 기능을 수행할수 있다는 것을 알게된다.
+
+안드로이드에선 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다. 
+
+이때 Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.
+ 
+다음 포스팅을 통해 자세히 살펴보자.

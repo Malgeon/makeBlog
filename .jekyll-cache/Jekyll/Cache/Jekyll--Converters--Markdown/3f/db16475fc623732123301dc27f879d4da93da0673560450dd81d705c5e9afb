@@ -1,4 +1,4 @@
-I"�J<h3 id="개요">개요</h3>
+I"N�<h3 id="개요">개요</h3>
 
 <p>비동기(Async) 이벤트와 Observer 디자인 패턴이 핵심이라고 할수 있는 Reactive Programming는 최근 안드로이드 개발에서 선택이 아닌 필수가 되었다.</p>
 
@@ -170,8 +170,6 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 15
 16
 17
-18
-19
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnnualSubscriber</span> <span class="kd">implements</span> <span class="nc">Observer</span> <span class="o">{</span> 
     <span class="kd">private</span> <span class="nc">String</span> <span class="n">newsString</span><span class="o">;</span>
     <span class="kd">private</span> <span class="nc">Publisher</span> <span class="n">publisher</span><span class="o">;</span>
@@ -188,9 +186,7 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
     <span class="kd">private</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span> 
         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n\n오늘의 뉴스\n============================\n\n"</span> <span class="o">+</span> <span class="n">newsString</span><span class="o">);</span> 
     <span class="o">}</span>
-
 <span class="o">}</span>
-
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -211,19 +207,29 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 16
 17
 18
+19
+20
+21
+22
+23
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EventSubscriber</span> <span class="kd">implements</span> <span class="nc">Observer</span> <span class="o">{</span> 
     <span class="kd">private</span> <span class="nc">String</span> <span class="n">newsString</span><span class="o">;</span> 
     <span class="kd">private</span> <span class="nc">Publisher</span> <span class="n">publisher</span><span class="o">;</span> 
     
     <span class="kd">public</span> <span class="nf">EventSubscriber</span><span class="o">(</span><span class="nc">Publisher</span> <span class="n">publisher</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">publisher</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">;</span> <span class="n">publisher</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> 
+        <span class="k">this</span><span class="o">.</span><span class="na">publisher</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">;</span>
+        <span class="n">publisher</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> 
     <span class="o">}</span> 
     
     <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">news</span><span class="o">)</span> <span class="o">{</span> 
         <span class="n">newsString</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="s">"\n------------------------------------\n"</span> <span class="o">+</span> <span class="n">news</span><span class="o">;</span>
         <span class="n">display</span><span class="o">();</span>
     <span class="o">}</span>
-    
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">withdraw</span><span class="o">()</span> <span class="o">{</span> 
+        <span class="n">publisher</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> <span class="c1">// 구독 해지!</span>
+    <span class="o">}</span>
+
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span> 
         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n\n=== 이벤트 유저 ==="</span><span class="o">);</span>
         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n\n"</span> <span class="o">+</span> <span class="n">newsString</span><span class="o">);</span>
@@ -243,14 +249,20 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 8
 9
 10
+11
+12
+13
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span> 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="nc">NewsMachine</span> <span class="n">newsMachine</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NewsMachine</span><span class="o">();</span>
         <span class="nc">AnnualSubscriber</span> <span class="n">as</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AnnualSubscriber</span><span class="o">(</span><span class="n">newsMachine</span><span class="o">);</span> 
         <span class="nc">EventSubscriber</span> <span class="n">es</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EventSubscriber</span><span class="o">(</span><span class="n">newsMachine</span><span class="o">);</span> 
         
-        <span class="n">newsMachine</span><span class="o">.</span><span class="na">setNewsInfo</span><span class="o">(</span><span class="s">"오늘 한파"</span><span class="o">,</span> <span class="s">"전국 영하 18도 입니다."</span><span class="o">);</span> 
-        <span class="n">newsMachine</span><span class="o">.</span><span class="na">setNewsInfo</span><span class="o">(</span><span class="s">"벛꽃 축제합니다"</span><span class="o">,</span> <span class="s">"다같이 벚꽃보러~"</span><span class="o">);</span> 
+        <span class="n">newsMachine</span><span class="o">.</span><span class="na">setNewsInfo</span><span class="o">(</span><span class="s">"오늘 한파"</span><span class="o">,</span> <span class="s">"전국 영하 18도 입니다."</span><span class="o">);</span>
+
+        <span class="n">es</span><span class="o">.</span><span class="na">withdraw</span><span class="o">();</span>
+
+        <span class="n">newsMachine</span><span class="o">.</span><span class="na">setNewsInfo</span><span class="o">(</span><span class="s">"벚꽃 축제합니다"</span><span class="o">,</span> <span class="s">"다같이 벚꽃보러 갑시다."</span><span class="o">);</span> 
     <span class="o">}</span> 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -277,14 +289,6 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 20
 21
 22
-23
-24
-25
-26
-27
-28
-29
-30
 </pre></td><td class="rouge-code"><pre>오늘의 뉴스
 ============================
 
@@ -304,17 +308,9 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 오늘의 뉴스
 ============================
 
-벛꽃 축제합니다
+벚꽃 축제합니다
  -------- 
-다같이 벚꽃보러~
-
-
-=== 이벤트 유저 ===
-
-
-벛꽃 축제합니다
-------------------------------------
-다같이 벚꽃보러~
+다같이 벚꽃보러 갑시다.
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="끝">끝</h4>
@@ -323,6 +319,212 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 
 <p>앞서 공부한 예시를 안드로이드에서 동작하는 방식으로 바꿔보자.</p>
 
-<p>안드로이드에선 값.observe(lifecycle, onChange) 형식으로 동작을 한다.</p>
+<p>안드로이드에선 <code class="language-plaintext highlighter-rouge">관찰하고자 하는 값</code>.observe(<code class="language-plaintext highlighter-rouge">lifecycle</code>, <code class="language-plaintext highlighter-rouge">변경 시 동작 함수</code>)방식으로 동작을 한다. 이때, lifecycle은 activity나 fragment을 의미한다.</p>
 
+<p>여기선 편의상 lifecycle을 제외하고 만들어 보자.</p>
+
+<p>안드로이드의 java observe를 살펴보면 데이터 안정성 및 lifecycle 관리를 위한 처리가 추가로 되어있지만 컨셉은 동일함을 알수 있다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">Publisher</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">observer</span><span class="p">:</span> <span class="nc">MyObserver</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">delete</span><span class="p">(</span><span class="n">observer</span><span class="p">:</span> <span class="nc">MyObserver</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">notifyObserver</span><span class="p">()</span>
+<span class="p">}</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">NewsMachine</span><span class="p">(</span><span class="kd">var</span> <span class="py">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="kd">var</span> <span class="py">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Publisher</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">observers</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="nc">MyObserver</span><span class="p">&gt;()</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">observer</span><span class="p">:</span> <span class="nc">MyObserver</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">observers</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">delete</span><span class="p">(</span><span class="n">observer</span><span class="p">:</span> <span class="nc">MyObserver</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">observers</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">notifyObserver</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">item</span> <span class="k">in</span> <span class="n">observers</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">item</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">fun</span> <span class="nf">setNewsInfo</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">title</span> <span class="p">=</span> <span class="n">title</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">news</span> <span class="p">=</span> <span class="n">news</span>
+        <span class="nf">notifyObserver</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>다만 구독을 하는 객체를 따로 만들어 할당하지 않고 익명객체로서 처리를 하여 바로 등록을 한다. observe에 등록된 lifecycle에서 특정 상태가 되면, 자동으로 해제되기 때문에 구독자에게 접근할 객체를 할당해 가지고 있지 않아도 된다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">val</span> <span class="py">newsMachine</span> <span class="p">=</span> <span class="nc">NewsMachine</span><span class="p">(</span><span class="s">"초기값"</span><span class="p">,</span> <span class="s">"초기값"</span><span class="p">)</span>
+
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">object</span><span class="p">:</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"이벤트유저"</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"$title"</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"=============================="</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"$news"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="k">object</span><span class="p">:</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"오늘의뉴스"</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"$title"</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"=============================="</span><span class="p">)</span>
+            <span class="nf">println</span><span class="p">(</span><span class="s">"$news"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">setNewsInfo</span><span class="p">(</span><span class="s">"오늘 한파"</span><span class="p">,</span> <span class="s">"전국 영하 18도 입니다."</span><span class="p">)</span>
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">setNewsInfo</span><span class="p">(</span><span class="s">"벚꽃 축제합니다."</span><span class="p">,</span> <span class="s">"다같이 벚꽃보러 갑시다."</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>코틀린에서는 이를 더욱 간단하게 함수형으로 만들어 사용한다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nc">NewsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">update</span><span class="p">:</span> <span class="p">(</span><span class="n">title</span><span class="p">:</span><span class="nc">String</span> <span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span> <span class="p">):</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="c1">// val writeProperty = MyObserver { title, news -&gt; update.invoke(title, news) }  </span>
+    <span class="c1">// 위의 방법이 왜 컴파일에러인지는 공부 중이다.</span>
+    <span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="kd">object</span> <span class="err">: </span><span class="nc">MyObserver</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">update</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">add</span><span class="p">(</span><span class="n">wrappedObserver</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrappedObserver</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>observe와 비슷함을 확인할 수 있다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">newsMachine</span> <span class="p">=</span> <span class="nc">NewsMachine</span><span class="p">(</span><span class="s">"초기값"</span><span class="p">,</span> <span class="s">"초기값"</span><span class="p">)</span>
+
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">{</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span> <span class="p">-&gt;</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"이벤트유저"</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$title"</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"=============================="</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$news"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">{</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span> <span class="p">-&gt;</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"오늘의뉴스"</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$title"</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"=============================="</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="s">"$news"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">setNewsInfo</span><span class="p">(</span><span class="s">"오늘 한파"</span><span class="p">,</span> <span class="s">"전국 영하 18도 입니다."</span><span class="p">)</span>
+    <span class="n">newsMachine</span><span class="p">.</span><span class="nf">setNewsInfo</span><span class="p">(</span><span class="s">"벚꽃 축제합니다."</span><span class="p">,</span> <span class="s">"다같이 벚꽃보러 갑시다."</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="결론">결론</h3>
+
+<p>이렇게 안드로이드에서 Observer Pattern인 LiveData를 보았다.
+이를 통해 LiveData안에서 구독자를 관리하고 있으며, 이 구독자는 익명객체를 동해서 집어 넣더라도 미리 설정한 기능을 수행할수 있다는 것을 알게된다.</p>
+
+<p>안드로이드에선 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다.</p>
+
+<p>이때 Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.</p>
+
+<p>다음 포스팅을 통해 자세히 살펴보자.</p>
 :ET
