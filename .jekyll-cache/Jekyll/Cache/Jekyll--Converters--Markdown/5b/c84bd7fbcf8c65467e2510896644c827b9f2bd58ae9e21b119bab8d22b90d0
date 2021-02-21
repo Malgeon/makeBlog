@@ -1,0 +1,86 @@
+I"6<h3 id="개요">개요</h3>
+
+<p>이번엔 MediatorLiveData를 사용하여 Api response를 목적에 맞게 처리하는 모습을 설계해보자.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre></td><td class="rouge-code"><pre><span class="k">abstract</span> <span class="kd">class</span> <span class="nc">NetworkBoundResource</span><span class="p">&lt;</span><span class="nc">ResultType</span><span class="p">,</span> <span class="nc">RequestType</span><span class="p">&gt;</span>
+<span class="nd">@MainThread</span> <span class="k">constructor</span><span class="p">(</span><span class="k">private</span> <span class="kd">val</span> <span class="py">appExecutors</span><span class="p">:</span> <span class="nc">AppExecutors</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">result</span> <span class="p">=</span> <span class="nc">MediatorLiveData</span><span class="p">&lt;</span><span class="nc">Resource</span><span class="p">&lt;</span><span class="nc">ResultType</span><span class="p">&gt;&gt;()</span>
+
+    <span class="nf">init</span> <span class="p">{</span>
+
+        <span class="n">result</span><span class="p">.</span><span class="n">value</span> <span class="p">=</span> <span class="nc">Resource</span><span class="p">.</span><span class="nf">loading</span><span class="p">(</span><span class="k">null</span><span class="p">)</span>
+        <span class="nd">@Suppress</span><span class="p">(</span><span class="s">"LeakingThis"</span><span class="p">)</span>
+        <span class="kd">val</span> <span class="py">dbSource</span> <span class="p">=</span> <span class="nf">loadFromDb</span><span class="p">()</span> <span class="c1">// Room에서 data를 가지고 오는 함수(return값: LiveData)</span>
+        <span class="cm">/*</span><span class="err">
+</span><span class="cm">        궁금한점 1. Room에서 Data를 LiveData로 가지고 올 시 Room 에서 쿼리를 해야 하는 동작을 하므로 </span><span class="err">
+</span><span class="cm">        loadFromDb()의 함수의 실행 뒤에 result.addSource(dbSource)를 하더라도 </span><span class="err">
+</span><span class="cm">        타이밍 상 dbSource는 liveData 자체의 초기값 -&gt; 쿼리 data를 옵져빙이 가능하다는 것인가요?</span><span class="err">
+</span><span class="cm">        */</span>
+        <span class="n">result</span><span class="p">.</span><span class="nf">addSource</span><span class="p">(</span><span class="n">dbSource</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="p">-&gt;</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">removeSource</span><span class="p">(</span><span class="n">dbSource</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nf">shouldFetch</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nf">fetchFromNetwork</span><span class="p">(</span><span class="n">dbSource</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">result</span><span class="p">.</span><span class="nf">addSource</span><span class="p">(</span><span class="n">dbSource</span><span class="p">)</span> <span class="p">{</span> <span class="n">newData</span> <span class="p">-&gt;</span>
+                    <span class="nf">setValue</span><span class="p">(</span><span class="nc">Resource</span><span class="p">.</span><span class="nf">success</span><span class="p">(</span><span class="n">newData</span><span class="p">))</span>
+                <span class="p">}</span>
+                <span class="cm">/*</span><span class="err">
+</span><span class="cm">                궁금한점 2. 여기서 init이 끝나게 되는데, 그렇다면 이 addSource 한번 dbSource를 통해 newData를 받고 나면 </span><span class="err">
+</span><span class="cm">                init이 끝나고 익명객체를 통해 동작되었기 때문에 해당 객체가 소멸됨과 동시에 result는 자동으로 해제가 되는 것인가요?</span><span class="err">
+</span><span class="cm">                */</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="cm">/*</span><span class="err">
+</span><span class="cm">        궁금한점 . dbSource를 계속 가지고 와서 옵저빙 하는 이유가 가장 최근값을 빠르게 디스패치 하도록 함인데, 그래야 하는 이유를 모르겠습니다.</span><span class="err">
+</span><span class="cm">        가설</span><span class="err">
+</span><span class="cm">        dbSource인 liveData는 Dao의 쿼리 함수인데, 이는 Room의 Db를 옵저빙 하는 것이다. 따라서 앱의 다른 동작에서 db를 변경할 시 연동이 되어 값이 또 날라오는데</span><span class="err">
+</span><span class="cm">        가장 최근값을 디스패치한다는 이유는 그 이유이다.</span><span class="err">
+
+</span><span class="cm">        이게 사실이라면, Room의 함수를 liveData로 관리해 놓으면 Db자체가 바뀔때마다 해당 함수들이 연동되어 동작한다는 것을 염두하고 설계를 해야한다.</span><span class="err">
+</span><span class="cm">        물론 이 기능은 매우 좋은 기능이다. 라고 생각되는데 맞나요..?</span><span class="err">
+</span><span class="cm">    */</span>
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

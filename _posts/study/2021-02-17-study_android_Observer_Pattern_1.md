@@ -302,8 +302,6 @@ fun main() {
 
 ```kotlin
 fun NewsMachine.add(update: (title:String , news: String) -> Unit ): MyObserver {
-    // val writeProperty = MyObserver { title, news -> update.invoke(title, news) }  
-    // 위의 방법이 왜 컴파일에러인지는 공부 중이다.
     val wrappedObserver = object : MyObserver {
         override fun update(title: String, news: String) {
             update.invoke(title, news)
@@ -344,8 +342,8 @@ fun main() {
 이렇게 안드로이드에서 Observer Pattern인 LiveData를 보았다.
 이를 통해 LiveData안에서 구독자를 관리하고 있으며, 이 구독자는 익명객체를 동해서 집어 넣더라도 미리 설정한 기능을 수행할수 있다는 것을 알게된다.
 
-안드로이드에선 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다. 
+안드로이드에 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다. 
 
-이때 Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.
+Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.
  
 다음 포스팅을 통해 자세히 살펴보자.

@@ -1,4 +1,4 @@
-I"N�<h3 id="개요">개요</h3>
+I"n�<h3 id="개요">개요</h3>
 
 <p>비동기(Async) 이벤트와 Observer 디자인 패턴이 핵심이라고 할수 있는 Reactive Programming는 최근 안드로이드 개발에서 선택이 아닌 필수가 되었다.</p>
 
@@ -458,11 +458,7 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 7
 8
 9
-10
-11
 </pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nc">NewsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">update</span><span class="p">:</span> <span class="p">(</span><span class="n">title</span><span class="p">:</span><span class="nc">String</span> <span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span> <span class="p">):</span> <span class="nc">MyObserver</span> <span class="p">{</span>
-    <span class="c1">// val writeProperty = MyObserver { title, news -&gt; update.invoke(title, news) }  </span>
-    <span class="c1">// 위의 방법이 왜 컴파일에러인지는 공부 중이다.</span>
     <span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="kd">object</span> <span class="err">: </span><span class="nc">MyObserver</span> <span class="p">{</span>
         <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">update</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span>
@@ -522,9 +518,9 @@ Publisher를 구현한 NewsMachine 클래스는 정보를 제공하는 Publisher
 <p>이렇게 안드로이드에서 Observer Pattern인 LiveData를 보았다.
 이를 통해 LiveData안에서 구독자를 관리하고 있으며, 이 구독자는 익명객체를 동해서 집어 넣더라도 미리 설정한 기능을 수행할수 있다는 것을 알게된다.</p>
 
-<p>안드로이드에선 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다.</p>
+<p>안드로이드에 적용 중인 Observer Pattern은 단순히 view를 업데이트 시키는데에 국한되어 있지 않는데, API를 통해 받은 model을 처리하는 과정에도 적용이 된다.</p>
 
-<p>이때 Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.</p>
+<p>Response API를 처리할때 View에서 loading progress을 적용 여부, response 상태 판단, result값의 빈 값여부 등등 매끄러운 view를 위한 처리가 설계되어 있는데 이 과정에서 Observer Pattern이 유용하게 사용된다.</p>
 
 <p>다음 포스팅을 통해 자세히 살펴보자.</p>
 :ET

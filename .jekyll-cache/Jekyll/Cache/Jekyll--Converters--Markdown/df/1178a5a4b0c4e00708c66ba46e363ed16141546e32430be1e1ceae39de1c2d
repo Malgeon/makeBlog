@@ -1,0 +1,132 @@
+I"�)<h3 id="개요">개요</h3>
+
+<p><code class="language-plaintext highlighter-rouge">let, with, apply, run</code></p>
+
+<p>코틀린을 접하면 공부해야 하는 확장함수이다. 
+신입 개발자 면접에서도 각각의 함수를 구분 하는지 알아보는 질문으로 나올만큼 기본적이면서도 중요하다고 할수 있다.</p>
+
+<p>공부하는 방법으로 <code class="language-plaintext highlighter-rouge">어떤 개념에 대해 달달 외우는 것은 도움이 되지 않는다.</code> 라고 생각하지만, 회사에 취직을 하고 싶으니 어쩌겠나 달달 외울 수밖에.</p>
+
+<p>막상 인터뷰 당시 떨려서 잘 대답하지도 못했지만(..) (그래서 달달 외우는건 싫다.)</p>
+
+<p>이제는 달달 외우는 것에서 벗어나보자.</p>
+
+<p>그렇지만 <code class="language-plaintext highlighter-rouge">let, with, apply, run</code>들에 대해 알고자 하는 포스팅은 아니다.</p>
+
+<p>이번 포스팅은 해당 확장함수를 구성하고 있는 <code class="language-plaintext highlighter-rouge">람다</code>에 대해 알아보고자 한다. 그러면 <code class="language-plaintext highlighter-rouge">let, with, apply, run</code>를 이해하고 적용하는데 더욱 수월할 것이다.</p>
+
+<h3 id="functional-interface---lambda-expression">Functional Interface - Lambda Expression</h3>
+
+<p>사실 람다식에 대해 궁금하게 된 계기는, 개요에서 밝힌 목적(확장 함수를 구성하고 있는 람다를 이해해서 확장함수를 이해해보자.)과는 다르게 옵저버 패턴을 다뤘던 이전 포스팅에서 liveData를 최대한 비슷하게 구현해보고자 했던 시도에서 출발한다.</p>
+
+<h4 id="livedata">LiveData</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Observer</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">onChanged</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="nd">@MainThread</span> <span class="k">inline</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">LiveData</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;.</span><span class="nf">observe</span><span class="p">(</span>
+    <span class="n">owner</span><span class="p">:</span> <span class="nc">LifecycleOwner</span><span class="p">,</span>
+    <span class="k">crossinline</span> <span class="n">onChanged</span><span class="p">:</span> <span class="p">(</span><span class="nc">T</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span>
+<span class="p">):</span> <span class="nc">Observer</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="c1">// 같은 wrappedObserver이나 다른 처리!</span>
+    <span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="nc">Observer</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="n">t</span> <span class="p">-&gt;</span> <span class="n">onChanged</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">}</span>
+    <span class="nf">observe</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">wrappedObserver</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrappedObserver</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="커스텀-옵저버-패턴">커스텀 옵저버 패턴</h4>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="kd">interface</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nc">NewsMachine</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">update</span><span class="p">:</span> <span class="p">(</span><span class="n">title</span><span class="p">:</span><span class="nc">String</span> <span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span> <span class="p">):</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="c1">// 같은 wrappedObserver이나 다른 처리!</span>
+    <span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="kd">object</span> <span class="err">: </span><span class="nc">MyObserver</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">update</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">add</span><span class="p">(</span><span class="n">wrappedObserver</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrappedObserver</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>여기서 아래 부분은</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="kd">object</span> <span class="err">: </span><span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">update</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>아래와 같이 하고자 하면 빨간줄이 그어진다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="kd">val</span> <span class="py">wrappedObserver</span> <span class="p">=</span> <span class="nc">MyObserver</span> <span class="p">{</span> <span class="n">title</span><span class="p">,</span> <span class="n">news</span> <span class="p">-&gt;</span> <span class="n">update</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">news</span><span class="p">)</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="왜-안되지">왜 안되지!?</h4>
+
+<p>interface의 기능을 유지하면서, 람다식을 적용하기 위한 방법은 2가지가 존재한다.</p>
+
+<ol>
+  <li>해당 interface를 java로 만든다.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyObserver</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">news</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ol>
+  <li>Kotlin의 버전이 1.4 이상인 버전에 한해서 interface 앞에 fun 키워드를 붙여준다.</li>
+</ol>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="k">fun</span> <span class="nf">interface</span> <span class="nc">MyObserver</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">update</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">news</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET
