@@ -14,6 +14,7 @@ image: assets/images/study/android/android.jpg
 
 이번엔 MediatorLiveData를 사용하여 Api response를 목적에 맞게 처리하는 모습을 설계해보자.
 
+### 공부중 ...(!)
 
 ```kotlin
 abstract class NetworkBoundResource<ResultType, RequestType>
