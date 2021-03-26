@@ -1,4 +1,4 @@
-I"�&<h3 id="개요">개요</h3>
+I"�$<h3 id="개요">개요</h3>
 
 <p>옵저버 패턴을 다뤘던 이전 포스팅에서 liveData를 최대한 비슷하게 구현해보고자 하는 과정에서 아래와 같은 이슈가 발생했다.</p>
 
@@ -41,7 +41,7 @@
 <p>코틀린이 나온 결정적인 이유는 <code class="language-plaintext highlighter-rouge">자바로 람다식 쓰고싶어서</code>라고 생각한다.</p>
 
 <p>그러자 자바도 람다식을 쓰고 싶어서 고민하기 시작했고, 그 결과 제한적이지만 람다식을 사용할수 있게 되었다.
-어떻게 가능하게 되었는지, 어떤 제한이 있는지를 살펴보면 함수형 프로그래밍이 어떤 과정으로 동작하는지 어렴풋하게나마 알 수 있다고 생각한다. (일급객체니 함수형 프로그래밍이니 그런 내용은 필요하면 다시 공부하기로 하자.)</p>
+어떻게 가능하게 되었는지, 어떤 제한이 있는지를 살펴보자.</p>
 
 <p><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.27">우선 Java Specification에선 람다식에 대해 다음과 같이 설명하고 있다.</a></p>
 
@@ -70,6 +70,16 @@
 unctional Interface는 (Object 클래스의 메소드를 제외하고) 단 하나의 추상 메소드만을 가진 인터페이스를 의미하며, 그런 이유로 단 하나의 기능적 계약을 표상하게 된다.</p>
 </blockquote>
 
+<p>아래의 예시를 통해 간단하게 설명을 해보자면,</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyObserver</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">news</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
 <div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -90,6 +100,8 @@ unctional Interface는 (Object 클래스의 메소드를 제외하고) 단 하�
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
+<p>Java의 특정한 조건을 갖춘 Interface인 Functional Interface라고 하는데, 람다식의 평가 결과가 해당 Interface의 인스턴스가 된다. 따라서 익명 객체에 Interface를 implement한 동작을 아래와 같이 람다식으로 바꿀수가 있다.</p>
+
 <div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -102,27 +114,6 @@ unctional Interface는 (Object 클래스의 메소드를 제외하고) 단 하�
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<hr />
-<h3 id="개요-1">개요</h3>
-
-<p><code class="language-plaintext highlighter-rouge">let, with, apply, run</code></p>
-
-<p>코틀린을 접하면 공부해야 하는 확장함수이다. 
-신입 개발자 면접에서도 각각의 함수를 구분 하는지 알아보는 질문으로 나올만큼 기본적이면서도 중요하다고 할수 있다.</p>
-
-<p>공부하는 방법으로 <code class="language-plaintext highlighter-rouge">어떤 개념에 대해 달달 외우는 것은 도움이 되지 않는다.</code> 라고 생각하지만, 회사에 취직을 하고 싶으니 어쩌겠나 달달 외울 수밖에.</p>
-
-<p>막상 인터뷰 당시 떨려서 잘 대답하지도 못했지만(..) (그래서 달달 외우는건 싫다.)</p>
-
-<p><br /></p>
-<blockquote>
-  <center>이제는 달달 외우는 것에서 벗어나보자.</center>
-</blockquote>
-
-<p><br />그렇지만 <code class="language-plaintext highlighter-rouge">let, with, apply, run</code>들에 대해 알고자 하는 포스팅은 아니며, 해당 확장함수를 구성하고 있는 <code class="language-plaintext highlighter-rouge">람다</code>에 대해 알아보고자 한다.</p>
-
-<p>그러면 <code class="language-plaintext highlighter-rouge">let, with, apply, run</code>를 이해하고 적용하는데 더욱 수월할 것이다.</p>
-
-<h2><br /></h2>
+<p>그렇게 되면 코드가 더욱 깔끔해진다.</p>
 
 :ET

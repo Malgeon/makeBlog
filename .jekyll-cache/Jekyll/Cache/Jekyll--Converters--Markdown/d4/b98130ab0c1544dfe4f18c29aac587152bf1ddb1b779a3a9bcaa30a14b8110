@@ -1,0 +1,12 @@
+I"�<h1 id="기술-spec">기술 SPEC</h1>
+
+<h3 id="dagger-hilt">Dagger-Hilt</h3>
+<p>DI는 Dagger-Hilt를 이용하였습니다.
+Dagger-Hilt는 Dagger2에서 Koin과 비교해 높은 러닝 커브를 충분히 보완하였음을 확인하였습니다.</p>
+
+<h3 id="acc---viewmodel-databinding">ACC - ViewModel, DataBinding</h3>
+
+<h3 id="flow---coroutine">Flow - Coroutine</h3>
+
+<h3 id="paging">Paging</h3>
+:ET

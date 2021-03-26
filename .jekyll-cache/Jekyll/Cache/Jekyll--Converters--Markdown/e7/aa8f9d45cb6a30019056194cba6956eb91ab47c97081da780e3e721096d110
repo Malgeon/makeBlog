@@ -1,0 +1,40 @@
+I"�<h1 id="spec">SPEC</h1>
+
+<h3 id="앱-아키텍처">앱 아키텍처</h3>
+
+<p>아래와 같이 안드로이드 개발자 페이지에서 추천하는 아키텍쳐로 구성하였다.</p>
+
+<p><img src="/assets/images/project/android/final-architecture.png" alt="final-architecture" /></p>
+
+<h3 id="디자인-아키텍쳐--mvvm">디자인 아키텍쳐 : MVVM</h3>
+
+<h3 id="di---koin">DI - Koin</h3>
+
+<p>다음 프로젝트에서는 Dagger-Hilt를 사용할 예정이다.</p>
+
+<h3 id="network---rxjava-retrofit">NetWork - rxJava, retrofit</h3>
+
+<p><img src="/assets/images/project/android/android.jpg" alt="android!" /></p>
+
+<p><br /><br /></p>
+
+<h1 id="리팩토링-관련-자료">리팩토링 관련 자료</h1>
+
+<h3 id="linearlayout---constraintlayout">LinearLayout -&gt; ConstraintLayout</h3>
+
+<p><a href="https://academy.realm.io/kr/posts/constraintlayout-it-can-do-what-now/">ConstraintLatout</a>에 관한 글.</p>
+
+<h3 id="listadapter">ListAdapter</h3>
+
+<p><a href="https://zion830.tistory.com/86">ListAdapter</a>에 관한 글.</p>
+
+<h3 id="lifecycle">Lifecycle</h3>
+
+<p><a href="http://pluu.github.io/blog/android/2020/01/25/android-fragment-lifecycle/">Lifecycle</a>에 관한 글.
+<a href="https://uchun.dev/caution-when-using-a-fragment-viewLifecycleOwner/">ViewLifecycleOwner</a>에 관한 글.</p>
+
+<h3 id="livedata">LiveData</h3>
+
+<p><a href="https://hckim999.tistory.com/26">LiveData</a>에 관한 글.</p>
+
+:ET
