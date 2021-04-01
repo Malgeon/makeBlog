@@ -2,7 +2,7 @@
 layout: project
 author: project
 title: "Useful Photo Album"
-image: assets/images/project/android/useful_project_1.JPG
+image: assets/images/project/android/useful_project_2.JPG
 description: 사진 에세이 어플리케이션
 categories: [ project ]
 tags: [ android ]
@@ -15,8 +15,14 @@ developperiod : "2021.02.25 ~ "
 link: "Github"
 linkUrl: https://https://github.com/Malgeon/useful-photo-album
 imagenum: 3
-images: [ assets/images/project/android/useful_project_1.JPG, assets/images/project/android/useful_project_2.JPG, assets/images/project/android/useful_project_3.JPG ]
+images: [ assets/images/project/android/useful_project_2.JPG, assets/images/project/android/useful_project_3.JPG, assets/images/project/android/useful_project_4.JPG ]
 ---
+
+# 개발 이슈
+
+- loading response 구현
+- 배너 및 feature page 구현을 위한 작업(DB + RecyclerView)
+- Design
 
 # 기술 SPEC
 
