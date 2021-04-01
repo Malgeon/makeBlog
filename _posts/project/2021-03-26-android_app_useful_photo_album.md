@@ -13,7 +13,7 @@ maindescriptions: [ "일기, 글귀와 같은 어떤 글을 쓸 때 사진이 �
 system: [ "개발 환경: Android Studio", "Spec : kotlin, MVVVM, ACC, Dagger-Hilt, retrofit, Room, coroutine", "역할 : 기획, 디자인, 개발" ]
 developperiod : "2021.02.25 ~ "
 link: "Github"
-linkUrl: https://https://github.com/Malgeon/useful-photo-album
+linkUrl: https://github.com/Malgeon/useful-photo-album
 imagenum: 3
 images: [ assets/images/project/android/useful_project_2.JPG, assets/images/project/android/useful_project_3.JPG, assets/images/project/android/useful_project_4.JPG ]
 ---
