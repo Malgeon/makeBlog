@@ -263,13 +263,13 @@ fun getPowerSet(arr: IntArray): Array<IntArray> {
     val powerSet = 1 shl pivot
 
     for (i in 1 until powerSet) {
-        var oneSet = ""
+        var oneSet = mutableListOf<Int>()
         for(item in 0 until pivot) {
             if ((i and (1 shl item)) > 0) {
-                oneSet += arr[item]
+                oneSet.add(arr[item])
             }
         }
-        set.add(oneSet)
+        set.add(oneSet.toIntArray())
     }
     return set.toTypedArray()
 }

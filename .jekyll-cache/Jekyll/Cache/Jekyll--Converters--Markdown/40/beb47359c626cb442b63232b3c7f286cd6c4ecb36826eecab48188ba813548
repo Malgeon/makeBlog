@@ -1,4 +1,4 @@
-I"�|<h3 id="멱집합">멱집합</h3>
+I"i}<h3 id="멱집합">멱집합</h3>
 
 <p>탐색 문제에서 멱집합을 이용해야 하는 경우가 종종 있다.
 이해하고 사용하자.</p>
@@ -447,13 +447,13 @@
     <span class="n">val</span> <span class="n">powerSet</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">shl</span> <span class="n">pivot</span>
 
     <span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="mi">1</span> <span class="n">until</span> <span class="n">powerSet</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">var</span> <span class="n">oneSet</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="kt">var</span> <span class="n">oneSet</span> <span class="o">=</span> <span class="n">mutableListOf</span><span class="o">&lt;</span><span class="nc">Int</span><span class="o">&gt;()</span>
         <span class="k">for</span><span class="o">(</span><span class="n">item</span> <span class="n">in</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">pivot</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">if</span> <span class="o">((</span><span class="n">i</span> <span class="nf">and</span> <span class="o">(</span><span class="mi">1</span> <span class="n">shl</span> <span class="n">item</span><span class="o">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">oneSet</span> <span class="o">+=</span> <span class="n">arr</span><span class="o">[</span><span class="n">item</span><span class="o">]</span>
+                <span class="n">oneSet</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">item</span><span class="o">])</span>
             <span class="o">}</span>
         <span class="o">}</span>
-        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">oneSet</span><span class="o">)</span>
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">oneSet</span><span class="o">.</span><span class="na">toIntArray</span><span class="o">())</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="n">set</span><span class="o">.</span><span class="na">toTypedArray</span><span class="o">()</span>
 <span class="o">}</span>
